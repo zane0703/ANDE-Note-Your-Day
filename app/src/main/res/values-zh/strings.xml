@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="month">
+        <item>一月</item>
+        <item>二月</item>
+        <item>三月</item>
+        <item>四月</item>
+        <item>五月</item>
+        <item>六月</item>
+        <item>七月</item>
+        <item>八月</item>
+        <item>九月</item>
+        <item>十月</item>
+        <item>十一月</item>
+        <item>十二月</item>
+    </string-array>
+    <string name="app_name">记下你的一天</string>
+    <string name="mon">拜一</string>
+    <string name="tue">拜二</string>
+    <string name="wed">拜三</string>
+    <string name="thu">拜四</string>
+    <string name="fri">拜五</string>
+    <string name="sat">拜六</string>
+    <string name="sun">礼拜</string>
+    <string name="no_task">没有任务</string>
+    <string name="welcome">欢迎光临!</string>
+    <string name="add_event_on">添加活动在:</string>
+    <string name="Event_on">活动在:</string>
+    <string name="enter_task_title">请输入任务题目</string>
+    <string name="Enter_Task_description">请输入任务描述</string>
+    <string name="Enter_venue">请输入地点</string>
+    <string name="task_title">任务题目</string>
+    <string name="Task_description">任务描述</string>
+    <string name="venue">地点</string>
+    <string name="start_time">开始时间</string>
+    <string name="end_time">完成时间</string>
+    <string name="all_day">一整天</string>
+    <string name="cancel">取消</string>
+    <string name="yes">是</string>
+    <string name="create">添加任务</string>
+    <string name="discard_task">取消任务?</string>
+    <string name="discard_task2">您确定要取消新任务吗?</string>
+    <string name="delete_task">删除任务?</string>
+    <string name="delete_task2">您确定要删除此任务吗？</string>
+    <string name="set_start_time_err">开始时间必须早于结束时间</string>
+    <string name="set_end_time_err">结束时间必须晚于开始时间</string>
+    <string name="no_input_error">请填写所有表格</string>
+    <string name="add_successfully">成功添加任务</string>
+    <string name="max_year">您已超过设备使用年限</string>
+    <string name="min_year">您已达到最低金额年份</string>
+    <string name="delete">删除</string>
+    <string name="set">设置</string>
+</resources>
