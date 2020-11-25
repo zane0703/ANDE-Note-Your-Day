@@ -164,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
             }else {
                 dayBtn.setBackgroundColor(0x00000000);
             }
-
             dayBtn.setOnClickListener( new OnDayClickListener(j, i, isDayWithTask));
         }
         for (int j = 1; i < 42; ++j, ++i) {
