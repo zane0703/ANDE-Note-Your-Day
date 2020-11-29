@@ -32,7 +32,7 @@ public final class Task {
         this(-1, day, month, year, startHours, startMinutes, endHours, endMinutes, allDay, title, description, venue);
     }
 
-    public Task(int id, String title) {
-        this(id, (byte) -1, (byte) -1, (byte) -1, (byte) -1, (byte) -1, (byte) -1, (byte) -1, false, title, null, null);
+    public Task(int id, String title,byte startHours, byte startMinutes, byte endHours, byte endMinutes, boolean allDay) {
+        this(id, (byte)-1, (byte)-1, (byte)-1, startHours, startMinutes, endHours, endMinutes, allDay, title, null, null);
     }
 }

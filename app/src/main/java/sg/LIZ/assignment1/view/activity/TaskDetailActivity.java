@@ -6,6 +6,7 @@ import sg.LIZ.assignment1.R;
 import sg.LIZ.assignment1.model.utilityBean.TaskDb;
 import sg.LIZ.assignment1.model.valueBean.Task;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +17,9 @@ public class TaskDetailActivity extends AppCompatActivity {
     public static final String TASK_ID ="id";
     private final TaskDb taskDb = new TaskDb(this);
     private int id ;
+    @SuppressLint("DefaultLocale")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try
         {
@@ -35,22 +37,21 @@ public class TaskDetailActivity extends AppCompatActivity {
            findViewById(R.id.detail_show_task_time).setVisibility(View.INVISIBLE);
        }else{
            findViewById(R.id.detail_is_all_day).setVisibility(View.INVISIBLE);
-           int startHours = mTask.START_HOURS;
-           int startMinutes=mTask.START_MINUTES;
-           int endHours = mTask.END_HOURS;
-           int endMinutes = mTask.END_MINUTES;
+           final int startHours = mTask.START_HOURS;
+           final int endHours = mTask.END_HOURS;
+           final String FORMAT= "%02d";
            ((TextView)findViewById(R.id.detail_show_start_time)).setText(new StringBuilder(8)
                    .append(startHours >12 ? startHours - 12 : startHours)
-                   .append(':').append(startMinutes>9?Integer.toString(startMinutes):"0"+startMinutes)
+                   .append(':').append(String.format(FORMAT, mTask.START_MINUTES))
                    .append(' ')
                    .append(startHours >11 ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
            ((TextView)findViewById(R.id.detail_show_end_time)).setText(new StringBuilder(8)
                    .append(endHours >12 ? endHours - 12 : endHours)
-                   .append(':').append(endMinutes>9?Integer.toString(endMinutes):"0"+endMinutes)
+                   .append(':').append(String.format(FORMAT, mTask.END_MINUTES))
                    .append(' ')
                    .append(endHours >11 ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
-       }
-        ((TextView) findViewById(R.id.detail_task_date)).setText(mTask.DAY + " " + getResources().getStringArray(R.array.month)[mTask.MONTH]);
+       }//mTask.DAY + " " + getResources().getStringArray(R.array.month)[mTask.MONTH]
+        ((TextView) findViewById(R.id.detail_task_date)).setText(new StringBuilder().append(mTask.DAY).append(' ').append(getResources().getStringArray(R.array.month)[mTask.MONTH]));
     }
     public void onDelete(View v){
         new AlertDialog.Builder(this)

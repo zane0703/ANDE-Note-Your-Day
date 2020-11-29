@@ -2,6 +2,7 @@ package sg.LIZ.assignment1.view.layout;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
@@ -23,7 +24,7 @@ public final class MyLinearLayout extends LinearLayout {
     public MyLinearLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         this(context,attrs,defStyleAttr,0);
     }
-    public MyLinearLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes){
+    public MyLinearLayout(Context context,@Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes){
         super(context, attrs, defStyleAttr, defStyleRes);
         GESTURE_DETECTOR = new GestureDetector(context,  new GestureListener());
         MAIN_ACTIVITY = (MainActivity) context;

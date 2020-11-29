@@ -5,6 +5,9 @@ package sg.LIZ.assignment1.view.activity;
  */
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -12,10 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,16 +26,17 @@ import sg.LIZ.assignment1.R;
 import sg.LIZ.assignment1.model.valueBean.Task;
 import sg.LIZ.assignment1.model.utilityBean.TaskDb;
 import sg.LIZ.assignment1.view.layout.MonthYearPickerDialog;
+import sg.LIZ.assignment1.view.adapter.TaskArrayAdapter;
 
 @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
 public class MainActivity extends AppCompatActivity {
     private GregorianCalendar gregorianCalendar = new GregorianCalendar();
     private Button[] daysBtn;
     private String[] months;
-    private TextView yearView;
-    private TextView monthView;
-    private TextView noTaskMassage;
-    private ListView listTaskItem;
+    private TextView textViewYearView;
+    private TextView textViewMonthView;
+    private TextView textViewNoTaskMassage;
+    private RecyclerView listTaskItem;
     private Drawable selectedStyle;
     private Drawable selectedWithTaskStyle;
     private Drawable dayWithTaskStyle;
@@ -101,16 +102,18 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.day_41),
                 findViewById(R.id.day_42)
         };
+        listTaskItem = findViewById(R.id.list_task_item);
         selectedStyle = getDrawable(R.drawable.layout_selected_day);
         selectedWithTaskStyle = getDrawable(R.drawable.layout_selected_with_task);
         dayWithTaskStyle = getDrawable(R.drawable.layout_day_with_task);
-        monthView = findViewById(R.id.month);
-        yearView = findViewById(R.id.year);
-        noTaskMassage = findViewById(R.id.no_task_msg);
+        textViewMonthView = findViewById(R.id.month);
+        textViewYearView = findViewById(R.id.year);
+        textViewNoTaskMassage = findViewById(R.id.no_task_msg);
         listTaskItem = findViewById(R.id.list_task_item);
+        listTaskItem.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         months = getResources().getStringArray(R.array.month);
-        monthView.setText(months[selectedMonth]);
-        yearView.setText(Integer.toString(selectedYear));
+        textViewMonthView.setText(months[selectedMonth]);
+        textViewYearView.setText(Integer.toString(selectedYear));
         gregorianCalendar.set(Calendar.DAY_OF_MONTH, 1);
         onSetMonth();
     }
@@ -160,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 dayBtn.setBackground(selectedStyle);
                 listTaskItem.setVisibility(View.INVISIBLE);
                 listTaskItem.setAdapter(null);
-                noTaskMassage.setVisibility(View.VISIBLE);
+                textViewNoTaskMassage.setVisibility(View.VISIBLE);
             }else {
                 dayBtn.setBackgroundColor(0x00000000);
             }
@@ -182,8 +185,8 @@ public class MainActivity extends AppCompatActivity {
                         selectedYear = year;
                         selectedMonth = month;
                         selectedDay=1;
-                        monthView.setText(months[month]);
-                        yearView.setText(Integer.toString(year));
+                        textViewMonthView.setText(months[month]);
+                        textViewYearView.setText(Integer.toString(year));
                         gregorianCalendar.set(year, month, 1);
                         onSetMonth();
                     }
@@ -199,13 +202,13 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             selectedMonth = 0;
-            yearView.setText(Integer.toString(++selectedYear));
+            textViewYearView.setText(Integer.toString(++selectedYear));
         } else {
             ++selectedMonth;
         }
         selectedDay=day;
         daysBtn[selectedDayIndex].setBackgroundResource(0);
-        monthView.setText(months[selectedMonth]);
+        textViewMonthView.setText(months[selectedMonth]);
         gregorianCalendar.set(selectedYear, selectedMonth, 1);
         onSetMonth();
     }
@@ -216,13 +219,13 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             selectedMonth = 11;
-            yearView.setText(Integer.toString(--selectedYear));
+            textViewYearView.setText(Integer.toString(--selectedYear));
         } else {
             --selectedMonth;
         }
         selectedDay=day;
         daysBtn[selectedDayIndex].setBackgroundResource(0);
-        monthView.setText(months[selectedMonth]);
+        textViewMonthView.setText(months[selectedMonth]);
         gregorianCalendar.set(selectedYear, selectedMonth, 1);
         onSetMonth();
     }
@@ -230,9 +233,13 @@ public class MainActivity extends AppCompatActivity {
 
         final Task[] task = taskDb.getTaskByDate(selectedDay, selectedMonth, selectedYear);
         if(task.length>0){
-            noTaskMassage.setVisibility(View.INVISIBLE);
+            textViewNoTaskMassage.setVisibility(View.INVISIBLE);
             listTaskItem.setVisibility(View.VISIBLE);
+            TaskArrayAdapter taskArrayAdapter = new TaskArrayAdapter(this, task);
+            listTaskItem.setAdapter(taskArrayAdapter);
+             /*
             int taskSize = task.length;
+
             String[] taskTitle = new String[taskSize];
             for (int i = 0 ;i<taskSize;++i){
                 taskTitle[i] = task[i].TITLE;
@@ -244,8 +251,9 @@ public class MainActivity extends AppCompatActivity {
                i.putExtra(TaskDetailActivity.TASK_ID, task[position].ID);
                startActivityForResult(i, 2);
             });
+             */
         }else{
-            noTaskMassage.setVisibility(View.VISIBLE);
+            textViewNoTaskMassage.setVisibility(View.VISIBLE);
             listTaskItem.setVisibility(View.INVISIBLE);
             listTaskItem.setAdapter(null);
             daysBtn[selectedDayIndex].setBackground(selectedStyle);
@@ -253,7 +261,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
     public void onAddTask(View v){
         Intent i =  new Intent(this,AddTaskActivity.class);
         i.putExtra(AddTaskActivity.DAY,selectedDay);
@@ -306,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
                 showTask();
             }else{
                 v.setBackground(selectedStyle);
-                noTaskMassage.setVisibility(View.VISIBLE);
+                textViewNoTaskMassage.setVisibility(View.VISIBLE);
                 listTaskItem.setVisibility(View.INVISIBLE);
                 listTaskItem.setAdapter(null);
             }

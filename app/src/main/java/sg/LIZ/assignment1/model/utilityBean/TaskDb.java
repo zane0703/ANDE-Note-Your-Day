@@ -84,12 +84,12 @@ public class TaskDb extends SQLiteOpenHelper {
     }
     public Task[] getTaskByDate(int day,int month ,int year){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query( TABLE,new String[]{KEY_ID,KEY_TITLE}, "month=? AND year=? AND day=?",new String[]{Integer.toString(month),Integer.toString(year),Integer.toString(day)},null,null,null,null);
+        Cursor cursor = db.query( TABLE,new String[]{KEY_ID,KEY_TITLE,KEY_START_HOURS,KEY_START_MINUTES,KEY_END_HOURS,KEY_END_MINUTES,KEY_ALL_DAY}, "month=? AND year=? AND day=?",new String[]{Integer.toString(month),Integer.toString(year),Integer.toString(day)},null,null,null,null);
         Task[] tasks = new Task[0];
         int index=0;
         while(cursor.moveToNext()){
             System.arraycopy(tasks,0,(tasks = new Task[index+1]), 0,index);
-            tasks[index]= new Task(cursor.getInt(0), cursor.getString(1));
+            tasks[index]= new Task(cursor.getInt(0), cursor.getString(1),(byte) cursor.getInt(2),(byte) cursor.getInt(3),(byte) cursor.getInt(4),(byte) cursor.getInt(5),cursor.getInt(6)==1);
             ++index;
         }
         db.close();
