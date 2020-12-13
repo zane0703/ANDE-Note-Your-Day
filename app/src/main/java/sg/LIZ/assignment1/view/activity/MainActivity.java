@@ -22,6 +22,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Arrays;
+
 import sg.LIZ.assignment1.R;
 import sg.LIZ.assignment1.model.valueBean.Task;
 import sg.LIZ.assignment1.model.utilityBean.TaskDb;
@@ -30,7 +31,7 @@ import sg.LIZ.assignment1.view.adapter.TaskArrayAdapter;
 
 @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
 public class MainActivity extends AppCompatActivity {
-    private GregorianCalendar gregorianCalendar = new GregorianCalendar();
+    private final GregorianCalendar gregorianCalendar = new GregorianCalendar();
     private Button[] daysBtn;
     private String[] months;
     private TextView textViewYearView;

@@ -1,4 +1,7 @@
 package sg.LIZ.assignment1.model.valueBean;
+import androidx.annotation.IntRange;
+import androidx.annotation.Nullable;
+import androidx.annotation.Size;
 public final class Task {
     public final int ID;
     public final byte DAY;
@@ -13,7 +16,7 @@ public final class Task {
     public final String DESCRIPTION;
     public final String VENUE;
 
-    public Task(int id, byte day, byte month, int year, byte startHours, byte startMinutes, byte endHours, byte endMinutes, boolean allDay, String title, String description, String venue) {
+    public Task(@IntRange(from = 0) int id, byte day, byte month, @IntRange(from = -1) int year, byte startHours, byte startMinutes, byte endHours, byte endMinutes, boolean allDay, String title, @Nullable String description,@Nullable  String venue) {
         this.ID = id;
         this.DAY = day;
         this.MONTH = month;
@@ -29,10 +32,10 @@ public final class Task {
     }
 
     public Task(byte day, byte month, int year, byte startHours, byte startMinutes, byte endHours, byte endMinutes, boolean allDay, String title, String description, String venue) {
-        this(-1, day, month, year, startHours, startMinutes, endHours, endMinutes, allDay, title, description, venue);
+        this(0, day, month, year, startHours, startMinutes, endHours, endMinutes, allDay, title, description, venue);
     }
 
-    public Task(int id, String title,byte startHours, byte startMinutes, byte endHours, byte endMinutes, boolean allDay) {
+    public Task(@IntRange(from = 0)  int id, String title,byte startHours, byte startMinutes, byte endHours, byte endMinutes, boolean allDay) {
         this(id, (byte)-1, (byte)-1, (byte)-1, startHours, startMinutes, endHours, endMinutes, allDay, title, null, null);
     }
 }
