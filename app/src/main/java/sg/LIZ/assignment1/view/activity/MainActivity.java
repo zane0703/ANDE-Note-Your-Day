@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
         daysBtn = new Button[]{
+                //42 squares in each page to represent 42 days
                 findViewById(R.id.day_1),
                 findViewById(R.id.day_2),
                 findViewById(R.id.day_3),
@@ -149,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
             boolean isSelectedDay =j == selectedDay;
            boolean isDayWithTask =Arrays.binarySearch(daysWithTask, j) >-1;
             if(selectedYear==currentYear&&selectedMonth==currentMonth&&j==currentDay){
-                dayBtn.setTextColor(0xffff0000);
+                dayBtn.setTextColor(0xff76A5E3);
             }else{
                 dayBtn.setTextColor(0xffffffff);
             }

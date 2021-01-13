@@ -21,6 +21,7 @@
     <string name="fri">Fri</string>
     <string name="sat">Sat</string>
     <string name="sun">Sun</string>
+
     <string name="no_task">No Task</string>
     <string name="welcome">Welcome!</string>
     <string name="add_event_on">Add Event on:</string>
