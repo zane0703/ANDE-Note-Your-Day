@@ -16,13 +16,25 @@
         <item>十二月</item>
     </string-array>
     <string name="app_name">记下你的一天</string>
-    <string name="mon">拜一</string>
-    <string name="tue">拜二</string>
-    <string name="wed">拜三</string>
-    <string name="thu">拜四</string>
-    <string name="fri">拜五</string>
-    <string name="sat">拜六</string>
-    <string name="sun">礼拜</string>
+    <string name="mon">一</string>
+    <string name="tue">二</string>
+    <string name="wed">三</string>
+    <string name="thu">四</string>
+    <string name="fri">五</string>
+    <string name="sat">六</string>
+    <string name="sun">日</string>
+    <string name="jan">1 月</string>
+    <string name="feb">2 月</string>
+    <string name="mar">3 月</string>
+    <string name="apr">4 月</string>
+    <string name="may">5 月</string>
+    <string name="jun">6 月</string>
+    <string name="jul">7 月</string>
+    <string name="aug">8 月</string>
+    <string name="sep">9 月</string>
+    <string name="oct">10 月</string>
+    <string name="nov">11 月</string>
+    <string name="dec">12 月</string>
     <string name="no_task">没有任务</string>
     <string name="welcome">欢迎光临!</string>
     <string name="add_event_on">添加活动在:</string>
