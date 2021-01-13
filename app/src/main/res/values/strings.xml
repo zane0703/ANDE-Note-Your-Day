@@ -50,4 +50,6 @@
     <string name="max_year">You have exceeded the limited of year</string>
     <string name="min_year">You have reached the minimum amount year</string>
     <string name="delete">Delete</string>
+    <string name="no_gps">Please enable your location services</string>
+    <string name="select_address">Please select your address</string>
 </resources>

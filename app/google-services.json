@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1055031276590",
+    "project_id": "ande-77fee",
+    "storage_bucket": "ande-77fee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055031276590:android:02fa23f79475c304d95bbf",
+        "android_client_info": {
+          "package_name": "sg.LIZ.assignment1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1055031276590-bgu2pu432s7ht1ak6qels92s2f51js5p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBt6hRu6R37tIqzytOXF3Sj43ty4pbYNcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1055031276590-bgu2pu432s7ht1ak6qels92s2f51js5p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
