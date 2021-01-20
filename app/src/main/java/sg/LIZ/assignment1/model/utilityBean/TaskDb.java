@@ -14,7 +14,7 @@ import sg.LIZ.assignment1.model.valueBean.Task;
 public class TaskDb extends SQLiteOpenHelper {
 
     private final static String TABLE = "task";
-    private final static String KEY_ID = "id";
+    public final static String KEY_ID = "id";
     private final static String KEY_DAY = "day";
     private final static String KEY_MONTH= "month";
     private final static String KEY_YEAR = "year";
@@ -22,10 +22,10 @@ public class TaskDb extends SQLiteOpenHelper {
     private final static String KEY_START_MINUTES="startMinutes";
     private final static String KEY_END_HOURS = "endHours";
     private final static String KEY_END_MINUTES = "endMinutes";
-    private final static String KEY_ALL_DAY ="allDay";
-    private final static String KEY_TITLE = "title";
-    private final static String KEY_DESCRIPTION = "description";
-    private final static String KEY_VENUE="venue";
+    public final static String KEY_ALL_DAY ="allDay";
+    public final static String KEY_TITLE = "title";
+    public final static String KEY_DESCRIPTION = "description";
+    public final static String KEY_VENUE="venue";
 
     public TaskDb(@NonNull Context context) {
         super(context, "assignment1", null, 1);

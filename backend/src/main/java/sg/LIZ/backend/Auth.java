@@ -10,6 +10,7 @@ import jakarta.ws.rs.WebApplicationException;
 
 public class Auth {
 	private static final Pattern BEARER_PATTERN = Pattern.compile("^Bearer [\\S]");
+	public static final String KEY_ID="id";
 	public static Claims verifyToken(String token) {
 		if(token==null||!BEARER_PATTERN.matcher(token).matches()) {
 			throw new WebApplicationException(401);

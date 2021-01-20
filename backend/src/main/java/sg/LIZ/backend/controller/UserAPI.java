@@ -5,8 +5,10 @@ import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import sg.LIZ.backend.Config;
 import sg.LIZ.backend.model.utilityBean.UserDB;
 import sg.LIZ.backend.model.valueBean.User;
@@ -23,12 +25,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class UserAPI {
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public void addUser( @FormParam("username") String username,@FormParam("password")String password) throws SQLException {
+	public Response addUser( @FormParam("username") String username,@FormParam("password")String password) throws SQLException {
 		UserDB.addUser(new User(username,BCrypt.hashpw(password, BCrypt.gensalt())));
+		return Response.status(201).build();
 	}
 	@Path("login")
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
 	public String loginUser(@FormParam("username") String username,@FormParam("Password")String password) throws SQLException {
 		User user = UserDB.getUserByName(username);
 		if(BCrypt.checkpw(password, user.password)) {
