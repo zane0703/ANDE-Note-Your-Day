@@ -13,6 +13,8 @@ import sg.LIZ.backend.model.valueBean.User;
 
 import java.sql.SQLException;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 import io.jsonwebtoken.Jwts;
@@ -21,7 +23,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class UserAPI {
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public void addUser( @FormParam("username") String username,@FormParam("Password")String password) throws SQLException {
+	public void addUser( @FormParam("username") String username,@FormParam("password")String password) throws SQLException {
 		UserDB.addUser(new User(username,BCrypt.hashpw(password, BCrypt.gensalt())));
 	}
 	@Path("login")
