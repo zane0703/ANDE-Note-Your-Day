@@ -48,6 +48,7 @@ class UserAPI {
             while((len= in.read(chunk,0,1024))!=-1){
                 stringBuilder.append(chunk,0,len);
             }
+            in.close();
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(KEY_TOKEN, stringBuilder.toString());
             editor.apply();
@@ -59,6 +60,7 @@ class UserAPI {
     public boolean registerUser(CharSequence userName,CharSequence password) throws IOException {
      HttpURLConnection conn = (HttpURLConnection) new URL(userUrl).openConnection();
      conn.setDoOutput(true);
+     conn.setDoInput(false);
      conn.setRequestMethod(TaskAPI.HTTP_METHOD_POST);
         Writer out= new OutputStreamWriter(conn.getOutputStream());
         out.write(new char[]{'u', 's', 'e', 'r', 'n', 'a', 'm', 'e','='},0,9);

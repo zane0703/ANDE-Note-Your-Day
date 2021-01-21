@@ -11,13 +11,14 @@ public class Task {
 	public final String title;
 	public final String description ;
 	public final String venue;
+	public final boolean allDay;
 	@JsonbTypeAdapter(DateAdapter.class)
 	public final Date start;
 	@JsonbTypeAdapter(DateAdapter.class)
 	public final Date end;
 	@JsonbTypeAdapter(DateAdapter.class)
 	public final Date createdAt;
-	public Task (int id,int fkUserId,String title,String description,String venue,Date start,Date end,Date createdAt) {
+	public Task (int id,int fkUserId,String title,String description,String venue,Date start,Date end,boolean allDay,Date createdAt) {
 		this.id = id;
 		this.fkUserId =fkUserId;
 		this.title =title;
@@ -25,10 +26,11 @@ public class Task {
 		this.venue =venue;
 		this.start = start;
 		this.end=end;
+		this.allDay= allDay;
 		this.createdAt=createdAt;
 	}
-	public Task (int fkUserId,String title,String description,String venue,Date start,Date end) {
-		this(1,fkUserId, title, description, venue, start, end, null);
+	public Task (int fkUserId,String title,String description,String venue,Date start,Date end,boolean allDay) {
+		this(1,fkUserId, title, description, venue, start, end,allDay, null);
 	}
 	
 	

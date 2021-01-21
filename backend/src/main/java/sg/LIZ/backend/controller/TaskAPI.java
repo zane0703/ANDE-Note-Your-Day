@@ -30,9 +30,9 @@ public class TaskAPI {
 	}
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response addTask(@HeaderParam("Authorization") final String token ,@FormParam("title")final String title,@FormParam("description") final String description ,@FormParam("venue")final String venue,@FormParam("start")final long start ,@FormParam("end")final long end) throws SQLException {
+	public Response addTask(@HeaderParam("Authorization") final String token ,@FormParam("title")final String title,@FormParam("description") final String description ,@FormParam("venue")final String venue,@FormParam("start")final long start ,@FormParam("end")final long end,@FormParam("allDay") boolean allDay) throws SQLException {
 		Claims claims = Auth.verifyToken(token);
-		TaskDB.addTask(new Task(claims.get(Auth.KEY_ID,Integer.class), title, description, venue, new Date(start), new Date(end)));
+		TaskDB.addTask(new Task(claims.get(Auth.KEY_ID,Integer.class), title, description, venue, new Date(start), new Date(end),allDay));
 		return Response.status(201).build();
 	}
 	
