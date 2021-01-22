@@ -36,5 +36,19 @@ public static User getUserByName(String username ) throws SQLException {
 		throw new NotFoundException();
 	}
 }
+public static boolean isUserExist(final String name) throws SQLException {
+	Connection conn = DriverManager.getConnection(Config.DB_HOSTNAME, Config.DB_PROPERTIES);
+	PreparedStatement stmt=conn.prepareStatement("SELECT COUNT(*) WHERE username=? ;");
+	stmt.setString(1, name);
+	ResultSet rs = stmt.getResultSet();
+	if(rs.next()) {
+		boolean isExist = rs.getBoolean(1);
+		conn.close();
+		return isExist;
+	}else {
+		conn.close();
+		return false;
+	}
+}
 
 }

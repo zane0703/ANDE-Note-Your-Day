@@ -55,21 +55,51 @@ public class TaskDB {
 	}
 	public static void updateTask(Task task) throws SQLException {
 		Connection conn = DriverManager.getConnection(Config.DB_HOSTNAME, Config.DB_PROPERTIES);
-		PreparedStatement stmt = conn.prepareStatement("UPDATE task SET title=? ,description=?,venue=?,start=?,end=? WHERE id=? AND fk_user_id=? ;");
+		PreparedStatement stmt = conn.prepareStatement("UPDATE task SET title=? ,description=?,venue=?,start=?,end=? ,all_day=?WHERE id=? AND fk_user_id=? ;");
 		stmt.setString(1, task.title);
 		stmt.setString(2, task.description);
 		stmt.setString(3, task.venue);
 		stmt.setDate(4, task.start);
 		stmt.setDate(5, task.end);
-		stmt.setInt(6, task.id);
-		stmt.setInt(7, task.fkUserId);
-	}
-	public static void deleteTask(int id) throws SQLException {
-		Connection conn = DriverManager.getConnection(Config.DB_HOSTNAME, Config.DB_PROPERTIES);
-		PreparedStatement stmt = conn.prepareStatement("DELETE FROM task WHERE id=? ;");
-		stmt.setInt(1, id);
+		stmt.setBoolean(6, task.allDay);
+		stmt.setInt(7, task.id);
+		stmt.setInt(8, task.fkUserId);
 		stmt.execute();
 		conn.close();
+	}
+	public static void deleteTask(int id,int userId) throws SQLException {
+		Connection conn = DriverManager.getConnection(Config.DB_HOSTNAME, Config.DB_PROPERTIES);
+		PreparedStatement stmt = conn.prepareStatement("DELETE FROM task WHERE id=? AND fk_user_id=? ;");
+		stmt.setInt(1, id);
+		stmt.setInt(2, userId);
+		stmt.execute();
+		conn.close();
+	}
+	public static int[] getFirendSchedule(final int userId,final int year,final int month) throws SQLException{
+		Connection conn = DriverManager.getConnection(Config.DB_HOSTNAME, Config.DB_PROPERTIES);
+		PreparedStatement stmt = conn.prepareStatement("SELECT DAYOFMONTH(t.start) FROM task t INNER JOIN friend f ON f.fk_user_id_2 = T.fk_user_id  WHERE F.fk_user_id_1=? AND YEAR=(t.start) AND  MONTH(t.start)=? ;");
+		stmt.setInt(1, userId);
+		stmt.setInt(2, year);
+		stmt.setInt(3, month);
+		ResultSet rs = stmt.executeQuery();
+		int[] firends = new int[0];
+		int i=0;
+		while(rs.next()) {
+			System.arraycopy(firends, 0, (firends=new int[i+1]), 0, i);
+			firends[i]=rs.getInt(1);
+			++i;
+		}
+		stmt = conn.prepareStatement("SELECT DAYOFMONTH(t.start) FROM task t INNER JOIN friend f ON f.fk_user_id_1 = T.fk_user_id  WHERE F.fk_user_id_2=? AND YEAR=(t.start) AND  MONTH(t.start)=? ;");
+		stmt.setInt(1, userId);
+		stmt.setInt(2, year);
+		stmt.setInt(3, month);
+		rs = stmt.executeQuery();
+		while(rs.next()) {
+			System.arraycopy(firends, 0, (firends=new int[i+1]), 0, i);
+			firends[i]=rs.getInt(1);
+			++i;
+		}
+		return firends;
 	}
 	
 }

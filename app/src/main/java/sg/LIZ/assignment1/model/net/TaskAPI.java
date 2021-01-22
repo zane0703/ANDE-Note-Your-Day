@@ -49,19 +49,24 @@ class TaskAPI {
         conn.setRequestMethod(HTTP_METHOD_GET);
         conn.setRequestProperty(UserAPI.HTTP_AUTHORIZATION, "Bearer "+sharedPreferences.getString(UserAPI.KEY_TOKEN, ""));
         Reader in = new InputStreamReader(conn.getInputStream());
-        StringBuilder stringBuilder = new StringBuilder();
-        int len=0;
-        char[] chunk = new char[1024];
-        while ((len=in.read(chunk, 0, 1024))!=-1){
-            stringBuilder.append(chunk,0,len);
+        if(conn.getResponseCode()==100){
+            StringBuilder stringBuilder = new StringBuilder();
+            int len=0;
+            char[] chunk = new char[1024];
+            while ((len=in.read(chunk, 0, 1024))!=-1){
+                stringBuilder.append(chunk,0,len);
+            }
+            in.close();
+            JSONObject jsonObject = new JSONObject(stringBuilder.toString());
+            GregorianCalendar start = new GregorianCalendar();
+            start.setTimeInMillis(jsonObject.getLong(KEY_START));
+            GregorianCalendar end = new GregorianCalendar();
+            end.setTimeInMillis(jsonObject.getLong(KEY_END));
+            return new Task(jsonObject.getInt(TaskDb.KEY_ID),(byte)start.get(GregorianCalendar.DAY_OF_MONTH) ,(byte) start.get(GregorianCalendar.MONTH), start.get(GregorianCalendar.YEAR), (byte)start.get(GregorianCalendar.HOUR), (byte)start.get(GregorianCalendar.MINUTE),(byte) end.get(GregorianCalendar.HOUR), (byte) end.get(GregorianCalendar.MINUTE), jsonObject.getBoolean(TaskDb.KEY_ALL_DAY),jsonObject.getString(TaskDb.KEY_TITLE),jsonObject.getString(TaskDb.KEY_DESCRIPTION),jsonObject.getString(TaskDb.KEY_VENUE));
+        }else{
+            in.close();
+            return null;
         }
-        in.close();
-        JSONObject jsonObject = new JSONObject(stringBuilder.toString());
-        GregorianCalendar start = new GregorianCalendar();
-        start.setTimeInMillis(jsonObject.getLong(KEY_START));
-        GregorianCalendar end = new GregorianCalendar();
-        end.setTimeInMillis(jsonObject.getLong(KEY_END));
-        return new Task(jsonObject.getInt(TaskDb.KEY_ID),(byte)start.get(GregorianCalendar.DAY_OF_MONTH) ,(byte) start.get(GregorianCalendar.MONTH), start.get(GregorianCalendar.YEAR), (byte)start.get(GregorianCalendar.HOUR), (byte)start.get(GregorianCalendar.MINUTE),(byte) end.get(GregorianCalendar.HOUR), (byte) end.get(GregorianCalendar.MINUTE), jsonObject.getBoolean(TaskDb.KEY_ALL_DAY),jsonObject.getString(TaskDb.KEY_TITLE),jsonObject.getString(TaskDb.KEY_DESCRIPTION),jsonObject.getString(TaskDb.KEY_VENUE));
 
     }
     public Task[] getTask() throws IOException, JSONException {
@@ -69,25 +74,30 @@ class TaskAPI {
         conn.setRequestMethod(HTTP_METHOD_GET);
         conn.setRequestProperty(UserAPI.HTTP_AUTHORIZATION, "Bearer "+sharedPreferences.getString(UserAPI.KEY_TOKEN, ""));
         Reader in = new InputStreamReader(conn.getInputStream());
-        StringBuilder stringBuilder = new StringBuilder();
-        int len=0;
-        char[] chunk = new char[1024];
-        while ((len=in.read(chunk, 0, 1024))!=-1){
-            stringBuilder.append(chunk,0,len);
-        }
-        in.close();
-        JSONArray jsonArray = new JSONArray(stringBuilder.toString());
-        len =jsonArray.length();
-        Task[] tasks = new Task[len];
-        GregorianCalendar start = new GregorianCalendar();
-        GregorianCalendar end = new GregorianCalendar();
-        for(int i = 0;i<len;++i){
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            start.setTimeInMillis(jsonObject.getLong(KEY_START));
-            end.setTimeInMillis(jsonObject.getLong(KEY_END));
-            tasks[i] = new Task(jsonObject.getInt(TaskDb.KEY_ID),(byte)start.get(GregorianCalendar.DAY_OF_MONTH) ,(byte) start.get(GregorianCalendar.MONTH), start.get(GregorianCalendar.YEAR), (byte)start.get(GregorianCalendar.HOUR), (byte)start.get(GregorianCalendar.MINUTE),(byte) end.get(GregorianCalendar.HOUR), (byte) end.get(GregorianCalendar.MINUTE), jsonObject.getBoolean(TaskDb.KEY_ALL_DAY),jsonObject.getString(TaskDb.KEY_TITLE),jsonObject.getString(TaskDb.KEY_DESCRIPTION),jsonObject.getString(TaskDb.KEY_VENUE));
-        }
-        return tasks;
+        if(conn.getResponseCode()==200){
+            StringBuilder stringBuilder = new StringBuilder();
+            int len=0;
+            char[] chunk = new char[1024];
+            while ((len=in.read(chunk, 0, 1024))!=-1){
+                stringBuilder.append(chunk,0,len);
+            }
+            in.close();
+            JSONArray jsonArray = new JSONArray(stringBuilder.toString());
+            len =jsonArray.length();
+            Task[] tasks = new Task[len];
+            GregorianCalendar start = new GregorianCalendar();
+            GregorianCalendar end = new GregorianCalendar();
+            for(int i = 0;i<len;++i){
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                start.setTimeInMillis(jsonObject.getLong(KEY_START));
+                end.setTimeInMillis(jsonObject.getLong(KEY_END));
+                tasks[i] = new Task(jsonObject.getInt(TaskDb.KEY_ID),(byte)start.get(GregorianCalendar.DAY_OF_MONTH) ,(byte) start.get(GregorianCalendar.MONTH), start.get(GregorianCalendar.YEAR), (byte)start.get(GregorianCalendar.HOUR), (byte)start.get(GregorianCalendar.MINUTE),(byte) end.get(GregorianCalendar.HOUR), (byte) end.get(GregorianCalendar.MINUTE), jsonObject.getBoolean(TaskDb.KEY_ALL_DAY),jsonObject.getString(TaskDb.KEY_TITLE),jsonObject.getString(TaskDb.KEY_DESCRIPTION),jsonObject.getString(TaskDb.KEY_VENUE));
+            }
+            return tasks;
+        }else{
+            in.close();
+            return null;
+    }
     }
     public boolean addTask(@NonNull Task task) throws IOException{
         HttpURLConnection conn = (HttpURLConnection) new URL(taskUrl).openConnection();
@@ -112,7 +122,7 @@ class TaskAPI {
         out.write(new char[]{'&', 'e', 'n', 'd', '='},0,5);
         out.write(Long.toString(date.getTimeInMillis()));
         out.write(new char[]{'&', 'a', 'l', 'l', 'D', 'a', 'y', '='},0,8);
-        out.write(Boolean.toString(task.ALL_DAY));
+        out.write(task.ALL_DAY?new char[]{'t','r','u','e'}:new char[]{'f','a','l','s','e'});
         out.close();
         return conn.getResponseCode()==201;
     }
@@ -139,7 +149,7 @@ class TaskAPI {
         out.write(new char[]{'&', 'e', 'n', 'd', '='},0,5);
         out.write(Long.toString(date.getTimeInMillis()));
         out.write(new char[]{'&', 'a', 'l', 'l', 'D', 'a', 'y', '='},0,8);
-        out.write(Boolean.toString(task.ALL_DAY));
+        out.write(task.ALL_DAY?new char[]{'t','r','u','e'}:new char[]{'f','a','l','s','e'});
         out.close();
         return conn.getResponseCode()==204;
     }
@@ -149,5 +159,29 @@ class TaskAPI {
         conn.setRequestMethod(HTTP_METHOD_DELETE);
         conn.setRequestProperty(UserAPI.HTTP_AUTHORIZATION, "Bearer "+sharedPreferences.getString(UserAPI.KEY_TOKEN, ""));
         return conn.getResponseCode()==204;
+    }
+    public int[] getFriendSchedule(int year,int month) throws IOException, JSONException {
+        HttpURLConnection conn = (HttpURLConnection) new URL(new StringBuilder(taskUrl)
+                .append(new char[]{'/', 'f', 'r', 'i', 'e', 'n', 'd', '?', 'y', 'e', 'a', 'r', '='},0,13)
+                .append(year)
+                .append(new char[]{ '&', 'm', 'o', 'n', 't', 'h', '='},0,7)
+                .append(month)
+                .toString()).openConnection();
+        conn.setRequestMethod(HTTP_METHOD_GET);
+        conn.setRequestProperty(UserAPI.HTTP_AUTHORIZATION, "Bearer "+sharedPreferences.getString(UserAPI.KEY_TOKEN, ""));
+        Reader in = new InputStreamReader(conn.getInputStream());
+        StringBuilder stringBuilder = new StringBuilder();
+        int len=0;
+        char[] chunk = new char[1024];
+        while ((len=in.read(chunk, 0, 1024))!=-1){
+            stringBuilder.append(chunk,0,len);
+        }
+        JSONArray jsonArray = new JSONArray(stringBuilder.toString());
+        len = jsonArray.length();
+        int[] firend = new int[len];
+        for(int i = 0 ;i<len;++i){
+            firend[i] =jsonArray.getInt(i);
+        }
+        return  firend;
     }
 }
