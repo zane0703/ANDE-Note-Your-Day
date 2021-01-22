@@ -44,7 +44,7 @@
             <!-- Copyright (c) 2011 TypeSETit, LLC (typesetit@att.net),
             with Reserved Font Name "Playball"-->
             <TextView
-                android:id="@+id/month"
+                android:id="@+id/year"
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:clickable="false"
@@ -53,16 +53,7 @@
                 android:textColor="@color/white"
                 android:textSize="30sp" />
 
-            <TextView
-                android:id="@+id/year"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:clickable="false"
-                android:fontFamily="@font/playball_regular"
-                android:paddingStart="5dp"
-                android:textColor="@color/white"
-                android:textSize="30sp"
-                tools:ignore="RtlSymmetry" />
+
         </LinearLayout>
 
 
@@ -88,162 +79,208 @@
             android:columnCount="3"
             android:gravity="center">
 
-            <Button
-                android:id="@+id/button1"
+            <TextView
+                android:id="@+id/buttonJan"
                 android:layout_width="130dp"
-                android:layout_height="145dp"
+                android:layout_height="125dp"
                 android:layout_row="0"
                 android:layout_column="0"
                 android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:text="@string/jan"
+                android:textSize="22dp"
+                android:background="@drawable/layout_month_button"
+                android:textColor="@color/white"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
-            <Button
-                android:id="@+id/button"
+
+            <TextView
+                android:id="@+id/buttonFeb"
                 android:layout_width="130dp"
-                android:layout_height="145dp"
-                android:layout_row="1"
-                android:layout_column="0"
+                android:layout_height="125dp"
+                android:layout_row="0"
+                android:layout_column="1"
                 android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:text="@string/feb"
+                android:textSize="22dp"
+                android:background="@drawable/layout_month_button"
+                android:textColor="@color/white"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
-            <Button
-                android:id="@+id/button6"
+            <TextView
+                android:id="@+id/buttonMar"
                 android:layout_width="130dp"
-                android:layout_height="145dp"
-                android:layout_row="3"
-                android:layout_column="0"
+                android:layout_height="125dp"
+                android:layout_row="0"
+                android:layout_column="2"
                 android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:text="@string/mar"
+                android:textSize="22dp"
+                android:background="@drawable/layout_month_button"
+                android:textColor="@color/white"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
-            <Button
-                android:id="@+id/button9"
+            <TextView
+                android:id="@+id/buttonApr"
                 android:layout_width="130dp"
-                android:layout_height="145dp"
-                android:layout_row="2"
+                android:layout_height="125dp"
+                android:layout_row="1"
                 android:layout_column="0"
                 android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:text="@string/apr"
+                android:textSize="22dp"
+                android:background="@drawable/layout_month_button"
+                android:textColor="@color/white"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
-            <Button
-                android:id="@+id/button2"
+            <TextView
+                android:id="@+id/buttonMay"
                 android:layout_width="130dp"
-                android:layout_height="145dp"
-                android:layout_row="0"
+                android:layout_height="125dp"
+                android:layout_row="1"
                 android:layout_column="1"
                 android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:text="@string/may"
+                android:textSize="22dp"
+                android:background="@drawable/layout_month_button"
+                android:textColor="@color/white"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
-            <Button
-                android:id="@+id/button4"
+            <TextView
+                android:id="@+id/buttonJune"
                 android:layout_width="130dp"
-                android:layout_height="145dp"
-                android:layout_row="3"
-                android:layout_column="1"
+                android:layout_height="125dp"
+                android:layout_row="1"
+                android:layout_column="2"
                 android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:text="@string/jun"
+                android:textSize="22dp"
+                android:background="@drawable/layout_month_button"
+                android:textColor="@color/white"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
-
-            <Button
-                android:id="@+id/button10"
+            <TextView
+                android:id="@+id/buttonJul"
                 android:layout_width="130dp"
-                android:layout_height="145dp"
+                android:layout_height="125dp"
                 android:layout_row="2"
-                android:layout_column="1"
+                android:layout_column="0"
                 android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:text="@string/jul"
+                android:textSize="22dp"
+                android:background="@drawable/layout_month_button"
+                android:textColor="@color/white"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
-            <Button
-                android:id="@+id/button7"
+            <TextView
+                android:id="@+id/buttonAug"
                 android:layout_width="130dp"
-                android:layout_height="145dp"
-                android:layout_row="1"
+                android:layout_height="125dp"
+                android:layout_row="2"
                 android:layout_column="1"
                 android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:text="@string/aug"
+                android:textSize="22dp"
+                android:background="@drawable/layout_month_button"
+                android:textColor="@color/white"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
-            <Button
-                android:id="@+id/button3"
+            <TextView
+                android:id="@+id/buttonSep"
                 android:layout_width="130dp"
-                android:layout_height="145dp"
-                android:layout_row="0"
-                android:layout_column="2"
-                android:layout_marginRight="5dp"
-                android:gravity="center"
-                android:horizontalSpacing="20dp"
-                android:text="@string/sep"
-                tools:layout_editor_absoluteX="46dp"
-                tools:layout_editor_absoluteY="125dp" />
-
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="130dp"
-                android:layout_height="145dp"
-                android:layout_row="1"
-                android:layout_column="2"
-                android:layout_marginRight="5dp"
-                android:gravity="center"
-                android:horizontalSpacing="20dp"
-                android:text="@string/oct"
-                tools:layout_editor_absoluteX="46dp"
-                tools:layout_editor_absoluteY="125dp" />
-
-            <Button
-                android:id="@+id/button8"
-                android:layout_width="130dp"
-                android:layout_height="145dp"
-                android:layout_row="3"
-                android:layout_column="2"
-                android:layout_marginRight="5dp"
-                android:gravity="center"
-                android:horizontalSpacing="20dp"
-                android:text="@string/nov"
-                tools:layout_editor_absoluteX="46dp"
-                tools:layout_editor_absoluteY="125dp" />
-
-            <Button
-                android:id="@+id/button11"
-                android:layout_width="130dp"
-                android:layout_height="145dp"
+                android:layout_height="125dp"
                 android:layout_row="2"
                 android:layout_column="2"
                 android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
-                android:text="@string/dec"
+                android:text="@string/sep"
+                android:textSize="22dp"
+                android:background="@drawable/layout_month_button"
+                android:textColor="@color/white"
+                tools:layout_editor_absoluteX="46dp"
+                tools:layout_editor_absoluteY="125dp" />
+            <TextView
+                android:id="@+id/buttonOct"
+                android:layout_width="130dp"
+                android:layout_height="125dp"
+                android:layout_row="3"
+                android:layout_column="0"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
+                android:gravity="center"
+                android:horizontalSpacing="20dp"
+                android:text="@string/oct"
+                android:textSize="22dp"
+                android:background="@drawable/layout_month_button"
+                android:textColor="@color/white"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
+            <TextView
+                android:id="@+id/buttonNov"
+                android:layout_width="130dp"
+                android:layout_height="125dp"
+                android:layout_row="3"
+                android:layout_column="1"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
+                android:gravity="center"
+                android:horizontalSpacing="20dp"
+                android:text="@string/nov"
+                android:textSize="22dp"
+                android:background="@drawable/layout_month_button"
+                android:textColor="@color/white"
+                tools:layout_editor_absoluteX="46dp"
+                tools:layout_editor_absoluteY="125dp" />
+
+            <TextView
+                android:id="@+id/buttonDec"
+                android:layout_width="130dp"
+                android:layout_height="125dp"
+                android:layout_row="3"
+                android:layout_column="2"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="15dp"
+                android:gravity="center"
+                android:horizontalSpacing="20dp"
+                android:text="@string/dec"
+                android:textSize="22dp"
+                android:background="@drawable/layout_month_button"
+                android:textColor="@color/white"
+                tools:layout_editor_absoluteX="46dp"
+                tools:layout_editor_absoluteY="125dp" />
 
         </GridLayout>
     </sg.LIZ.assignment1.view.layout.MyLinearLayout>
