@@ -66,4 +66,5 @@
     <string name="backend_urL" translatable="false">http://localhost:8080</string>
     <string name="month">Month</string>
     <string name="year">Year</string>
+    <string name="err_500">Looks like something went wrong with our server</string>
 </resources>

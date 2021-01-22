@@ -2,6 +2,7 @@ package sg.LIZ.assignment1.model.net;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -38,68 +39,78 @@ class TaskAPI {
     private static final String KEY_END="END";
     private static String taskUrl = null;
     private final SharedPreferences sharedPreferences;
+    private final Context context;
     TaskAPI(@NonNull Context context) {
+        this.context =context;
         if(taskUrl==null){
             taskUrl = new StringBuilder(context.getResources().getString(R.string.backend_urL)).append(new char[]{'/','a','p','i','/','t','a','s','k'}).toString();
         }
         sharedPreferences = context.getSharedPreferences("assignment",0);
     }
-    public Task getTask(final int id) throws IOException, JSONException {
+    public Task getTask(final int id) throws IOException, JSONException, SessionTimeoutException {
         HttpURLConnection conn = (HttpURLConnection) new URL(new StringBuilder(taskUrl).append('/').append(id).toString()).openConnection();
         conn.setRequestMethod(HTTP_METHOD_GET);
         conn.setRequestProperty(UserAPI.HTTP_AUTHORIZATION, "Bearer "+sharedPreferences.getString(UserAPI.KEY_TOKEN, ""));
         Reader in = new InputStreamReader(conn.getInputStream());
-        if(conn.getResponseCode()==100){
-            StringBuilder stringBuilder = new StringBuilder();
-            int len=0;
-            char[] chunk = new char[1024];
-            while ((len=in.read(chunk, 0, 1024))!=-1){
-                stringBuilder.append(chunk,0,len);
-            }
-            in.close();
-            JSONObject jsonObject = new JSONObject(stringBuilder.toString());
-            GregorianCalendar start = new GregorianCalendar();
-            start.setTimeInMillis(jsonObject.getLong(KEY_START));
-            GregorianCalendar end = new GregorianCalendar();
-            end.setTimeInMillis(jsonObject.getLong(KEY_END));
-            return new Task(jsonObject.getInt(TaskDb.KEY_ID),(byte)start.get(GregorianCalendar.DAY_OF_MONTH) ,(byte) start.get(GregorianCalendar.MONTH), start.get(GregorianCalendar.YEAR), (byte)start.get(GregorianCalendar.HOUR), (byte)start.get(GregorianCalendar.MINUTE),(byte) end.get(GregorianCalendar.HOUR), (byte) end.get(GregorianCalendar.MINUTE), jsonObject.getBoolean(TaskDb.KEY_ALL_DAY),jsonObject.getString(TaskDb.KEY_TITLE),jsonObject.getString(TaskDb.KEY_DESCRIPTION),jsonObject.getString(TaskDb.KEY_VENUE));
-        }else{
-            in.close();
-            return null;
+        switch (conn.getResponseCode()){
+            case 200:
+                StringBuilder stringBuilder = new StringBuilder();
+                int len=0;
+                char[] chunk = new char[1024];
+                while ((len=in.read(chunk, 0, 1024))!=-1){
+                    stringBuilder.append(chunk,0,len);
+                }
+                in.close();
+                JSONObject jsonObject = new JSONObject(stringBuilder.toString());
+                GregorianCalendar start = new GregorianCalendar();
+                start.setTimeInMillis(jsonObject.getLong(KEY_START));
+                GregorianCalendar end = new GregorianCalendar();
+                end.setTimeInMillis(jsonObject.getLong(KEY_END));
+                return new Task(jsonObject.getInt(TaskDb.KEY_ID),(byte)start.get(GregorianCalendar.DAY_OF_MONTH) ,(byte) start.get(GregorianCalendar.MONTH), start.get(GregorianCalendar.YEAR), (byte)start.get(GregorianCalendar.HOUR), (byte)start.get(GregorianCalendar.MINUTE),(byte) end.get(GregorianCalendar.HOUR), (byte) end.get(GregorianCalendar.MINUTE), jsonObject.getBoolean(TaskDb.KEY_ALL_DAY),jsonObject.getString(TaskDb.KEY_TITLE),jsonObject.getString(TaskDb.KEY_DESCRIPTION),jsonObject.getString(TaskDb.KEY_VENUE));
+            case 401:
+                in.close();
+                throw new SessionTimeoutException();
+            default:
+                in.close();
+                Toast.makeText(this.context, R.string.err_500, Toast.LENGTH_SHORT);
+                return null;
         }
 
     }
-    public Task[] getTask() throws IOException, JSONException {
+    public Task[] getTask() throws IOException, JSONException, SessionTimeoutException {
         HttpURLConnection conn = (HttpURLConnection) new URL(taskUrl).openConnection();
         conn.setRequestMethod(HTTP_METHOD_GET);
         conn.setRequestProperty(UserAPI.HTTP_AUTHORIZATION, "Bearer "+sharedPreferences.getString(UserAPI.KEY_TOKEN, ""));
         Reader in = new InputStreamReader(conn.getInputStream());
-        if(conn.getResponseCode()==200){
-            StringBuilder stringBuilder = new StringBuilder();
-            int len=0;
-            char[] chunk = new char[1024];
-            while ((len=in.read(chunk, 0, 1024))!=-1){
-                stringBuilder.append(chunk,0,len);
-            }
-            in.close();
-            JSONArray jsonArray = new JSONArray(stringBuilder.toString());
-            len =jsonArray.length();
-            Task[] tasks = new Task[len];
-            GregorianCalendar start = new GregorianCalendar();
-            GregorianCalendar end = new GregorianCalendar();
-            for(int i = 0;i<len;++i){
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                start.setTimeInMillis(jsonObject.getLong(KEY_START));
-                end.setTimeInMillis(jsonObject.getLong(KEY_END));
-                tasks[i] = new Task(jsonObject.getInt(TaskDb.KEY_ID),(byte)start.get(GregorianCalendar.DAY_OF_MONTH) ,(byte) start.get(GregorianCalendar.MONTH), start.get(GregorianCalendar.YEAR), (byte)start.get(GregorianCalendar.HOUR), (byte)start.get(GregorianCalendar.MINUTE),(byte) end.get(GregorianCalendar.HOUR), (byte) end.get(GregorianCalendar.MINUTE), jsonObject.getBoolean(TaskDb.KEY_ALL_DAY),jsonObject.getString(TaskDb.KEY_TITLE),jsonObject.getString(TaskDb.KEY_DESCRIPTION),jsonObject.getString(TaskDb.KEY_VENUE));
-            }
-            return tasks;
-        }else{
-            in.close();
-            return null;
+        switch (conn.getResponseCode()) {
+            case 200:
+                StringBuilder stringBuilder = new StringBuilder();
+                int len = 0;
+                char[] chunk = new char[1024];
+                while ((len = in.read(chunk, 0, 1024)) != -1) {
+                    stringBuilder.append(chunk, 0, len);
+                }
+                in.close();
+                JSONArray jsonArray = new JSONArray(stringBuilder.toString());
+                len = jsonArray.length();
+                Task[] tasks = new Task[len];
+                GregorianCalendar start = new GregorianCalendar();
+                GregorianCalendar end = new GregorianCalendar();
+                for (int i = 0; i < len; ++i) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    start.setTimeInMillis(jsonObject.getLong(KEY_START));
+                    end.setTimeInMillis(jsonObject.getLong(KEY_END));
+                    tasks[i] = new Task(jsonObject.getInt(TaskDb.KEY_ID), (byte) start.get(GregorianCalendar.DAY_OF_MONTH), (byte) start.get(GregorianCalendar.MONTH), start.get(GregorianCalendar.YEAR), (byte) start.get(GregorianCalendar.HOUR), (byte) start.get(GregorianCalendar.MINUTE), (byte) end.get(GregorianCalendar.HOUR), (byte) end.get(GregorianCalendar.MINUTE), jsonObject.getBoolean(TaskDb.KEY_ALL_DAY), jsonObject.getString(TaskDb.KEY_TITLE), jsonObject.getString(TaskDb.KEY_DESCRIPTION), jsonObject.getString(TaskDb.KEY_VENUE));
+                }
+                return tasks;
+            case 401:
+                throw new SessionTimeoutException();
+            default:
+                in.close();
+                return null;
+        }
     }
-    }
-    public boolean addTask(@NonNull Task task) throws IOException{
+    public boolean addTask(@NonNull Task task) throws IOException, SessionTimeoutException {
         HttpURLConnection conn = (HttpURLConnection) new URL(taskUrl).openConnection();
         conn.setDoOutput(true);
         conn.setDoInput(false);
@@ -124,9 +135,17 @@ class TaskAPI {
         out.write(new char[]{'&', 'a', 'l', 'l', 'D', 'a', 'y', '='},0,8);
         out.write(task.ALL_DAY?new char[]{'t','r','u','e'}:new char[]{'f','a','l','s','e'});
         out.close();
-        return conn.getResponseCode()==201;
+        switch (conn.getResponseCode()){
+            case 201:
+            case 204:
+                return true;
+            case 401:
+                throw  new SessionTimeoutException();
+            default:
+                return false;
+        }
     }
-    public boolean updateTask(int id,@NonNull Task task)throws IOException{
+    public boolean updateTask(int id,@NonNull Task task) throws IOException, SessionTimeoutException {
         HttpURLConnection conn = (HttpURLConnection) new URL(new StringBuilder(taskUrl).append('/').append(id).toString()).openConnection();
         conn.setDoOutput(true);
         conn.setDoInput(false);
@@ -151,16 +170,30 @@ class TaskAPI {
         out.write(new char[]{'&', 'a', 'l', 'l', 'D', 'a', 'y', '='},0,8);
         out.write(task.ALL_DAY?new char[]{'t','r','u','e'}:new char[]{'f','a','l','s','e'});
         out.close();
-        return conn.getResponseCode()==204;
+        switch (conn.getResponseCode()){
+            case 204:
+                return true;
+            case 401:
+                throw  new SessionTimeoutException();
+            default:
+                return false;
+        }
     }
-    public boolean deleteTask(int id)throws IOException{
+    public boolean deleteTask(int id) throws IOException, SessionTimeoutException {
         HttpURLConnection conn = (HttpURLConnection) new URL(new StringBuilder(taskUrl).append('/').append(id).toString()).openConnection();
         conn.setDoInput(false);
         conn.setRequestMethod(HTTP_METHOD_DELETE);
         conn.setRequestProperty(UserAPI.HTTP_AUTHORIZATION, "Bearer "+sharedPreferences.getString(UserAPI.KEY_TOKEN, ""));
-        return conn.getResponseCode()==204;
+        switch (conn.getResponseCode()){
+            case 204:
+                return true;
+            case 401:
+                throw  new SessionTimeoutException();
+            default:
+                return false;
+        }
     }
-    public int[] getFriendSchedule(int year,int month) throws IOException, JSONException {
+    public int[] getFriendSchedule(int year,int month) throws IOException, JSONException, SessionTimeoutException {
         HttpURLConnection conn = (HttpURLConnection) new URL(new StringBuilder(taskUrl)
                 .append(new char[]{'/', 'f', 'r', 'i', 'e', 'n', 'd', '?', 'y', 'e', 'a', 'r', '='},0,13)
                 .append(year)
@@ -170,18 +203,29 @@ class TaskAPI {
         conn.setRequestMethod(HTTP_METHOD_GET);
         conn.setRequestProperty(UserAPI.HTTP_AUTHORIZATION, "Bearer "+sharedPreferences.getString(UserAPI.KEY_TOKEN, ""));
         Reader in = new InputStreamReader(conn.getInputStream());
-        StringBuilder stringBuilder = new StringBuilder();
-        int len=0;
-        char[] chunk = new char[1024];
-        while ((len=in.read(chunk, 0, 1024))!=-1){
-            stringBuilder.append(chunk,0,len);
-        }
-        JSONArray jsonArray = new JSONArray(stringBuilder.toString());
-        len = jsonArray.length();
-        int[] firend = new int[len];
-        for(int i = 0 ;i<len;++i){
-            firend[i] =jsonArray.getInt(i);
-        }
-        return  firend;
+      switch (conn.getResponseCode()){
+          case 200 :
+              StringBuilder stringBuilder = new StringBuilder();
+              int len=0;
+              char[] chunk = new char[1024];
+              while ((len=in.read(chunk, 0, 1024))!=-1){
+                  stringBuilder.append(chunk,0,len);
+              }
+              in.close();
+              JSONArray jsonArray = new JSONArray(stringBuilder.toString());
+              len = jsonArray.length();
+              int[] firend = new int[len];
+              for(int i = 0 ;i<len;++i){
+                  firend[i] =jsonArray.getInt(i);
+              }
+              return  firend;
+          case 401:
+              in.close();
+              throw new SessionTimeoutException();
+          default:
+              in.close();
+              return null;
+
+      }
     }
 }
