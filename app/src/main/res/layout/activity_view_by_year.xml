@@ -97,7 +97,7 @@
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
-                android:text="Button"
+                android:text="@string/jan"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
@@ -110,7 +110,7 @@
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
-                android:text="Button"
+                android:text="@string/feb"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
@@ -123,7 +123,7 @@
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
-                android:text="Button"
+                android:text="@string/mar"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
@@ -136,7 +136,7 @@
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
-                android:text="Button"
+                android:text="@string/apr"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
@@ -149,7 +149,7 @@
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
-                android:text="Button"
+                android:text="@string/may"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
@@ -162,7 +162,7 @@
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
-                android:text="Button"
+                android:text="@string/jun"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
@@ -175,7 +175,7 @@
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
-                android:text="Button"
+                android:text="@string/jul"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
@@ -188,7 +188,7 @@
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
-                android:text="Button"
+                android:text="@string/aug"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
@@ -201,7 +201,7 @@
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
-                android:text="Button"
+                android:text="@string/sep"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
@@ -214,7 +214,7 @@
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
-                android:text="Button"
+                android:text="@string/oct"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
@@ -227,7 +227,7 @@
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
-                android:text="Button"
+                android:text="@string/nov"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
@@ -240,14 +240,13 @@
                 android:layout_marginRight="5dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
-                android:text="Button"
+                android:text="@string/dec"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" />
 
 
         </GridLayout>
     </sg.LIZ.assignment1.view.layout.MyLinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
