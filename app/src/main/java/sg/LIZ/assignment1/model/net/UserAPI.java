@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
+import sg.LIZ.assignment1.Key;
 import sg.LIZ.assignment1.R;
 import sg.LIZ.assignment1.model.valueBean.Task;
 
@@ -21,8 +22,6 @@ import java.nio.charset.StandardCharsets;
 
 class UserAPI {
     private static String userUrl = null;
-    public static String KEY_TOKEN = "token";
-    public static String HTTP_AUTHORIZATION = "Authorization";
     private final SharedPreferences sharedPreferences;
 
     UserAPI(Context context) {
@@ -36,8 +35,8 @@ class UserAPI {
     public boolean loginUser(CharSequence userName, CharSequence password) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new URL(new StringBuilder(userUrl).append(new char[]{'/', 'l', 'o', 'g', 'i', 'n', '/', 'u', 's', 'e', 'r'}, 0, 11).toString()).openConnection();
         conn.setDoOutput(true);
-        conn.setRequestMethod(TaskAPI.HTTP_METHOD_POST);
-        conn.setRequestProperty(TaskAPI.HTTP_CONTENT_TYPE, TaskAPI.FORM_URL_ENCODED);
+        conn.setRequestMethod(Key.HTTP_METHOD_POST);
+        conn.setRequestProperty(Key.HTTP_CONTENT_TYPE, Key.FORM_URL_ENCODED);
         Writer out = new OutputStreamWriter(conn.getOutputStream());
         out.write(new char[]{'u', 's', 'e', 'r', 'n', 'a', 'm', 'e', '='}, 0, 9);
         out.append(URLEncoder.encode(userName.toString(), StandardCharsets.UTF_8.toString()));
@@ -54,7 +53,7 @@ class UserAPI {
             }
             in.close();
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(KEY_TOKEN, stringBuilder.toString());
+            editor.putString(Key.KEY_TOKEN, stringBuilder.toString());
             editor.apply();
             return true;
         } else {
@@ -68,7 +67,7 @@ class UserAPI {
         conn.setDoOutput(true);
         conn.setDoInput(false);
         String charset = StandardCharsets.UTF_8.toString();
-        conn.setRequestMethod(TaskAPI.HTTP_METHOD_POST);
+        conn.setRequestMethod(Key.HTTP_METHOD_POST);
         Writer out = new OutputStreamWriter(conn.getOutputStream());
         out.write(new char[]{'u', 's', 'e', 'r', 'n', 'a', 'm', 'e', '='}, 0, 9);
         out.append(URLEncoder.encode(userName.toString(), charset));
@@ -80,7 +79,7 @@ class UserAPI {
 
     public boolean isUserExist(@NonNull final String name) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new URL(new StringBuilder(userUrl).append(new char[]{'/', 'n', 'a', 'm', 'e', '/'}, 0, 6).append(name).toString()).openConnection();
-        conn.setRequestMethod(TaskAPI.HTTP_METHOD_GET);
+        conn.setRequestMethod(Key.HTTP_METHOD_GET);
         Reader in = new InputStreamReader(conn.getInputStream());
         if (conn.getResponseCode() == 200) {
             StringBuilder stringBuilder = new StringBuilder();

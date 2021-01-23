@@ -23,14 +23,16 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Arrays;
 
+import sg.LIZ.assignment1.Key;
 import sg.LIZ.assignment1.R;
 import sg.LIZ.assignment1.model.valueBean.Task;
 import sg.LIZ.assignment1.model.utilityBean.TaskDb;
 import sg.LIZ.assignment1.view.layout.MonthYearPickerDialog;
 import sg.LIZ.assignment1.view.adapter.TaskArrayAdapter;
+import sg.LIZ.assignment1.view.layout.onSetMonth;
 
 @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements  onSetMonth {
     private final GregorianCalendar gregorianCalendar = new GregorianCalendar();
     private Button[] daysBtn;
     private String[] months;
@@ -43,13 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private Drawable dayWithTaskStyle;
     private MonthYearPickerDialog mDatePickerDialog = null;
     private final TaskDb taskDb = new TaskDb(this);
-    private int selectedDay = gregorianCalendar.get(Calendar.DAY_OF_MONTH);
-    private int selectedMonth = gregorianCalendar.get(Calendar.MONTH);
-    private int selectedYear = gregorianCalendar.get(Calendar.YEAR);
+    private int selectedDay = 0;
+    private int selectedMonth = 0;
+    private int selectedYear = 0;
     private int selectedDayIndex = 0;
-    private byte currentDay = (byte) selectedDay;
-    private byte currentMonth = (byte) selectedMonth;
-    private int currentYear = selectedYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +103,13 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.day_41),
                 findViewById(R.id.day_42)
         };
+        Bundle bundle = getIntent().getExtras();
+        if(bundle !=null){
+            selectedYear = bundle.getInt(Key.KEY_YEAR,selectedYear);
+            selectedMonth= bundle.getInt(Key.KEY_MONTH,selectedMonth);
+            gregorianCalendar.set(Calendar.YEAR, selectedYear);
+            gregorianCalendar.set(Calendar.MONTH,selectedMonth);
+        }
         listTaskItem = findViewById(R.id.list_task_item);
         selectedStyle = getDrawable(R.drawable.layout_selected_day);
         selectedWithTaskStyle = getDrawable(R.drawable.layout_selected_with_task);
@@ -140,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                 dayBtn.setTextColor(0xff999797);
                 dayBtn.setText(Integer.toString(++start));
                 final int day = start;
-                dayBtn.setOnClickListener( v-> toLastMonth(day));
+                dayBtn.setOnClickListener( v-> toLast(day));
 
             }
         }
@@ -149,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             dayBtn.setText(Integer.toString(j));
             boolean isSelectedDay =j == selectedDay;
            boolean isDayWithTask =Arrays.binarySearch(daysWithTask, j) >-1;
-            if(selectedYear==currentYear&&selectedMonth==currentMonth&&j==currentDay){
+            if(selectedYear==Key.currentYear&&selectedMonth==Key.currentMonth&&j==Key.currentDay){
                 dayBtn.setTextColor(0xff76A5E3);
             }else{
                 dayBtn.setTextColor(0xffffffff);
@@ -177,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
             dayBtn.setTextColor(0xff999797);
             dayBtn.setText(Integer.toString(j));
             final int day = j;
-            dayBtn.setOnClickListener( v ->toNextMonth(day));
+            dayBtn.setOnClickListener( v ->toNext(day));
         }
     }
     public void onSetMonth(View v){
@@ -197,7 +203,8 @@ public class MainActivity extends AppCompatActivity {
         mDatePickerDialog.show(selectedYear,selectedMonth);
 
     }
-    public void toNextMonth(int day){
+    @Override
+    public void toNext(int day){
         if (selectedMonth == 11) {
             if(selectedYear==MonthYearPickerDialog.MAX_YEAR){
                 Toast.makeText(this, R.string.max_year, Toast.LENGTH_SHORT).show();
@@ -214,7 +221,8 @@ public class MainActivity extends AppCompatActivity {
         gregorianCalendar.set(selectedYear, selectedMonth, 1);
         onSetMonth();
     }
-    public void toLastMonth(int day){
+    @Override
+    public void toLast(int day){
         if (selectedMonth == 0) {
             if(selectedYear==0){
                 Toast.makeText(this, R.string.min_year, Toast.LENGTH_SHORT).show();
@@ -265,10 +273,9 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onAddTask(View v){
         Intent i =  new Intent(this,AddTaskActivity.class);
-        i.putExtra(AddTaskActivity.DAY,selectedDay);
-        i.putExtra(AddTaskActivity.MONTH, selectedMonth);
-        i.putExtra(AddTaskActivity.IS_EDIT, false);
-        i.putExtra(AddTaskActivity.YEAR, selectedYear);
+        i.putExtra(Key.KEY_DAY,selectedDay);
+        i.putExtra(Key.KEY_MONTH, selectedMonth);
+        i.putExtra(Key.KEY_YEAR, selectedYear);
         startActivityForResult(i, 1);
 
     }

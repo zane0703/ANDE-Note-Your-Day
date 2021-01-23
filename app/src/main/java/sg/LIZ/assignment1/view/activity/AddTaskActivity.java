@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import sg.LIZ.assignment1.Key;
 import sg.LIZ.assignment1.R;
 import sg.LIZ.assignment1.model.utilityBean.TaskDb;
 import sg.LIZ.assignment1.model.valueBean.Task;
@@ -36,10 +37,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class AddTaskActivity extends AppCompatActivity {
-    public static final String DAY = "day";
-    public static final String YEAR = "year";
-    public static final String MONTH = "month";
-    public static final String IS_EDIT = "isEdit";
+
     private GridLayout timeSelect;
     private TimePickerDialog startTimePicker = null;
     private TimePickerDialog endTimePicker = null;
@@ -71,9 +69,9 @@ public class AddTaskActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_add_task);
         Intent i = getIntent();
-        selectedDay = i.getIntExtra(DAY, -1);
-        selectedMonth = i.getIntExtra(MONTH, -1);
-        selectedYear = i.getIntExtra(YEAR, -1);
+        selectedDay = i.getIntExtra(Key.KEY_DAY, -1);
+        selectedMonth = i.getIntExtra(Key.KEY_MONTH, -1);
+        selectedYear = i.getIntExtra(Key.KEY_YEAR, -1);
         timeSelect = findViewById(R.id.add_task_time);
         buttonStartTime = findViewById(R.id.add_start_time);
         buttonEndTimeBtn = findViewById(R.id.add_end_time);
