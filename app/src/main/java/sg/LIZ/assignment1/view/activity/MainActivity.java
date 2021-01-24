@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
-    private ItemSliderMenu[] listSliding;
+    private String[] listSliding;
     private SlidingMenuAdapter adapter;
     private ListView listViewSliding;
     private RelativeLayout mainContent;
@@ -58,21 +58,18 @@ public class MainActivity extends AppCompatActivity {
         constraintLayout =findViewById(R.id.sliding_menu2);
         months = getResources().getStringArray(R.array.month);
         Resources resources = getResources();
-        listSliding = new ItemSliderMenu[]{
-                new ItemSliderMenu(resources.getString(R.string.month)),
-                new ItemSliderMenu(resources.getString(R.string.year)),
+        listSliding = new String[]{
+                resources.getString(R.string.month),
+                resources.getString(R.string.year)
         };
         textViewMonthView = findViewById(R.id.month);
         textViewYearView = findViewById(R.id.year);
         textViewYearView.setText(Integer.toString(selectYear));
         adapter = new SlidingMenuAdapter(this, listSliding);
         listViewSliding.setAdapter(adapter);
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(listSliding[0].getTitle());
         listViewSliding.setItemChecked(0,true);
         drawerLayout.closeDrawer(constraintLayout);
         listViewSliding.setOnItemClickListener((parent,view,position,id)->{
-            setTitle(listSliding[position].getTitle());
             listViewSliding.setItemChecked(position,true);
             replaceFragment(position);
             drawerLayout.closeDrawer(constraintLayout);

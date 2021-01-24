@@ -68,4 +68,5 @@
     <string name="err_500">Looks like something went wrong with our server</string>
     <string name="month">月</string>
     <string name="year">年</string>
+    <string name="view_by">View by</string>
 </resources>
