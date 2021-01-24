@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/backGround"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="34dp"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:contentDescription="open manu"
+            android:src="@drawable/ic_baseline_menu_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.041"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="onSetMonth"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- Copyright (c) 2011 TypeSETit, LLC (typesetit@att.net),
+                with Reserved Font Name "Playball"-->
+            <TextView
+                android:id="@+id/month"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:clickable="false"
+                android:fontFamily="@font/playball_regular"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/year"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="false"
+                android:fontFamily="@font/playball_regular"
+                android:paddingStart="5dp"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                tools:ignore="RtlSymmetry" />
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <sg.LIZ.assignment1.view.layout.MyLinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="412dp"
+            android:layout_height="0dp"
+            android:background="@drawable/layout_calendar_background"
+            android:orientation="vertical"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/layout_calendar_week"
+                android:clickable="false"
+                android:columnCount="7">
+
+                <TextView
+                    style="@style/day_of_week"
+                    android:clickable="false"
+                    android:text="@string/mon"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/day_of_week"
+                    android:clickable="false"
+                    android:text="@string/tue"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/day_of_week"
+                    android:clickable="false"
+                    android:text="@string/wed"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/day_of_week"
+                    android:clickable="false"
+                    android:text="@string/thu"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/day_of_week"
+                    android:clickable="false"
+                    android:text="@string/fri"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/day_of_week"
+                    android:text="@string/sat"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/day_of_week"
+                    android:clickable="false"
+                    android:text="@string/sun"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+
+            </GridLayout>
+
+            <GridLayout
+                android:id="@+id/day_of_month"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:columnCount="7">
+
+                <Button
+                    android:id="@+id/day_1"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_2"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_3"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_4"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_5"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_6"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_7"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_8"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_9"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_10"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_11"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_12"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_13"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp" />
+
+                <Button
+                    android:id="@+id/day_14"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_15"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_16"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_17"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_18"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_19"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_20"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_21"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_22"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_23"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_24"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_25"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_26"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_27"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_28"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_29"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_30"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_31"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_32"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_33"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_34"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_35"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_36"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_37"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_38"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_39"
+                    style="@style/day_of_week"
+
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_40"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_41"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/day_42"
+                    style="@style/day_of_week"
+                    android:background="@color/transparent"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:textSize="15sp" />
+
+            </GridLayout>
+        </sg.LIZ.assignment1.view.layout.MyLinearLayout>
+
+
+        <TextView
+            android:id="@+id/no_task_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="@string/no_task"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.82"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <ImageButton
+        android:id="@+id/add_task_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/transparent"
+        android:contentDescription="go to add task"
+        android:gravity="center"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:padding="0dp"
+        android:paddingBottom="0dp"
+        android:src="@drawable/ic_baseline_add_24"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        app:cornerRadius="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.955" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_task_item"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:padding="5dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.0" />
+</androidx.constraintlayout.widget.ConstraintLayout>

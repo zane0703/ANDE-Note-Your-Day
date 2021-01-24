@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import sg.LIZ.assignment1.model.valueBean.Task;
 import sg.LIZ.assignment1.R;
@@ -18,9 +20,11 @@ import sg.LIZ.assignment1.view.activity.TaskDetailActivity;
 public  class TaskArrayAdapter extends RecyclerView.Adapter<TaskArrayAdapter.MyViewHolder>  {
     private final Task[] mTasks;
     private final Activity activity;
-    public  TaskArrayAdapter(@NonNull final Activity activity,@NonNull final Task[] mTasks) {
+    private final Fragment fragment;
+    public  TaskArrayAdapter(@NonNull final Activity activity, @Nullable Fragment fragment, @NonNull final Task[] mTasks) {
        this.mTasks =mTasks;
         this.activity=activity;
+        this.fragment =fragment;
     }
 
 
@@ -35,7 +39,11 @@ public  class TaskArrayAdapter extends RecyclerView.Adapter<TaskArrayAdapter.MyV
         myViewHolder.itemView.setOnClickListener(v -> {
             Intent i = new Intent(activity, TaskDetailActivity.class);
             i.putExtra(TaskDetailActivity.TASK_ID,mTasks[myViewHolder.getLayoutPosition()].ID);
-            activity.startActivityForResult(i,2 );
+            if(fragment==null){
+                activity.startActivityForResult(i,2 );
+            }else{
+                fragment.startActivityForResult(i, 2);
+            }
         });
         return myViewHolder;
     }

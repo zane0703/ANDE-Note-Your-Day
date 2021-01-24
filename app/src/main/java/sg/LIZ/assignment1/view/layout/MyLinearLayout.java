@@ -1,5 +1,6 @@
 package sg.LIZ.assignment1.view.layout;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -9,6 +10,9 @@ import android.widget.LinearLayout;
 ;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import sg.LIZ.assignment1.R;
 
 public final class MyLinearLayout extends LinearLayout {
     private final GestureDetector GESTURE_DETECTOR;
@@ -26,7 +30,7 @@ public final class MyLinearLayout extends LinearLayout {
     public MyLinearLayout(Context context,@Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes){
         super(context, attrs, defStyleAttr, defStyleRes);
         GESTURE_DETECTOR = new GestureDetector(context,  new GestureListener());
-        MAIN_ACTIVITY = (onSetMonth) context;
+        MAIN_ACTIVITY =(onSetMonth) ((AppCompatActivity) context).getSupportFragmentManager().findFragmentById(R.id.main_content);
     }
 
     @Override

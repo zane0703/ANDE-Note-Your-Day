@@ -22,7 +22,7 @@ public class splashScreenActivity extends AppCompatActivity {
         catch (NullPointerException e){}
         setContentView(R.layout.activity_splash_screen);
         new android.os.Handler().postDelayed(() ->{
-            startActivity(new Intent(this,MainActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
             finish();
         }, 1000);
     }
