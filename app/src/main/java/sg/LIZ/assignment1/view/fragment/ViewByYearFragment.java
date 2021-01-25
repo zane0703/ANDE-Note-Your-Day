@@ -55,7 +55,7 @@ public class ViewByYearFragment extends Fragment implements onSetMonth {
         }
     }
     @Override
-    public void onSetYear(final String[] months){
+    public void onSetYear(final CharSequence[] months){
         if(mDatePickerDialog==null){
             mDatePickerDialog = new YearPickerDialog(getParentFragmentManager(),((view2, year, month, dayOfMonth) -> {
                 if(selectedYear!=year){

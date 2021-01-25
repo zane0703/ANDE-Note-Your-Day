@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
-    private String[] listSliding;
+    private CharSequence[] listSliding;
     private SlidingMenuAdapter adapter;
     private ListView listViewSliding;
     private RelativeLayout mainContent;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ConstraintLayout constraintLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private String[] months;
+    private CharSequence[] months;
     private boolean isDrawerOpened =false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
        listViewSliding = findViewById(R.id.sliding_menu);
         drawerLayout=findViewById(R.id.drawer_layout);
         constraintLayout =findViewById(R.id.sliding_menu2);
-        months = getResources().getStringArray(R.array.month);
         Resources resources = getResources();
-        listSliding = new String[]{
-                resources.getString(R.string.month),
-                resources.getString(R.string.year)
+        months = resources.getTextArray(R.array.month);
+        listSliding = new CharSequence[]{
+                resources.getText(R.string.month),
+                resources.getText(R.string.year)
         };
         textViewMonthView = findViewById(R.id.month);
         textViewYearView = findViewById(R.id.year);

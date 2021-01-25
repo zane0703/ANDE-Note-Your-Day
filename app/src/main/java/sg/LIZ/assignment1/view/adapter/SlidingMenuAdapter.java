@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.ListMenuItemView;
 
 import sg.LIZ.assignment1.R;
@@ -14,8 +15,8 @@ import sg.LIZ.assignment1.model.valueBean.ItemSliderMenu;
 
 public class SlidingMenuAdapter extends BaseAdapter {
     private Context context;
-    private String[] listItem;
-    public SlidingMenuAdapter(Context context,String[] listItem ){
+    private CharSequence[] listItem;
+    public SlidingMenuAdapter(@NonNull Context context, @NonNull  CharSequence[] listItem ){
         this.context =context;
         this.listItem=listItem;
     }

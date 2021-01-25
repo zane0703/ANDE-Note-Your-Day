@@ -20,7 +20,7 @@ public class MonthYearPickerDialog extends DialogFragment {
 
     public static final int MAX_YEAR;
     private final DatePickerDialog.OnDateSetListener listener;
-    private final String[] MONTHS;
+    private final CharSequence[] MONTHS;
     private final FragmentManager FRAGMENT_MANAGER;
 
     static{
@@ -28,7 +28,7 @@ public class MonthYearPickerDialog extends DialogFragment {
         MAX_YEAR = gregorianCalendar.getMaximum(Calendar.YEAR);
     }
 
-    public  MonthYearPickerDialog( final FragmentManager fragmentManager,final  String[] monthList,DatePickerDialog.OnDateSetListener listener){
+    public  MonthYearPickerDialog( final FragmentManager fragmentManager,final  CharSequence[] monthList,DatePickerDialog.OnDateSetListener listener){
         this.FRAGMENT_MANAGER =fragmentManager;
         this.MONTHS =monthList;
         this.listener = listener;
@@ -45,7 +45,12 @@ public class MonthYearPickerDialog extends DialogFragment {
         View dialog = inflater.inflate(R.layout.dialog_date_picker, null);
         final NumberPicker monthPicker = (NumberPicker) dialog.findViewById(R.id.picker_month);
         final NumberPicker yearPicker = (NumberPicker) dialog.findViewById(R.id.picker_year);
-        monthPicker.setDisplayedValues(MONTHS);
+        int len = MONTHS.length;
+        String[] months= new String[len];
+        for(int i =0;i<len;++i){
+            months[i]=MONTHS[i].toString();
+        }
+        monthPicker.setDisplayedValues(months);
         monthPicker.setMinValue(0);
         monthPicker.setMaxValue(11);
         monthPicker.setValue(month);
