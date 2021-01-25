@@ -9,6 +9,7 @@ import sg.LIZ.assignment1.model.valueBean.Task;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -66,7 +67,10 @@ public class TaskDetailActivity extends AppCompatActivity {
                 .setNegativeButton(R.string.cancel, null)
                 .show();
     }
-
+    public void onClickVenue(View v){
+        Intent i = new Intent(Intent.ACTION_VIEW,Uri.parse("geo:0,0?q="+Uri.encode(((TextView)v).getText().toString())));
+        startActivity(i);
+    }
     public void onBackPressed(View v){
         setResult(Activity.RESULT_CANCELED);
         finish();

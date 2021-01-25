@@ -25,6 +25,7 @@ import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout mainContent;
     private int selectYear = Key.currentYear;
     private int selectMonth = Key.currentMonth;
+    private ImageButton hamburgerMenu;
     private TextView textViewMonthView;
     private TextView textViewYearView;
     private DrawerLayout drawerLayout;
@@ -56,14 +58,15 @@ public class MainActivity extends AppCompatActivity {
        listViewSliding = findViewById(R.id.sliding_menu);
         drawerLayout=findViewById(R.id.drawer_layout);
         constraintLayout =findViewById(R.id.sliding_menu2);
+        textViewMonthView = findViewById(R.id.month);
+        textViewYearView = findViewById(R.id.year);
+        hamburgerMenu = findViewById(R.id.hamburger_menu);
         Resources resources = getResources();
         months = resources.getTextArray(R.array.month);
         listSliding = new CharSequence[]{
                 resources.getText(R.string.month),
                 resources.getText(R.string.year)
         };
-        textViewMonthView = findViewById(R.id.month);
-        textViewYearView = findViewById(R.id.year);
         textViewYearView.setText(Integer.toString(selectYear));
         adapter = new SlidingMenuAdapter(this, listSliding);
         listViewSliding.setAdapter(adapter);
@@ -80,12 +83,14 @@ public class MainActivity extends AppCompatActivity {
                     super.onDrawerOpened(view);
                     invalidateOptionsMenu();
                     isDrawerOpened =true;
+                    hamburgerMenu.setSelected(true);
                 }
-                @Override
+            @Override
                 public  void onDrawerClosed(View view){
                     super.onDrawerClosed(view);
                     invalidateOptionsMenu();
                     isDrawerOpened =false;
+                hamburgerMenu.setSelected(false);
                 }
 
         };
@@ -193,13 +198,14 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager= getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_content, fragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
     public  void onOpenDrawer(View v){
         if(isDrawerOpened){
+            hamburgerMenu.setSelected(false);
             drawerLayout.closeDrawer(constraintLayout);
         }else{
+            hamburgerMenu.setSelected(true);
             drawerLayout.openDrawer(constraintLayout);
         }
     }

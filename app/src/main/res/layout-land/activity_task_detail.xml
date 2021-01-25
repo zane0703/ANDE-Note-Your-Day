@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".view.activity.TaskDetailActivity"
     android:background="@color/backGround">
+
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
@@ -38,16 +39,17 @@
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="365dp"
+        android:layout_height="302dp"
         android:background="@drawable/layout_calendar_week"
         android:orientation="vertical"
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.015">
 
         <TextView
             android:layout_width="wrap_content"
@@ -60,9 +62,8 @@
             android:id="@+id/detail_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:textColor="@color/white"
-            />
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -76,11 +77,11 @@
             android:id="@+id/detail_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:textColor="@color/white"
-            />
+            android:textSize="20sp" />
 
         <TextView
+            android:onClick="onClickVenue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -89,13 +90,12 @@
             android:textSize="25sp" />
 
         <TextView
-            android:id="@+id/detail_venue"
             android:onClick="onClickVenue"
+            android:id="@+id/detail_venue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:textColor="@color/white"
-            />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <TextView
@@ -103,31 +103,32 @@
         android:layout_width="104dp"
         android:layout_height="47dp"
         android:layout_gravity="fill_horizontal"
+        android:layout_marginStart="56dp"
         android:text="@string/all_day"
         android:textColor="@color/white"
         android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintVertical_bias="0.02" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintVertical_bias="0.047" />
 
     <GridLayout
         android:id="@+id/detail_show_task_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="252dp"
+        android:layout_width="281dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="14dp"
         android:columnCount="2"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:rowCount="3"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintVertical_bias="0.333">
 
 
         <TextView

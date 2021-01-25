@@ -12,12 +12,12 @@
         android:background="@color/gray" >
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/hamburger_menu"
             android:layout_width="34dp"
             android:layout_height="match_parent"
             android:background="@color/transparent"
             android:contentDescription="open menu"
-            android:src="@drawable/ic_baseline_menu_24"
+            android:src="@drawable/asl_drawer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.041"

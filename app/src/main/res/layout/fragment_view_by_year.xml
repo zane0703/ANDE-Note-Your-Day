@@ -24,22 +24,22 @@
             android:layout_height="match_parent"
             android:clickable="false"
             android:columnCount="3"
-            android:gravity="center">
+         >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_by_year_btn_Jan"
-                android:layout_width="130dp"
-                android:layout_height="125dp"
                 android:layout_row="0"
                 android:onClick="onClick"
+                android:layout_width="130dp"
+                android:layout_height="125dp"
                 android:layout_column="0"
                 android:layout_marginRight="5dp"
                 android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:background="@drawable/layout_month_button"
-                tools:layout_editor_absoluteX="46dp"
-                tools:layout_editor_absoluteY="125dp" >
+                android:insetTop="0dp"
+                android:insetBottom="0dp" >
 
                 <TextView
                     android:layout_width="wrap_content"
