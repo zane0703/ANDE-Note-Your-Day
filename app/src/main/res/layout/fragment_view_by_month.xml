@@ -83,10 +83,9 @@
                 android:textStyle="bold"
                 android:textSize="20dp"
                 />
-
-
         </GridLayout>
 
+        <!-- TextView for each day, 42 in total on 1 screen !-->
         <GridLayout
             android:clickable="false"
             android:id="@+id/day_of_month"

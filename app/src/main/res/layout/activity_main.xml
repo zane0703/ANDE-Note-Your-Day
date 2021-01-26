@@ -12,6 +12,7 @@
         android:layout_height="45dp"
         android:background="@color/gray">
 
+        <!-- Menu Button !-->
         <ImageButton
             android:id="@+id/hamburger_menu"
             android:layout_width="40dp"
@@ -39,6 +40,8 @@
 
             <!-- Copyright (c) 2011 TypeSETit, LLC (typesetit@att.net),
             with Reserved Font Name "Playball"-->
+
+            <!-- Month at the top !-->
             <TextView
                 android:id="@+id/month"
                 android:layout_width="wrap_content"
@@ -49,6 +52,7 @@
                 android:textColor="@color/white"
                 android:textSize="30sp" />
 
+            <!-- Year at the top !-->
             <TextView
                 android:id="@+id/year"
                 android:layout_width="wrap_content"

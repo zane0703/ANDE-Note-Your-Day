@@ -69,5 +69,5 @@
     <string name="drawer_open" translatable="false">Open</string>
     <string name="drawer_close" translatable="false">Close</string>
     <string name="err_500">Looks like something went wrong with our server</string>
-    <string name="view_by">View by</string>
+    <string name="view_by">View by: </string>
 </resources>
