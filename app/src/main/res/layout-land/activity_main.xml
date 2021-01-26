@@ -16,7 +16,7 @@
             android:layout_width="34dp"
             android:layout_height="match_parent"
             android:background="@color/transparent"
-            android:contentDescription="open menu"
+            android:contentDescription="@string/menu"
             android:src="@drawable/asl_drawer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +41,7 @@
             with Reserved Font Name "Playball"-->
             <TextView
                 android:id="@+id/month"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:clickable="false"
                 android:fontFamily="@font/playball_regular"

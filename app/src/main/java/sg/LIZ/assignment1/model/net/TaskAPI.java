@@ -55,7 +55,7 @@ class TaskAPI {
                 start.setTimeInMillis(jsonObject.getLong(Key.KEY_START));
                 GregorianCalendar end = new GregorianCalendar();
                 end.setTimeInMillis(jsonObject.getLong(Key.KEY_END));
-                return new Task(jsonObject.getInt(Key.KEY_ID),(byte)start.get(GregorianCalendar.DAY_OF_MONTH) ,(byte) start.get(GregorianCalendar.MONTH), start.get(GregorianCalendar.YEAR), (byte)start.get(GregorianCalendar.HOUR), (byte)start.get(GregorianCalendar.MINUTE),(byte) end.get(GregorianCalendar.HOUR), (byte) end.get(GregorianCalendar.MINUTE), jsonObject.getBoolean(Key.KEY_ALL_DAY),jsonObject.getString(Key.KEY_TITLE),jsonObject.getString(Key.KEY_DESCRIPTION),jsonObject.getString(Key.KEY_VENUE));
+                return new Task(jsonObject.getInt(Key.KEY_ID),(byte)start.get(GregorianCalendar.DAY_OF_MONTH) ,(byte) start.get(GregorianCalendar.MONTH), start.get(GregorianCalendar.YEAR), (byte)start.get(GregorianCalendar.HOUR), (byte)start.get(GregorianCalendar.MINUTE),(byte) end.get(GregorianCalendar.HOUR), (byte) end.get(GregorianCalendar.MINUTE), jsonObject.getBoolean(Key.KEY_ALL_DAY),jsonObject.getString(Key.KEY_TITLE),jsonObject.getString(Key.KEY_DESCRIPTION),jsonObject.getString(Key.KEY_VENUE),null);
             case 401:
                 in.close();
                 throw new SessionTimeoutException();
@@ -89,7 +89,7 @@ class TaskAPI {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     start.setTimeInMillis(jsonObject.getLong(Key.KEY_START));
                     end.setTimeInMillis(jsonObject.getLong(Key.KEY_END));
-                    tasks[i] = new Task(jsonObject.getInt(Key.KEY_ID), (byte) start.get(GregorianCalendar.DAY_OF_MONTH), (byte) start.get(GregorianCalendar.MONTH), start.get(GregorianCalendar.YEAR), (byte) start.get(GregorianCalendar.HOUR), (byte) start.get(GregorianCalendar.MINUTE), (byte) end.get(GregorianCalendar.HOUR), (byte) end.get(GregorianCalendar.MINUTE), jsonObject.getBoolean(Key.KEY_ALL_DAY), jsonObject.getString(Key.KEY_TITLE), jsonObject.getString(Key.KEY_DESCRIPTION), jsonObject.getString(Key.KEY_VENUE));
+                    tasks[i] = new Task(jsonObject.getInt(Key.KEY_ID), (byte) start.get(GregorianCalendar.DAY_OF_MONTH), (byte) start.get(GregorianCalendar.MONTH), start.get(GregorianCalendar.YEAR), (byte) start.get(GregorianCalendar.HOUR), (byte) start.get(GregorianCalendar.MINUTE), (byte) end.get(GregorianCalendar.HOUR), (byte) end.get(GregorianCalendar.MINUTE), jsonObject.getBoolean(Key.KEY_ALL_DAY), jsonObject.getString(Key.KEY_TITLE), jsonObject.getString(Key.KEY_DESCRIPTION), jsonObject.getString(Key.KEY_VENUE),null);
                 }
                 return tasks;
             case 401:

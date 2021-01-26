@@ -1,11 +1,13 @@
 package sg.LIZ.assignment1.view.activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import sg.LIZ.assignment1.Key;
 import sg.LIZ.assignment1.R;
+import sg.LIZ.assignment1.model.net.ImageDownload;
 import sg.LIZ.assignment1.model.utilityBean.TaskDb;
 import sg.LIZ.assignment1.model.valueBean.Task;
 import sg.LIZ.assignment1.model.LocationTracker;
@@ -15,10 +17,14 @@ import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.Trace;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -26,10 +32,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.GridLayout;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -48,6 +57,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private EditText editTextTitleInput;
     private EditText editTextDescriptionInput;
     private EditText editTextVenueInput;
+    private ImageView imageView;
     private int selectedDay;
     private int selectedMonth;
     private int selectedYear;
@@ -56,6 +66,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private int startMinutes;
     private int endHours;
     private int endMinutes;
+    private Bitmap bitmap;
 
     private TaskDb taskDb = new TaskDb(this);
 
@@ -77,12 +88,14 @@ public class AddTaskActivity extends AppCompatActivity {
         buttonEndTimeBtn = findViewById(R.id.add_end_time);
         editTextTitleInput = findViewById(R.id.add_title);
         editTextDescriptionInput = findViewById(R.id.add_description);
+        imageView = findViewById(R.id.add_task_img);
         editTextVenueInput = findViewById(R.id.add_value);
         buttonGPS = findViewById(R.id.gps_btn);
         GregorianCalendar currentDate = new GregorianCalendar();
         startHours = currentDate.get(Calendar.HOUR_OF_DAY);
         startMinutes = currentDate.get(Calendar.MINUTE);
         final String FORMAT = "%02d";
+        /*output the start and end time */
         buttonStartTime.setText(new StringBuilder(8)
                 .append(currentDate.get(Calendar.HOUR))
                 .append(':').append(String.format(FORMAT, startMinutes))
@@ -109,9 +122,8 @@ public class AddTaskActivity extends AppCompatActivity {
                 Geocoder geocoder = new Geocoder(this, Locale.getDefault());
                 try {
 
-                    List<Address> addresses = geocoder.getFromLocation(gps.getLatitude(), gps.getLongitude(), 1);
-                    int size = addresses.size();
-                    Log.i("aaa", addresses.toString());
+                    List<Address> addresses = geocoder.getFromLocation(gps.getLatitude(), gps.getLongitude(), 4);
+                    final int size = addresses.size();
                     switch (size) {
                         case 1:
                             editTextVenueInput.setText(addresses.get(0).getAddressLine(0));
@@ -122,7 +134,12 @@ public class AddTaskActivity extends AppCompatActivity {
                         default:
                             String[] addressLines = new String[size];
                             for (int j = 0; j < size; ++j) {
-                                addressLines[j] = addresses.get(j).getAddressLine(0);
+                                Address address = addresses.get(j);
+                                final int addressLineSize =address.getMaxAddressLineIndex();
+                                StringBuilder addressLine = new StringBuilder(address.getAddressLine(0));
+                                for(int k =3;k<addressLineSize;++k){
+                                    addressLine.append(',').append(address.getAddressLine(k));
+                                }
                             }
                             new AlertDialog.Builder(this)
                                     .setTitle(R.string.select_address).setItems(addressLines, (dialog, which) -> {
@@ -229,7 +246,7 @@ public class AddTaskActivity extends AppCompatActivity {
         String title = editTextTitleInput.getText().toString().trim();
         String description = editTextDescriptionInput.getText().toString().trim();
         String venue = editTextVenueInput.getText().toString().trim();
-        if (title.equals("") || description.equals("") || venue.equals("")) {
+        if (title.isEmpty() || description.isEmpty() || venue.isEmpty()) {
             Toast.makeText(this, R.string.no_input_error, Toast.LENGTH_LONG).show();
         } else {
             if (allDay) {
@@ -237,14 +254,74 @@ public class AddTaskActivity extends AppCompatActivity {
                 startHours = -1;
                 endMinutes = -1;
                 endHours = -1;
+                byte[] imageByte = null;
+                if (bitmap != null) {
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.WEBP, 0, outputStream);
+                    imageByte = outputStream.toByteArray();
+                }
+                Task mTask = new Task((byte) selectedDay, (byte) selectedMonth, selectedYear, (byte) startHours, (byte) startMinutes, (byte) endHours, (byte) endMinutes, allDay, title, description, venue, imageByte);
+                taskDb.addTask(mTask);
+                setResult(Activity.RESULT_OK);
+                Toast.makeText(this, R.string.add_successfully, Toast.LENGTH_LONG).show();
+                finish();
             }
-            Task mTask = new Task((byte) selectedDay, (byte) selectedMonth, selectedYear, (byte) startHours, (byte) startMinutes, (byte) endHours, (byte) endMinutes, allDay, title, description, venue);
-            taskDb.addTask(mTask);
-            setResult(Activity.RESULT_OK);
-            Toast.makeText(this, R.string.add_successfully, Toast.LENGTH_LONG).show();
-            finish();
-        }
 
+        }
+    }
+    public void onSetImageClick(View v){
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.select_img_src)
+                .setItems(R.array.img_src_opt,(dialog, which)->{
+                    Intent i=null;
+                    switch (which){
+                        case 0:
+                            i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(i, 0);
+                            break;
+                        case 1:
+                            i = new Intent(Intent.ACTION_PICK);
+                            i.setType("image/*");
+                            startActivityForResult(i, 1);
+                            break;
+                        case 2:
+                            final EditText txtUrl = new EditText(this);
+                            txtUrl.setHint(R.string.url_hint);
+                            new AlertDialog.Builder(this)
+                                    .setTitle(R.string.enter_img_url)
+                                    .setView(txtUrl)
+                                    .setPositiveButton(R.string.Ok,( dialog2, whichButton)->{
+                                       new Thread(()->{
+                                           bitmap = ImageDownload.getImage(this, txtUrl.getText());
+                                           if(bitmap!=null){
+                                               runOnUiThread(()->imageView.setImageBitmap(bitmap));
+
+                                           }
+                                       }).start();
+                                    })
+                                    .setNegativeButton(R.string.cancel, ( dialog2, whichButton)->{}).show();
+                            break;
+                    }
+                }).show();
     }
 
+    @Override
+    protected void onActivityResult(final int requestCode,final int resultCode,final  @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK&&data!=null){
+            switch (requestCode){
+                case 0:
+                    bitmap =(Bitmap) data.getExtras().get("data");
+                    imageView.setImageBitmap(bitmap);
+                    break;
+                case 1:
+                    try {
+                        bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));
+                        imageView.setImageBitmap(bitmap);
+                    }catch (FileNotFoundException e){
+                        Log.e("image error",e.getMessage(),e);
+                    }
+                    }
+        }
+    }
 }

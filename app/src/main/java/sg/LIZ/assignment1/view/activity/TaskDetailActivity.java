@@ -2,6 +2,8 @@ package sg.LIZ.assignment1.view.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import sg.LIZ.assignment1.Key;
 import sg.LIZ.assignment1.R;
 import sg.LIZ.assignment1.model.utilityBean.TaskDb;
 import sg.LIZ.assignment1.model.valueBean.Task;
@@ -9,13 +11,14 @@ import sg.LIZ.assignment1.model.valueBean.Task;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TaskDetailActivity extends AppCompatActivity {
-    public static final String TASK_ID ="id";
     private final TaskDb taskDb = new TaskDb(this);
     private int id ;
     @SuppressLint("DefaultLocale")
@@ -29,11 +32,16 @@ public class TaskDetailActivity extends AppCompatActivity {
         catch (NullPointerException e){}
         setContentView(R.layout.activity_task_detail);
         Intent i = getIntent();
-        id = i.getExtras().getInt(TASK_ID);
+        id = i.getExtras().getInt(Key.KEY_ID);
         Task mTask = taskDb.getTaskById(id);
         ((TextView)findViewById(R.id.detail_title)).setText(mTask.TITLE);
         ((TextView)findViewById(R.id.detail_description)).setText(mTask.DESCRIPTION);
         ((TextView)findViewById(R.id.detail_venue)).setText(mTask.VENUE);
+        if(mTask.image!=null){
+            ImageView imageView = findViewById(R.id.detail_show_task_img);
+            imageView.setImageBitmap(BitmapFactory.decodeByteArray(mTask.image, 0, mTask.image.length));
+            imageView.setVisibility(View.VISIBLE);
+        }
        if(mTask.ALL_DAY){
            findViewById(R.id.detail_show_task_time).setVisibility(View.INVISIBLE);
        }else{

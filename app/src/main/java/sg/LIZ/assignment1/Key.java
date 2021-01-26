@@ -29,7 +29,7 @@ public  class Key {
     public final static String KEY_TITLE = "title";
     public final static String KEY_DESCRIPTION = "description";
     public final static String KEY_VENUE="venue";
-    public final static String EMPTY_STRING="";
+    public final static String KEY_IMAGE="image";
     static {
         GregorianCalendar gregorianCalendar =new GregorianCalendar();
         currentYear =  gregorianCalendar.get(GregorianCalendar.YEAR);

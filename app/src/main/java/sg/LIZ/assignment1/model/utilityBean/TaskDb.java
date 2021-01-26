@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import sg.LIZ.assignment1.Key;
 import sg.LIZ.assignment1.model.valueBean.Task;
@@ -17,7 +18,7 @@ public class TaskDb extends SQLiteOpenHelper {
     private final static String TABLE = "task";
 
     public TaskDb(@NonNull Context context) {
-        super(context, "assignment1", null, 1);
+        super(context, "assignment1", null, 2);
         //3rd argument to be passed is CursorFactory instance
     }
     /*
@@ -36,7 +37,7 @@ public class TaskDb extends SQLiteOpenHelper {
     * */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE task ( id INTEGER PRIMARY KEY,day INTEGER NOT NULL,month INTEGER NOT NULL ,year INTEGER NOT NULL ,startHours INTEGER ,startMinutes INTEGER  ,endHours INTEGER  ,endMinutes INTEGER ,allDay INTEGER NOT NULL,title TEXT NOT NULL,description TEXT NOT NULL,venue TEXT NOT NULL ) ;");
+        db.execSQL("CREATE TABLE task ( id INTEGER PRIMARY KEY,day INTEGER NOT NULL,month INTEGER NOT NULL ,year INTEGER NOT NULL ,startHours INTEGER ,startMinutes INTEGER  ,endHours INTEGER  ,endMinutes INTEGER ,allDay INTEGER NOT NULL,title TEXT NOT NULL,description TEXT NOT NULL,venue TEXT NOT NULL, image BLOB ) ;");
     }
 
     @Override
@@ -49,6 +50,11 @@ public class TaskDb extends SQLiteOpenHelper {
         values.put(Key.KEY_DAY,mTask.DAY);
         values.put(Key.KEY_MONTH,mTask.MONTH);
         values.put(Key.KEY_YEAR, mTask.YEAR);
+        if(mTask.image==null){
+            values.putNull(Key.KEY_IMAGE);
+        }else{
+            values.put(Key.KEY_IMAGE,mTask.image);
+        }
         if(mTask.ALL_DAY){
             values.put(Key.KEY_ALL_DAY, true);
         }else{
@@ -89,13 +95,19 @@ public class TaskDb extends SQLiteOpenHelper {
         db.close();
         return tasks;
     }
+    @Nullable
     public Task getTaskById(@IntRange(from = 1) int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         Task task =null;
-        Cursor cursor = db.query(TABLE, new String[]{Key.KEY_DAY, Key.KEY_MONTH, Key.KEY_YEAR,Key. KEY_START_HOURS,Key.KEY_START_MINUTES, Key.KEY_END_HOURS, Key.KEY_END_MINUTES, Key.KEY_ALL_DAY, Key.KEY_TITLE, Key.KEY_DESCRIPTION, Key.KEY_VENUE},
+        Cursor cursor = db.query(false,TABLE, new String[]{Key.KEY_DAY, Key.KEY_MONTH, Key.KEY_YEAR,Key. KEY_START_HOURS,Key.KEY_START_MINUTES, Key.KEY_END_HOURS, Key.KEY_END_MINUTES, Key.KEY_ALL_DAY, Key.KEY_TITLE, Key.KEY_DESCRIPTION, Key.KEY_VENUE,Key.KEY_IMAGE},
                 "id=?", new String[]{Integer.toString(id)}, null, null, null, null);
         if (cursor.moveToFirst()) {
-            task = new Task(id, (byte) cursor.getShort(0), (byte) cursor.getShort(1), cursor.getInt(2), (byte) cursor.getShort(3), (byte) cursor.getShort(4), (byte) cursor.getShort(5), (byte) cursor.getShort(6), cursor.getInt(7) == 1, cursor.getString(8), cursor.getString(9), cursor.getString(10));
+            byte[] image = null;
+            if(!cursor.isNull(11)){
+                image = cursor.getBlob(11);
+            }
+
+            task = new Task(id, (byte) cursor.getShort(0), (byte) cursor.getShort(1), cursor.getInt(2), (byte) cursor.getShort(3), (byte) cursor.getShort(4), (byte) cursor.getShort(5), (byte) cursor.getShort(6), cursor.getInt(7) == 1, cursor.getString(8), cursor.getString(9), cursor.getString(10),image);
         }
         db.close();
         return task;

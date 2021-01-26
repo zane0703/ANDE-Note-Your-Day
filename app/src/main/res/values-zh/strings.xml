@@ -15,6 +15,11 @@
         <item>十一月</item>
         <item>十二月</item>
     </string-array>
+    <string-array name="img_src_opt">
+        <item>拍照</item>
+        <item>从您的画廊打开</item>
+        <item>从链接下载</item>
+    </string-array>
     <string name="app_name">记下你的一天</string>
     <string name="mon">一</string>
     <string name="tue">二</string>
@@ -37,6 +42,7 @@
     <string name="dec">12 月</string>
     <string name="no_task">没有任务</string>
     <string name="welcome">欢迎光临!</string>
+    <string name="menu">Menu</string>
     <string name="add_event_on">添加活动在:</string>
     <string name="Event_on">活动在:</string>
     <string name="enter_task_title">请输入任务题目</string>
@@ -63,9 +69,14 @@
     <string name="min_year">您已达到最低金额年份</string>
     <string name="delete">删除</string>
     <string name="set">设置</string>
-    <string name="no_gps">Please enable your location services</string>
-    <string name="select_address">Please select your address</string>
-    <string name="err_500">Looks like something went wrong with our server</string>
+    <string name="no_gps">请启用您的导航服务</string>
+    <string name="select_address">请选择您的地址</string>
+    <string name="select_img_src">请选择您的图片来源</string>
+    <string name="enter_img_url">请输入图片网址</string>
+    <string name="err_500">看起来我们的服务器出了点问题</string>
+    <string name="wrong_url">您输入的网址无效</string>
+    <string name="not_image">您输入的链接不是图片</string>
+    <string name="not_conn">网路连线有问题</string>
     <string name="month">月</string>
     <string name="year">年</string>
     <string name="view_by">View by</string>

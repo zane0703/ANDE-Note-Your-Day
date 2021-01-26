@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
+import sg.LIZ.assignment1.Key;
 import sg.LIZ.assignment1.model.valueBean.Task;
 import sg.LIZ.assignment1.R;
 import sg.LIZ.assignment1.view.activity.TaskDetailActivity;
@@ -38,7 +40,7 @@ public  class TaskArrayAdapter extends RecyclerView.Adapter<TaskArrayAdapter.MyV
         //Item Clicks
         myViewHolder.itemView.setOnClickListener(v -> {
             Intent i = new Intent(activity, TaskDetailActivity.class);
-            i.putExtra(TaskDetailActivity.TASK_ID,mTasks[myViewHolder.getLayoutPosition()].ID);
+            i.putExtra(Key.KEY_ID,mTasks[myViewHolder.getLayoutPosition()].ID);
             if(fragment==null){
                 activity.startActivityForResult(i,2 );
             }else{

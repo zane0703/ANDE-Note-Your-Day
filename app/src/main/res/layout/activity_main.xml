@@ -17,7 +17,7 @@
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:background="@color/transparent"
-            android:contentDescription="open menu"
+            android:contentDescription="@string/menu"
             android:onClick="onOpenDrawer"
             android:src="@drawable/asl_drawer"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -53,11 +53,7 @@ public class YearPickerDialog extends DialogFragment {
                         listener.onDateSet(null, yearPicker.getValue(),0, 0);
                     }
                 })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        YearPickerDialog.this.getDialog().cancel();
-                    }
-                });
+                .setNegativeButton(R.string.cancel, (dialog1, id) -> YearPickerDialog.this.getDialog().cancel());
         return builder.create();
     }
     private final static String s ="";

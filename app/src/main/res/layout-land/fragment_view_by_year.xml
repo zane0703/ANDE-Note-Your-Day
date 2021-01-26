@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,13 +9,10 @@
     <sg.LIZ.assignment1.view.layout.MyLinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/layout_calendar_background"
         android:orientation="vertical"
         android:padding="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <GridLayout
@@ -28,7 +25,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_by_year_btn_Jan"
-                android:layout_width="130dp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:layout_height="125dp"
@@ -69,7 +68,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_by_year_btn_Feb"
-                android:layout_width="130dp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_height="125dp"
                 android:layout_row="0"
                 android:layout_column="1"
@@ -106,7 +107,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_by_year_btn_Mar"
-                android:layout_width="130dp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_height="125dp"
                 android:layout_row="0"
                 android:onClick="onClick"
@@ -150,7 +153,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_by_year_btn_Apr"
-                android:layout_width="130dp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_height="125dp"
                 android:onClick="onClick"
                 android:layout_row="0"
@@ -188,7 +193,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_by_year_btn_May"
-                android:layout_width="130dp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_height="125dp"
                 android:layout_row="0"
                 android:onClick="onClick"
@@ -225,7 +232,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_by_year_btn_Jun"
-                android:layout_width="130dp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_height="125dp"
                 android:layout_row="1"
                 android:layout_column="0"
@@ -262,7 +271,9 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_by_year_btn_Jul"
-                android:layout_width="130dp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_height="125dp"
                 android:layout_row="1"
                 android:onClick="onClick"
@@ -301,7 +312,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_by_year_btn_Aug"
-                android:layout_width="130dp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_height="125dp"
                 android:layout_row="1"
                 android:layout_column="2"
@@ -340,7 +353,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_by_year_btn_Sep"
-                android:layout_width="130dp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:onClick="onClick"
                 android:layout_height="125dp"
                 android:layout_row="1"
@@ -379,7 +394,9 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:onClick="onClick"
                 android:id="@+id/view_by_year_btn_Oct"
-                android:layout_width="130dp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_height="125dp"
                 android:layout_row="1"
                 android:layout_column="4"
@@ -417,7 +434,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_by_year_btn_Nov"
-                android:layout_width="130dp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_height="125dp"
                 android:layout_row="2"
                 android:onClick="onClick"
@@ -456,7 +475,9 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_by_year_btn_Dec"
-                android:layout_width="130dp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_height="125dp"
                 android:layout_row="2"
                 android:layout_column="1"
@@ -495,4 +516,4 @@
 
         </GridLayout>
     </sg.LIZ.assignment1.view.layout.MyLinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

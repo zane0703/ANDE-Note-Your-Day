@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.widget.LinearLayout;
 ;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,17 +18,17 @@ import sg.LIZ.assignment1.R;
 public final class MyLinearLayout extends LinearLayout {
     private final GestureDetector GESTURE_DETECTOR;
     private final onSetMonth MAIN_ACTIVITY;
-    public  MyLinearLayout( Context context) {
+    public  MyLinearLayout(@NonNull Context context) {
         this(context,null,0,0);
     }
-    public MyLinearLayout(Context context, @Nullable AttributeSet attrs) {
+    public MyLinearLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context,attrs,0,0);
     }
 
-    public MyLinearLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MyLinearLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         this(context,attrs,defStyleAttr,0);
     }
-    public MyLinearLayout(Context context,@Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes){
+    public MyLinearLayout(@NonNull Context context,@Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes){
         super(context, attrs, defStyleAttr, defStyleRes);
         GESTURE_DETECTOR = new GestureDetector(context,  new GestureListener());
         MAIN_ACTIVITY =(onSetMonth) ((AppCompatActivity) context).getSupportFragmentManager().findFragmentById(R.id.main_content);

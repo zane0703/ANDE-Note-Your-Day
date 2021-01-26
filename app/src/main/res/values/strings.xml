@@ -14,6 +14,11 @@
         <item>November</item>
         <item>December</item>
     </string-array>
+    <string-array name="img_src_opt">
+        <item>Take Photo</item>
+        <item>Open From Your Gallery</item>
+        <item>Download From Link</item>
+    </string-array>
     <string name="mon">Mon</string>
     <string name="tue">Tue</string>
     <string name="wed">Wed</string>
@@ -33,6 +38,7 @@
     <string name="oct">October</string>
     <string name="nov">November</string>
     <string name="dec">December</string>
+    <string name="menu">Menu</string>
     <string name="no_task">No Task</string>
     <string name="welcome">Welcome!</string>
     <string name="add_event_on">Add Event on:</string>
@@ -48,6 +54,7 @@
     <string name="all_day">All Day</string>
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
+    <string name="Ok" translatable="false">OK</string>
     <string name="create">Create</string>
     <string name="discard_task">Discard Task?</string>
     <string name="discard_task2">Are you sure you want to discard the new task?</string>
@@ -63,11 +70,17 @@
     <string name="delete">Delete</string>
     <string name="no_gps">Please enable your location services</string>
     <string name="select_address">Please select your address</string>
+    <string name="select_img_src">Please select your image source</string>
+    <string name="enter_img_url">Please enter image URL</string>
+    <string name="url_hint" translatable="false">http://example.com/imgae.jpg</string>
     <string name="backend_urL" translatable="false">http://localhost:8080</string>
     <string name="month">Month</string>
     <string name="year">Year</string>
     <string name="drawer_open" translatable="false">Open</string>
     <string name="drawer_close" translatable="false">Close</string>
-    <string name="err_500">Looks like something went wrong with our server</string>
+    <string name="err_500">Looks like something went wrong with the server</string>
+    <string name="wrong_url">Looks like you enter an invalid URL</string>
+    <string name="not_image">The link you have enter is not an image</string>
+    <string name="not_conn">Looks like there are something wrong with the internet connection </string>
     <string name="view_by">View by</string>
 </resources>
