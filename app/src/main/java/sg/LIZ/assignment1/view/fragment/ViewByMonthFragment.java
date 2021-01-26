@@ -190,7 +190,7 @@ public class ViewByMonthFragment extends Fragment implements  onSetMonth {
     @Override
     public void onSetYear(final CharSequence[] months){
         if(mDatePickerDialog==null){
-            mDatePickerDialog = new MonthYearPickerDialog(getParentFragmentManager(),months,((view, year, month, dayOfMonth) -> {
+            mDatePickerDialog = new MonthYearPickerDialog(getFragmentManager(),months,((view, year, month, dayOfMonth) -> {
                     if(selectedYear!=year||selectedMonth!=month){
                         selectedYear = year;
                         selectedMonth = month;
@@ -207,7 +207,7 @@ public class ViewByMonthFragment extends Fragment implements  onSetMonth {
     }
     @Override
     public void toNext(int day){
-        if (selectedMonth == 11) {
+        if (selectedMonth == 11) { //December
             if(selectedYear==MonthYearPickerDialog.MAX_YEAR){
                 Toast.makeText(activity, R.string.max_year, Toast.LENGTH_SHORT).show();
                 return;
@@ -222,16 +222,18 @@ public class ViewByMonthFragment extends Fragment implements  onSetMonth {
         activity.setMonth(selectedMonth);
         gregorianCalendar.set(selectedYear, selectedMonth, 1);
         onSetMonth();
-    }
+
+    } //end of toNext()
+
     @Override
     public void toLast(int day){
-        if (selectedMonth == 0) {
+        if (selectedMonth == 0) { //January
             if(selectedYear==0){
                 Toast.makeText(activity, R.string.min_year, Toast.LENGTH_SHORT).show();
                 return;
             }
-            selectedMonth = 11;
-
+            selectedMonth = 11; //December
+            activity.setYear(--selectedYear);
         } else {
             --selectedMonth;
         }
