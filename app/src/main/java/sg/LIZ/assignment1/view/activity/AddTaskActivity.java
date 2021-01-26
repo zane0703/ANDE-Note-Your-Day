@@ -135,20 +135,20 @@ public class AddTaskActivity extends AppCompatActivity {
                             String[] addressLines = new String[size];
                             for (int j = 0; j < size; ++j) {
                                 Address address = addresses.get(j);
-                                final int addressLineSize =address.getMaxAddressLineIndex();
+                                final int addressLineSize = address.getMaxAddressLineIndex();
                                 StringBuilder addressLine = new StringBuilder(address.getAddressLine(0));
-                                for(int k =3;k<addressLineSize;++k){
+                                for (int k = 3; k < addressLineSize; ++k) {
                                     addressLine.append(',').append(address.getAddressLine(k));
                                 }
                             }
                             new AlertDialog.Builder(this)
                                     .setTitle(R.string.select_address).setItems(addressLines, (dialog, which) -> {
-                                        editTextVenueInput.setText(addressLines[which]);
-                                    }).show();
+                                editTextVenueInput.setText(addressLines[which]);
+                            }).show();
 
                     }
                     buttonGPS.setImageDrawable(getDrawable(R.drawable.ic_baseline_gps_fixed_24));
-                    editTextVenueInput.addTextChangedListener(new TextWatcher(){
+                    editTextVenueInput.addTextChangedListener(new TextWatcher() {
 
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -254,27 +254,29 @@ public class AddTaskActivity extends AppCompatActivity {
                 startHours = -1;
                 endMinutes = -1;
                 endHours = -1;
-                byte[] imageByte = null;
-                if (bitmap != null) {
-                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.WEBP, 0, outputStream);
-                    imageByte = outputStream.toByteArray();
-                }
-                Task mTask = new Task((byte) selectedDay, (byte) selectedMonth, selectedYear, (byte) startHours, (byte) startMinutes, (byte) endHours, (byte) endMinutes, allDay, title, description, venue, imageByte);
-                taskDb.addTask(mTask);
-                setResult(Activity.RESULT_OK);
-                Toast.makeText(this, R.string.add_successfully, Toast.LENGTH_LONG).show();
-                finish();
             }
+            byte[] imageByte = null;
+            if (bitmap != null) {
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.WEBP, 0, outputStream);
+                imageByte = outputStream.toByteArray();
+            }
+            Task mTask = new Task((byte) selectedDay, (byte) selectedMonth, selectedYear, (byte) startHours, (byte) startMinutes, (byte) endHours, (byte) endMinutes, allDay, title, description, venue, imageByte);
+            taskDb.addTask(mTask);
+            setResult(Activity.RESULT_OK);
+            Toast.makeText(this, R.string.add_successfully, Toast.LENGTH_LONG).show();
+            finish();
+
 
         }
     }
-    public void onSetImageClick(View v){
+
+    public void onSetImageClick(View v) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.select_img_src)
-                .setItems(R.array.img_src_opt,(dialog, which)->{
-                    Intent i=null;
-                    switch (which){
+                .setItems(R.array.img_src_opt, (dialog, which) -> {
+                    Intent i = null;
+                    switch (which) {
                         case 0:
                             i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(i, 0);
@@ -290,38 +292,39 @@ public class AddTaskActivity extends AppCompatActivity {
                             new AlertDialog.Builder(this)
                                     .setTitle(R.string.enter_img_url)
                                     .setView(txtUrl)
-                                    .setPositiveButton(R.string.Ok,( dialog2, whichButton)->{
-                                       new Thread(()->{
-                                           bitmap = ImageDownload.getImage(this, txtUrl.getText());
-                                           if(bitmap!=null){
-                                               runOnUiThread(()->imageView.setImageBitmap(bitmap));
+                                    .setPositiveButton(R.string.Ok, (dialog2, whichButton) -> {
+                                        new Thread(() -> {
+                                            bitmap = ImageDownload.getImage(this, txtUrl.getText());
+                                            if (bitmap != null) {
+                                                runOnUiThread(() -> imageView.setImageBitmap(bitmap));
 
-                                           }
-                                       }).start();
+                                            }
+                                        }).start();
                                     })
-                                    .setNegativeButton(R.string.cancel, ( dialog2, whichButton)->{}).show();
+                                    .setNegativeButton(R.string.cancel, (dialog2, whichButton) -> {
+                                    }).show();
                             break;
                     }
                 }).show();
     }
 
     @Override
-    protected void onActivityResult(final int requestCode,final int resultCode,final  @Nullable Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK&&data!=null){
-            switch (requestCode){
+        if (resultCode == RESULT_OK && data != null) {
+            switch (requestCode) {
                 case 0:
-                    bitmap =(Bitmap) data.getExtras().get("data");
+                    bitmap = (Bitmap) data.getExtras().get("data");
                     imageView.setImageBitmap(bitmap);
                     break;
                 case 1:
                     try {
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));
                         imageView.setImageBitmap(bitmap);
-                    }catch (FileNotFoundException e){
-                        Log.e("image error",e.getMessage(),e);
+                    } catch (FileNotFoundException e) {
+                        Log.e("image error", e.getMessage(), e);
                     }
-                    }
+            }
         }
     }
 }

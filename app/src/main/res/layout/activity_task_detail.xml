@@ -39,7 +39,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout2"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -167,7 +167,7 @@
             </GridLayout>
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/detail_show_task_img"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
