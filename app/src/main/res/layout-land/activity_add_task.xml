@@ -82,43 +82,43 @@
             android:textSize="25sp" />
 
         <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
-                    <EditText
-                        android:id="@+id/add_value"
-                        style="@style/edit_text" />
-                    <ImageButton
-                        android:id="@+id/gps_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_gps_not_fixed_24"
-                        android:paddingRight="5dp"
-                        android:paddingLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:background="@color/gray"
-                    />
-                </LinearLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/add_value"
+                style="@style/edit_text" />
+
+            <ImageButton
+                android:id="@+id/gps_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:background="@color/gray"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:src="@drawable/ic_baseline_gps_not_fixed_24" />
+        </LinearLayout>
     </LinearLayout>
 
     <GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="325dp"
         android:layout_height="45dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="4dp"
         android:columnCount="2"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:rowCount="3"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/linearLayout4"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        app:layout_constraintVertical_bias="0.024">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <TextView
+            android:layout_row="0"
+            android:layout_column="0"
             android:layout_gravity="fill_horizontal"
             android:text="@string/all_day"
             android:textColor="@color/white"
@@ -176,7 +176,34 @@
 
     </GridLayout>
 
+    <ImageView
+        android:id="@+id/add_task_img"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/add_task_time" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="110dp"
+        android:layout_marginBottom="34dp"
+        android:onClick="onSetImageClick"
+        android:src="@drawable/ic_baseline_photo_camera_24"
+        app:layout_constraintBottom_toTopOf="@+id/add_task_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.962"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintVertical_bias="1.0" />
+
     <GridLayout
+        android:id="@+id/gridLayout5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray"
