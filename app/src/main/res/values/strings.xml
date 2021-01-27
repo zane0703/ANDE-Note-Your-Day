@@ -26,7 +26,7 @@
     <string name="fri">Fri</string>
     <string name="sat">Sat</string>
     <string name="sun">Sun</string>
-    <string name="jan">Januray</string>
+    <string name="jan">January</string>
     <string name="feb">February</string>
     <string name="mar">March</string>
     <string name="apr">April</string>
@@ -69,7 +69,7 @@
     <string name="min_year">You have reached the minimum amount year</string>
     <string name="delete">Delete</string>
     <string name="no_gps">Please enable your location services</string>
-    <string name="select_address">Please select your address</string>
+    <string name="select_address"><b>Please select your address</b></string>
     <string name="select_img_src">Please select your image source</string>
     <string name="enter_img_url">Please enter image URL</string>
     <string name="url_hint" translatable="false">http://example.com/imgae.jpg</string>

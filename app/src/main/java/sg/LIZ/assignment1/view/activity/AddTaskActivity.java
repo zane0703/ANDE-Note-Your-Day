@@ -140,6 +140,7 @@ public class AddTaskActivity extends AppCompatActivity {
                                 for (int k = 3; k < addressLineSize; ++k) {
                                     addressLine.append(',').append(address.getAddressLine(k));
                                 }
+                                addressLines[j] = addressLine.toString();
                             }
                             new AlertDialog.Builder(this)
                                     .setTitle(R.string.select_address).setItems(addressLines, (dialog, which) -> {
