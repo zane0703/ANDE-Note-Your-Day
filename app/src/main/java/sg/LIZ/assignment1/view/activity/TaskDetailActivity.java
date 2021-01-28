@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.detail_description)).setText(mTask.DESCRIPTION);
         ((TextView) findViewById(R.id.detail_venue)).setText(mTask.VENUE);
         if (mTask.image != null) {
+            Log.i("hello","hello");
             ImageView imageView = findViewById(R.id.detail_show_task_img);
             imageView.setImageBitmap(BitmapFactory.decodeByteArray(mTask.image, 0, mTask.image.length));
             imageView.setVisibility(View.VISIBLE);

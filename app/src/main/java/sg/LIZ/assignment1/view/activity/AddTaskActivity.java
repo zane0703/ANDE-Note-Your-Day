@@ -3,6 +3,7 @@ package sg.LIZ.assignment1.view.activity;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 
 import sg.LIZ.assignment1.Key;
@@ -65,14 +66,13 @@ public class AddTaskActivity extends AppCompatActivity {
     private Bitmap bitmap;
 
     private TaskDb taskDb = new TaskDb(this);
-
-    @SuppressLint({"SetTextI18n", "DefaultLocale"})
+    @SuppressLint({"SetTextI18n", "DefaultLocale", "UseCompatLoadingForDrawables"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
             this.getSupportActionBar().hide();
-        } catch (NullPointerException e) {
+        } catch (NullPointerException ignored) {
         }
         setContentView(R.layout.activity_add_task);
         Intent i = getIntent();
@@ -96,7 +96,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 .append(currentDate.get(Calendar.HOUR))
                 .append(':').append(String.format(FORMAT, startMinutes))
                 .append(' ')
-                .append(currentDate.get(Calendar.AM_PM) == 1 ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
+                .append(currentDate.get(Calendar.AM_PM) == Calendar.PM ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
         currentDate.set(Calendar.HOUR_OF_DAY, currentDate.get(Calendar.HOUR_OF_DAY) + 1);
         endHours = currentDate.get(Calendar.HOUR_OF_DAY);
         endMinutes = currentDate.get(Calendar.MINUTE);
@@ -105,8 +105,11 @@ public class AddTaskActivity extends AppCompatActivity {
                 .append(':')
                 .append(String.format(FORMAT, endMinutes))
                 .append(' ')
-                .append(currentDate.get(Calendar.AM_PM) == 1 ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
+                .append(currentDate.get(Calendar.AM_PM) == Calendar.PM ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
         //selectedDay + " " + getResources().getStringArray(R.array.month)[selectedMonth]
+        if(bitmap!=null){
+            imageView.setImageBitmap(bitmap);
+        }
         ((TextView) findViewById(R.id.task_date)).setText(new StringBuilder().append(selectedDay).append(' ').append(getResources().getStringArray(R.array.month)[selectedMonth]));
         buttonGPS.setOnClickListener(v -> {
             if (gps == null) {
@@ -157,6 +160,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
                         }
 
+                        @SuppressLint("UseCompatLoadingForDrawables")
                         @Override
                         public void afterTextChanged(Editable s) {
                             buttonGPS.setImageDrawable(getDrawable(R.drawable.ic_baseline_gps_not_fixed_24));
@@ -193,7 +197,7 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     public void onAllDayToggled(View v) {
-        timeSelect.setVisibility((allDay = ((SwitchCompat) v).isChecked()) ? View.INVISIBLE : View.VISIBLE);
+        timeSelect.setVisibility((allDay = ((SwitchCompat) v).isChecked()) ? View.GONE: View.VISIBLE);
     }
 
     @SuppressLint("DefaultLocale")
@@ -291,9 +295,9 @@ public class AddTaskActivity extends AppCompatActivity {
                                     .setView(txtUrl)
                                     .setPositiveButton(R.string.Ok, (dialog2, whichButton) -> {
                                         new Thread(() -> {
-                                            bitmap = ImageDownload.getImage(this, txtUrl.getText());
-                                            if (bitmap != null) {
-                                                runOnUiThread(() -> imageView.setImageBitmap(bitmap));
+                                            this.bitmap = ImageDownload.getImage(this, txtUrl.getText());
+                                            if (this.bitmap!= null) {
+                                                runOnUiThread(() -> imageView.setImageBitmap(this.bitmap));
 
                                             }
                                         }).start();
@@ -311,13 +315,13 @@ public class AddTaskActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             switch (requestCode) {
                 case 0:
-                    bitmap = (Bitmap) data.getExtras().get("data");
-                    imageView.setImageBitmap(bitmap);
+                    this.bitmap= (Bitmap) data.getExtras().get("data");
+                    imageView.setImageBitmap(this.bitmap);
                     break;
                 case 1:
                     try {
-                        bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));
-                        imageView.setImageBitmap(bitmap);
+                        this.bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));
+                        imageView.setImageBitmap(this.bitmap);
                     } catch (FileNotFoundException e) {
                         Log.e("image error", e.getMessage(), e);
                     }

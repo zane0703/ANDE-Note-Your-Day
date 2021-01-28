@@ -191,16 +191,13 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="110dp"
-        android:layout_marginBottom="34dp"
+        android:layout_marginTop="0dp"
         android:onClick="onSetImageClick"
         android:src="@drawable/ic_baseline_photo_camera_24"
-        app:layout_constraintBottom_toTopOf="@+id/add_task_img"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.962"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/add_task_time" />
 
     <GridLayout
         android:id="@+id/gridLayout5"
