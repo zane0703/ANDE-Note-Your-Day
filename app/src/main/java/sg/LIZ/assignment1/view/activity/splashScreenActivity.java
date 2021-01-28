@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import sg.LIZ.assignment1.R;
 
@@ -23,6 +24,7 @@ public class splashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
         new android.os.Handler().postDelayed(() ->{
             startActivity(new Intent(this, MainActivity.class));
+            Log.i("hello", "hello");
             finish();
         }, 1000);
     }

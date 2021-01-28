@@ -11,14 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,27 +36,30 @@ import sg.LIZ.assignment1.view.adapter.TaskArrayAdapter;
 import sg.LIZ.assignment1.view.layout.onSetMonth;
 
 @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
-public class ViewByMonthFragment extends Fragment implements  onSetMonth {
+public class ViewByMonthFragment extends Fragment implements onSetMonth {
     private GregorianCalendar gregorianCalendar = null;
-    private Button[] daysBtn;
+    private TextView[] daysBtn;
     private TextView textViewNoTaskMassage;
     private RecyclerView listTaskItem;
+    private Resources resources;
     private Drawable selectedStyle;
     private Drawable selectedWithTaskStyle;
     private Drawable dayWithTaskStyle;
+    private int dayTextColour;
     private MonthYearPickerDialog mDatePickerDialog = null;
-    private  TaskDb taskDb = null;
+    private TaskDb taskDb = null;
     private int selectedDay = 1;
     private int selectedMonth = 0;
     private int selectedYear = 0;
     private int selectedDayIndex = 0;
+    private boolean isSelectedDayHasTask=false;
     private MainActivity activity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        activity =(MainActivity) getActivity();
+        activity = (MainActivity) getActivity();
         taskDb = new TaskDb(activity);
         View view = inflater.inflate(R.layout.fragment_view_by_month, container, false);
-        daysBtn = new Button[]{
+        daysBtn = new TextView[]{
                 //42 squares in each page to represent 42 days
                 view.findViewById(R.id.day_1),
                 view.findViewById(R.id.day_2),
@@ -103,30 +105,30 @@ public class ViewByMonthFragment extends Fragment implements  onSetMonth {
                 view.findViewById(R.id.day_42)
         };
         selectedYear = activity.getYear();
-        selectedMonth=activity.getMonth();
-        if(selectedYear==Key.currentYear&&selectedMonth==Key.currentMonth){
-            selectedDay=Key.currentDay;
+        selectedMonth = activity.getMonth();
+        if (selectedYear == Key.currentYear && selectedMonth == Key.currentMonth) {
+            selectedDay = Key.currentDay;
         }
         gregorianCalendar = new GregorianCalendar(selectedYear, selectedMonth, 1);
         listTaskItem = view.findViewById(R.id.list_task_item);
-        view.findViewById(R.id.add_task_btn).setOnClickListener((v)->{
-            Intent i =  new Intent(activity, AddTaskActivity.class);
-            i.putExtra(Key.KEY_DAY,selectedDay);
+        view.findViewById(R.id.add_task_btn).setOnClickListener((v) -> {
+            Intent i = new Intent(activity, AddTaskActivity.class);
+            i.putExtra(Key.KEY_DAY, selectedDay);
             i.putExtra(Key.KEY_MONTH, selectedMonth);
             i.putExtra(Key.KEY_YEAR, selectedYear);
             startActivityForResult(i, 1);
-
         });
-        selectedStyle = activity.getDrawable(R.drawable.layout_selected_day);
-        selectedWithTaskStyle = activity.getDrawable(R.drawable.layout_selected_with_task);
-        dayWithTaskStyle = activity.getDrawable(R.drawable.layout_day_with_task);
+        resources = activity.getResources();
+        selectedStyle = resources.getDrawable(R.drawable.layout_selected_day, null);
+        selectedWithTaskStyle = resources.getDrawable(R.drawable.layout_selected_with_task, null);
+        dayWithTaskStyle = resources.getDrawable(R.drawable.layout_day_with_task, null);
+        dayTextColour= resources.getColor(R.color.white, null);
         textViewNoTaskMassage = view.findViewById(R.id.no_task_msg);
         listTaskItem = view.findViewById(R.id.list_task_item);
         listTaskItem.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
         onSetMonth();
         return view;
     }
-
 
 
     private void onSetMonth() {
@@ -142,82 +144,84 @@ public class ViewByMonthFragment extends Fragment implements  onSetMonth {
         int i = 0;
         if (firstWeekOfMonth != 0) {
             for (int start = new GregorianCalendar(selectedYear, selectedMonth - 1, 1).getActualMaximum(Calendar.DAY_OF_MONTH) - firstWeekOfMonth; i < firstWeekOfMonth; ++i) {
-                Button dayBtn = daysBtn[i];
+                TextView dayBtn = daysBtn[i];
                 dayBtn.setBackgroundColor(0x00000000);
                 dayBtn.setTextColor(0xff999797);
                 dayBtn.setText(Integer.toString(++start));
                 final int day = start;
-                dayBtn.setOnClickListener( v-> toLast(day));
+                dayBtn.setOnClickListener(v -> toLast(day));
 
             }
         }
-        for (int j = 1; j <= daysInMonth; ++i,++j) {
-            final Button dayBtn = daysBtn[i];
+        final boolean isCurrentMonth = selectedYear == Key.currentYear && selectedMonth == Key.currentMonth;
+        for (int j = 1; j <= daysInMonth; ++i, ++j) {
+            final TextView dayBtn = daysBtn[i];
             dayBtn.setText(Integer.toString(j));
-            boolean isSelectedDay =j == selectedDay;
-           boolean isDayWithTask =Arrays.binarySearch(daysWithTask, j) >-1;
-            if(selectedYear==Key.currentYear&&selectedMonth==Key.currentMonth&&j==Key.currentDay){
-                dayBtn.setTextColor(0xff76A5E3);
-            }else{
-                dayBtn.setTextColor(0xffffffff);
-            }
-            if(isSelectedDay&&isDayWithTask){
-                dayBtn.setBackground(selectedWithTaskStyle);
+            final boolean isSelectedDay = j == selectedDay;
+            final boolean isDayWithTask = Arrays.binarySearch(daysWithTask, j) > -1;
+            final boolean isCurrentDay = isCurrentMonth && j == Key.currentDay;
+            dayBtn.setTextColor(isCurrentDay?0xff76a5e3:dayTextColour);
+            if (isSelectedDay) {
+                if (isDayWithTask) {
+                    dayBtn.setBackground(isCurrentDay ? resources.getDrawable(R.drawable.layout_selected_with_task_current, null) : selectedWithTaskStyle);
+                    showTask();
+                } else {
+                    dayBtn.setBackground(isCurrentDay ? resources.getDrawable(R.drawable.layout_selected_day_current, null) : selectedStyle);
+                    listTaskItem.setVisibility(View.INVISIBLE);
+                    listTaskItem.setAdapter(null);
+                    textViewNoTaskMassage.setVisibility(View.VISIBLE);
+                }
                 selectedDayIndex = i;
-                showTask();
-            }else if(isDayWithTask){
-                dayBtn.setBackground(dayWithTaskStyle);
-            }else if(isSelectedDay){
-                selectedDayIndex = i;
-                dayBtn.setBackground(selectedStyle);
-                listTaskItem.setVisibility(View.INVISIBLE);
-                listTaskItem.setAdapter(null);
-                textViewNoTaskMassage.setVisibility(View.VISIBLE);
-            }else {
+                isSelectedDayHasTask = isDayWithTask;
+            } else if (isDayWithTask) {
+                dayBtn.setBackground(isCurrentDay ? resources.getDrawable(R.drawable.layout_day_with_task_current, null) : dayWithTaskStyle);
+            } else {
                 dayBtn.setBackgroundColor(0x00000000);
             }
-            dayBtn.setOnClickListener( new OnDayClickListener(j, i, isDayWithTask));
+            dayBtn.setOnClickListener(new OnDayClickListener(j, i, isDayWithTask));
         }
         for (int j = 1; i < 42; ++j, ++i) {
-            Button dayBtn = daysBtn[i];
+            TextView dayBtn = daysBtn[i];
             dayBtn.setBackgroundColor(0x00000000);
             dayBtn.setTextColor(0xff999797);
             dayBtn.setText(Integer.toString(j));
             final int day = j;
-            dayBtn.setOnClickListener( v ->toNext(day));
+            dayBtn.setOnClickListener(v -> toNext(day));
         }
     }
+
     @Override
-    public void onSetYear(final CharSequence[] months){
-        if(mDatePickerDialog==null){
-            mDatePickerDialog = new MonthYearPickerDialog(getFragmentManager(),months,((view, year, month, dayOfMonth) -> {
-                    if(selectedYear!=year||selectedMonth!=month){
-                        selectedYear = year;
-                        selectedMonth = month;
-                        selectedDay=1;
-                        activity.setMonth(month)
-                                .setYear(year);
-                        gregorianCalendar.set(year, month, 1);
-                        onSetMonth();
-                    }
+    public void onSetYear(final CharSequence[] months) {
+        if (mDatePickerDialog == null) {
+            mDatePickerDialog = new MonthYearPickerDialog(getFragmentManager(), months, ((view, year, month, dayOfMonth) -> {
+                if (selectedYear != year || selectedMonth != month) {
+                    selectedYear = year;
+                    selectedMonth = month;
+                    selectedDay = 1;
+                    activity.setMonth(month)
+                            .setYear(year);
+                    gregorianCalendar.set(year, month, 1);
+                    onSetMonth();
+                }
             }));
         }
-        mDatePickerDialog.show(selectedYear,selectedMonth);
+        mDatePickerDialog.show(selectedYear, selectedMonth);
 
     }
+
     @Override
-    public void toNext(int day){
+    public void toNext(int day) {
         if (selectedMonth == 11) { //December
-            if(selectedYear==MonthYearPickerDialog.MAX_YEAR){
+            if (selectedYear == MonthYearPickerDialog.MAX_YEAR) {
                 Toast.makeText(activity, R.string.max_year, Toast.LENGTH_SHORT).show();
                 return;
             }
             selectedMonth = 0;
-           activity.setYear(++selectedYear);
+            activity.setYear(++selectedYear);
         } else {
             ++selectedMonth;
         }
-        selectedDay=day;
+        selectedDay = day;
         daysBtn[selectedDayIndex].setBackgroundResource(0);
         activity.setMonth(selectedMonth);
         gregorianCalendar.set(selectedYear, selectedMonth, 1);
@@ -226,9 +230,9 @@ public class ViewByMonthFragment extends Fragment implements  onSetMonth {
     } //end of toNext()
 
     @Override
-    public void toLast(int day){
+    public void toLast(int day) {
         if (selectedMonth == 0) { //January
-            if(selectedYear==0){
+            if (selectedYear == 0) {
                 Toast.makeText(activity, R.string.min_year, Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -237,53 +241,50 @@ public class ViewByMonthFragment extends Fragment implements  onSetMonth {
         } else {
             --selectedMonth;
         }
-        selectedDay=day;
+        selectedDay = day;
         daysBtn[selectedDayIndex].setBackgroundResource(0);
         activity.setMonth(selectedMonth);
         gregorianCalendar.set(selectedYear, selectedMonth, 1);
         onSetMonth();
     }
-    private void showTask(){
+
+    private void showTask() {
 
         final Task[] task = taskDb.getTaskByDate(selectedDay, selectedMonth, selectedYear);
-        if(task.length>0){
+        if (task.length > 0) {
             textViewNoTaskMassage.setVisibility(View.INVISIBLE);
             listTaskItem.setVisibility(View.VISIBLE);
-            TaskArrayAdapter taskArrayAdapter = new TaskArrayAdapter(activity,this, task);
+            TaskArrayAdapter taskArrayAdapter = new TaskArrayAdapter(activity, this, task);
             listTaskItem.setAdapter(taskArrayAdapter);
             int taskSize = task.length;
 
             String[] taskTitle = new String[taskSize];
-            for (int i = 0 ;i<taskSize;++i){
+            for (int i = 0; i < taskSize; ++i) {
                 taskTitle[i] = task[i].TITLE;
-            }/*
-            listTaskItem.setAdapter(new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, android.R.id.text1,taskTitle));
-            listTaskItem.setOnItemClickListener((AdapterView<?> adapterView, View view, int position, long l)->{
-               Intent i = new Intent(this,TaskDetailActivity.class);
-               i.putExtra(TaskDetailActivity.TASK_ID, task[position].ID);
-               startActivityForResult(i, 2);
-            });*/
-        }else{
+            }
+        } else {
             textViewNoTaskMassage.setVisibility(View.VISIBLE);
             listTaskItem.setVisibility(View.INVISIBLE);
             listTaskItem.setAdapter(null);
-            daysBtn[selectedDayIndex].setBackground(selectedStyle);
+            daysBtn[selectedDayIndex].setBackground(selectedDay==Key.currentDay?resources.getDrawable(R.drawable.layout_selected_day_current, null):selectedStyle);
             daysBtn[selectedDayIndex].setOnClickListener(new OnDayClickListener(selectedDay, selectedDayIndex, false));
+            isSelectedDayHasTask=false;
         }
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("a",Integer.toString((resultCode)));
-        if(resultCode == Activity.RESULT_OK){
-            switch (requestCode){
+        Log.d("a", Integer.toString((resultCode)));
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
                 case 1:
-                    Button dayBtn=daysBtn[selectedDayIndex];
-                    if(dayBtn.getBackground()==selectedStyle){
-                        dayBtn.setBackground(selectedWithTaskStyle);
+                    TextView dayBtn = daysBtn[selectedDayIndex];
+                    if (!isSelectedDayHasTask) {
+                        dayBtn.setBackground(selectedDay==Key.currentDay? resources.getDrawable(R.drawable.layout_selected_with_task_current,null):selectedWithTaskStyle);
                         dayBtn.setOnClickListener(new OnDayClickListener(selectedDay, selectedDayIndex, true));
+                        isSelectedDayHasTask=true;
                     }
                     showTask();
                     break;
@@ -293,29 +294,34 @@ public class ViewByMonthFragment extends Fragment implements  onSetMonth {
             }
         }
     }
-    private final class OnDayClickListener implements View.OnClickListener{
+
+    private final class OnDayClickListener implements View.OnClickListener {
         private final int DAY_NUM;
         private final int INDEX;
         private final boolean HAS_TASK;
-        public OnDayClickListener(final int dayNum,final int index,final  boolean hasTask){
-            this.DAY_NUM =dayNum;
-            this.INDEX=index;
-            this.HAS_TASK=hasTask;
+
+        public OnDayClickListener(final int dayNum, final int index, final boolean hasTask) {
+            this.DAY_NUM = dayNum;
+            this.INDEX = index;
+            this.HAS_TASK = hasTask;
         }
+
         @Override
         public void onClick(View v) {
-            Button oldSelectedBtn =  daysBtn[selectedDayIndex];
-            selectedDay =DAY_NUM;
-            if(oldSelectedBtn.getBackground()==selectedWithTaskStyle){
-                oldSelectedBtn.setBackground(dayWithTaskStyle);
-            }else{
+            TextView oldSelectedBtn = daysBtn[selectedDayIndex];
+            if (isSelectedDayHasTask) {
+                oldSelectedBtn.setBackground(selectedDay==Key.currentDay?resources.getDrawable(R.drawable.layout_day_with_task_current,null):dayWithTaskStyle);
+            } else {
                 oldSelectedBtn.setBackgroundResource(0);
             }
-            if(HAS_TASK){
-                v.setBackground(selectedWithTaskStyle);
+            selectedDay = DAY_NUM;
+            isSelectedDayHasTask =HAS_TASK;
+            final boolean isCurrentDay =DAY_NUM==Key.currentDay;
+            if (HAS_TASK) {
+                v.setBackground(isCurrentDay?resources.getDrawable(R.drawable.layout_selected_with_task_current, null):selectedWithTaskStyle);
                 showTask();
-            }else{
-                v.setBackground(selectedStyle);
+            } else {
+                v.setBackground(isCurrentDay?resources.getDrawable(R.drawable.layout_selected_day_current, null):selectedStyle);
                 textViewNoTaskMassage.setVisibility(View.VISIBLE);
                 listTaskItem.setVisibility(View.INVISIBLE);
                 listTaskItem.setAdapter(null);

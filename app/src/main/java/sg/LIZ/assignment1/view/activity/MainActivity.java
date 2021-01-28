@@ -12,7 +12,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import sg.LIZ.assignment1.Key;
 import sg.LIZ.assignment1.R;
-import sg.LIZ.assignment1.model.valueBean.ItemSliderMenu;
 import sg.LIZ.assignment1.view.adapter.SlidingMenuAdapter;
 import sg.LIZ.assignment1.view.fragment.ViewByMonthFragment;
 import sg.LIZ.assignment1.view.fragment.ViewByYearFragment;
@@ -30,12 +29,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 
 public class MainActivity extends AppCompatActivity {
-    private CharSequence[] listSliding;
-    private SlidingMenuAdapter adapter;
     private ListView listViewSliding;
-    private RelativeLayout mainContent;
     private int selectYear = Key.currentYear;
     private int selectMonth = Key.currentMonth;
     private ImageButton hamburgerMenu;
@@ -46,15 +44,16 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private CharSequence[] months;
     private boolean isDrawerOpened =false;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         try
         {
-            this.getSupportActionBar().hide();
+            Objects.requireNonNull(this.getSupportActionBar()).hide();
         }
-        catch (NullPointerException e){}
+        catch (NullPointerException ignored){}
        listViewSliding = findViewById(R.id.sliding_menu);
         drawerLayout=findViewById(R.id.drawer_layout);
         constraintLayout =findViewById(R.id.sliding_menu2);
@@ -63,12 +62,12 @@ public class MainActivity extends AppCompatActivity {
         hamburgerMenu = findViewById(R.id.hamburger_menu);
         Resources resources = getResources();
         months = resources.getTextArray(R.array.month);
-        listSliding = new CharSequence[]{
+        CharSequence[] listSliding = new CharSequence[]{
                 resources.getText(R.string.month),
                 resources.getText(R.string.year)
         };
         textViewYearView.setText(Integer.toString(selectYear));
-        adapter = new SlidingMenuAdapter(this, listSliding);
+        SlidingMenuAdapter adapter = new SlidingMenuAdapter(this, listSliding);
         listViewSliding.setAdapter(adapter);
         listViewSliding.setItemChecked(0,true);
         drawerLayout.closeDrawer(constraintLayout);
