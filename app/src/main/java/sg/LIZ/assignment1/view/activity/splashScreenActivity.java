@@ -1,8 +1,10 @@
-package sg.LIZ.assignment1.view.activity;
 /**
- * @Author Ang Yun Zane ,Lucas Tan , Lim I Kin
- * @class DIT/FT/2A/21
+ * @Author Ang Yun Zane
+ * @Author Lucas Tan
+ * @Author Lim I Kin
+ * class DIT/FT/2A/21
  */
+package sg.LIZ.assignment1.view.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
