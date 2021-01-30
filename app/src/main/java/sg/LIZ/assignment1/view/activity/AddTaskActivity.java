@@ -23,6 +23,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -63,9 +64,10 @@ public class AddTaskActivity extends AppCompatActivity {
     private int startMinutes;
     private int endHours;
     private int endMinutes;
-    private Bitmap bitmap;
+    private static Bitmap bitmap;
 
     private TaskDb taskDb = new TaskDb(this);
+
     @SuppressLint({"SetTextI18n", "DefaultLocale", "UseCompatLoadingForDrawables"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,73 +109,85 @@ public class AddTaskActivity extends AppCompatActivity {
                 .append(' ')
                 .append(currentDate.get(Calendar.AM_PM) == Calendar.PM ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
         //selectedDay + " " + getResources().getStringArray(R.array.month)[selectedMonth]
-        if(bitmap!=null){
+        if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         }
         ((TextView) findViewById(R.id.task_date)).setText(new StringBuilder().append(selectedDay).append(' ').append(getResources().getStringArray(R.array.month)[selectedMonth]));
         buttonGPS.setOnClickListener(v -> {
             if (gps == null) {
                 gps = new LocationTracker(this);
-            } else {
-                gps.getLocation();
             }
             if (gps.canGetLocation()) {
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                try {
+                new Thread(() -> {
+                    gps.getLocation();
+                    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                    try {
+                        final List<Address> addresses = geocoder.getFromLocation(gps.getLatitude(), gps.getLongitude(), 4);
+                        final int size = addresses.size();
+                        runOnUiThread(() -> {
+                            switch (size) {
+                                case 1:
+                                    editTextVenueInput.setText(addresses.get(0).getAddressLine(0));
+                                    break;
+                                case 0:
+                                    editTextVenueInput.setText(new StringBuilder(Double.toString(gps.getLatitude())).append(',').append(gps.getLongitude()));
+                                    break;
+                                default:
+                                    String[] addressLines = new String[size];
+                                    for (int j = 0; j < size; ++j) {
+                                        Address address = addresses.get(j);
+                                        final int addressLineSize = address.getMaxAddressLineIndex();
+                                        StringBuilder addressLine = new StringBuilder(address.getAddressLine(0));
+                                        for (int k = 3; k < addressLineSize; ++k) {
+                                            addressLine.append(',').append(address.getAddressLine(k));
+                                        }
+                                        addressLines[j] = addressLine.toString();
+                                    }
+                                    new AlertDialog.Builder(this)
+                                            .setIcon(android.R.drawable.ic_menu_mylocation)
+                                            .setTitle(R.string.select_address)
+                                            .setItems(addressLines, (dialog, which) -> {
+                                                editTextVenueInput.setText(addressLines[which]);
+                                            }).show();
 
-                    List<Address> addresses = geocoder.getFromLocation(gps.getLatitude(), gps.getLongitude(), 4);
-                    final int size = addresses.size();
-                    switch (size) {
-                        case 1:
-                            editTextVenueInput.setText(addresses.get(0).getAddressLine(0));
-                            break;
-                        case 0:
-                            editTextVenueInput.setText(new StringBuilder(Double.toString(gps.getLatitude())).append(',').append(gps.getLongitude()));
-                            break;
-                        default:
-                            String[] addressLines = new String[size];
-                            for (int j = 0; j < size; ++j) {
-                                Address address = addresses.get(j);
-                                final int addressLineSize = address.getMaxAddressLineIndex();
-                                StringBuilder addressLine = new StringBuilder(address.getAddressLine(0));
-                                for (int k = 3; k < addressLineSize; ++k) {
-                                    addressLine.append(',').append(address.getAddressLine(k));
-                                }
-                                addressLines[j] = addressLine.toString();
                             }
-                            new AlertDialog.Builder(this)
-                                    .setTitle(R.string.select_address).setItems(addressLines, (dialog, which) -> {
-                                editTextVenueInput.setText(addressLines[which]);
-                            }).show();
+                            buttonGPS.setImageDrawable(getDrawable(R.drawable.ic_baseline_gps_fixed_24));
+                            editTextVenueInput.addTextChangedListener(new TextWatcher() {
 
+                                @Override
+                                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                }
+
+                                @SuppressLint("UseCompatLoadingForDrawables")
+                                @Override
+                                public void afterTextChanged(Editable s) {
+                                    buttonGPS.setImageDrawable(getDrawable(R.drawable.ic_baseline_gps_not_fixed_24));
+                                    editTextVenueInput.removeTextChangedListener(this);
+                                }
+                            });
+                        });
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                    buttonGPS.setImageDrawable(getDrawable(R.drawable.ic_baseline_gps_fixed_24));
-                    editTextVenueInput.addTextChangedListener(new TextWatcher() {
+                }).start();
 
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                        }
-
-                        @SuppressLint("UseCompatLoadingForDrawables")
-                        @Override
-                        public void afterTextChanged(Editable s) {
-                            buttonGPS.setImageDrawable(getDrawable(R.drawable.ic_baseline_gps_not_fixed_24));
-                            editTextVenueInput.removeTextChangedListener(this);
-                        }
-                    });
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
             } else {
-                Toast.makeText(this, R.string.no_gps, Toast.LENGTH_SHORT);
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle(R.string.location)
+                        .setMessage(R.string.no_gps)
+                        .setPositiveButton(R.string.enable, (dialog, which) -> {
+                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivityForResult(intent, 2);
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .show();
             }
         });
     }
@@ -185,6 +199,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 .setTitle(R.string.discard_task)
                 .setMessage(R.string.discard_task2)
                 .setPositiveButton(R.string.yes, (dialog, which) -> {
+                    bitmap = null;
                     setResult(Activity.RESULT_CANCELED);
                     finish();
                 })
@@ -197,7 +212,7 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     public void onAllDayToggled(View v) {
-        timeSelect.setVisibility((allDay = ((SwitchCompat) v).isChecked()) ? View.GONE: View.VISIBLE);
+        timeSelect.setVisibility((allDay = ((SwitchCompat) v).isChecked()) ? View.GONE : View.VISIBLE);
     }
 
     @SuppressLint("DefaultLocale")
@@ -261,6 +276,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.WEBP, 0, outputStream);
                 imageByte = outputStream.toByteArray();
+                bitmap = null;
             }
             Task mTask = new Task((byte) selectedDay, (byte) selectedMonth, selectedYear, (byte) startHours, (byte) startMinutes, (byte) endHours, (byte) endMinutes, allDay, title, description, venue, imageByte);
             taskDb.addTask(mTask);
@@ -291,13 +307,14 @@ public class AddTaskActivity extends AppCompatActivity {
                             final EditText txtUrl = new EditText(this);
                             txtUrl.setHint(R.string.url_hint);
                             new AlertDialog.Builder(this)
+                                    .setIcon(android.R.drawable.ic_menu_upload)
                                     .setTitle(R.string.enter_img_url)
                                     .setView(txtUrl)
                                     .setPositiveButton(R.string.Ok, (dialog2, whichButton) -> {
                                         new Thread(() -> {
-                                            this.bitmap = ImageDownload.getImage(this, txtUrl.getText());
-                                            if (this.bitmap!= null) {
-                                                runOnUiThread(() -> imageView.setImageBitmap(this.bitmap));
+                                            bitmap = ImageDownload.getImage(this, txtUrl.getText());
+                                            if (bitmap != null) {
+                                                runOnUiThread(() -> imageView.setImageBitmap(bitmap));
 
                                             }
                                         }).start();
@@ -315,16 +332,20 @@ public class AddTaskActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             switch (requestCode) {
                 case 0:
-                    this.bitmap= (Bitmap) data.getExtras().get("data");
-                    imageView.setImageBitmap(this.bitmap);
+                    bitmap = (Bitmap) data.getExtras().get("data");
+                    imageView.setImageBitmap(bitmap);
                     break;
                 case 1:
                     try {
-                        this.bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));
-                        imageView.setImageBitmap(this.bitmap);
+                        bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));
+                        imageView.setImageBitmap(bitmap);
                     } catch (FileNotFoundException e) {
                         Log.e("image error", e.getMessage(), e);
                     }
+            }
+        } else {
+            if (requestCode == 2) {
+                gps = new LocationTracker(this);
             }
         }
     }

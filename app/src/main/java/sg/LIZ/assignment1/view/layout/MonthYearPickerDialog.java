@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -28,7 +30,7 @@ public class MonthYearPickerDialog extends DialogFragment {
         MAX_YEAR = gregorianCalendar.getMaximum(Calendar.YEAR);
     }
 
-    public  MonthYearPickerDialog( final FragmentManager fragmentManager,final  CharSequence[] monthList,DatePickerDialog.OnDateSetListener listener){
+    public  MonthYearPickerDialog(@NonNull final FragmentManager fragmentManager, @Nullable final CharSequence[] monthList, @NonNull DatePickerDialog.OnDateSetListener listener){
         this.FRAGMENT_MANAGER =fragmentManager;
         this.MONTHS =monthList;
         this.listener = listener;
@@ -45,15 +47,20 @@ public class MonthYearPickerDialog extends DialogFragment {
         View dialog = inflater.inflate(R.layout.dialog_date_picker, null);
         final NumberPicker monthPicker = (NumberPicker) dialog.findViewById(R.id.picker_month);
         final NumberPicker yearPicker = (NumberPicker) dialog.findViewById(R.id.picker_year);
-        int len = MONTHS.length;
-        String[] months= new String[len];
-        for(int i =0;i<len;++i){
-            months[i]=MONTHS[i].toString();
-        }
-        monthPicker.setDisplayedValues(months);
-        monthPicker.setMinValue(0);
-        monthPicker.setMaxValue(11);
-        monthPicker.setValue(month);
+
+       if(MONTHS==null){
+           monthPicker.setVisibility(View.GONE);
+       }else{
+           int len = MONTHS.length;
+           String[] months= new String[len];
+           for(int i =0;i<len;++i){
+               months[i]=MONTHS[i].toString();
+           }
+           monthPicker.setDisplayedValues(months);
+           monthPicker.setMinValue(0);
+           monthPicker.setMaxValue(11);
+           monthPicker.setValue(month);
+       }
         yearPicker.setMinValue(0);
         yearPicker.setMaxValue(MAX_YEAR);
         yearPicker.setValue(year);

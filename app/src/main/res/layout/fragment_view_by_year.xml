@@ -54,6 +54,7 @@
                 <TextView
                     android:id="@+id/view_by_year_day_Jan"
                     android:clickable="false"
+                    android:text="31"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="34dp"
@@ -143,6 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="34dp"
+                    android:text="31"
                     android:layout_marginTop="29dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -180,6 +182,7 @@
                 <TextView
                     android:id="@+id/view_by_year_day_Apr"
                     android:clickable="false"
+                    android:text="30"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="34dp"
@@ -220,6 +223,7 @@
                 <TextView
                     android:id="@+id/view_by_year_day_May"
                     android:layout_width="wrap_content"
+                    android:text="31"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="34dp"
                     android:layout_marginTop="29dp"
@@ -260,6 +264,7 @@
                 <TextView
                     android:id="@+id/view_by_year_day_Jun"
                     android:layout_width="wrap_content"
+                    android:text="30"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="34dp"
                     android:layout_marginTop="29dp"
@@ -298,6 +303,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
                 <TextView
                     android:clickable="false"
+                    android:text="31"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="34dp"
@@ -340,6 +346,7 @@
                 <TextView
                     android:id="@+id/view_by_year_day_Aug"
                     android:clickable="false"
+                    android:text="31"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="34dp"
@@ -381,6 +388,7 @@
                 <TextView
                     android:id="@+id/view_by_year_day_Sep"
                     android:clickable="false"
+                    android:text="30"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="34dp"
@@ -421,6 +429,7 @@
                 <TextView
                     android:id="@+id/view_by_year_day_Oct"
                     android:clickable="false"
+                    android:text="31"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="34dp"
@@ -462,6 +471,7 @@
                 <TextView
                     android:id="@+id/view_by_year_day_Nov"
                     android:clickable="false"
+                    android:text="30"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="34dp"
@@ -505,6 +515,7 @@
                     android:clickable="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="31"
                     android:layout_marginStart="34dp"
                     android:layout_marginTop="29dp"
                     app:layout_constraintBottom_toBottomOf="parent"

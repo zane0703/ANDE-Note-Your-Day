@@ -44,7 +44,6 @@ public class LocationTracker extends Service implements LocationListener {
     protected final LocationManager locationManager;
 
     private static final int REQUEST_CODE_PERMISSION = 2;
-    String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
 
     public LocationTracker(@NonNull Context context) {
         this.mContext = context;
@@ -55,23 +54,18 @@ public class LocationTracker extends Service implements LocationListener {
             if (isGPSEnabled || isNetworkEnabled) {
                 this.canGetLocation = true;
             }
-            getLocation();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
     }
 
     public Location getLocation() {
         try {
-
-
             // getting network status
-
-
             if (canGetLocation) {
                 // First get location from Network Provider
                 if (isNetworkEnabled) {
-                   /* if (ActivityCompat.checkSelfPermission(this,
+                    //if (ActivityCompat.checkSelfPermission(this,
                    //         Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     // && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         // TODO: Consider calling
@@ -82,15 +76,14 @@ public class LocationTracker extends Service implements LocationListener {
                         // to handle the case where the user grants the permission. See the documentation
                         // for ActivityCompat#requestPermissions for more details.
                         //return ;
-                         Already check in the launching
-                    } */
+                         //Already check in the launching
+                    //}
 
                     try {
-                        if (ActivityCompat.checkSelfPermission(this, mPermission)
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                                 != PackageManager.PERMISSION_GRANTED) {
 
                             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-
                             // If any permission above not allowed by user, this condition will
                             // execute every time, else your else part will work
                         }

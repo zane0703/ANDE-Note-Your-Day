@@ -12,7 +12,7 @@ import android.util.Log;
 
 import sg.LIZ.assignment1.R;
 
-public class splashScreenActivity extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class splashScreenActivity extends AppCompatActivity {
         {
             this.getSupportActionBar().hide();
         }
-        catch (NullPointerException e){}
+        catch (NullPointerException ignored){}
         setContentView(R.layout.activity_splash_screen);
         new android.os.Handler().postDelayed(() ->{
             startActivity(new Intent(this, MainActivity.class));

@@ -15,7 +15,7 @@
         <item>December</item>
     </string-array>
     <string-array name="img_src_opt">
-        <item>Take Photo</item>
+        <item>Take A Photo</item>
         <item>Open From Your Gallery</item>
         <item>Download From Link</item>
     </string-array>
@@ -53,6 +53,7 @@
     <string name="end_time">End TIme</string>
     <string name="all_day">All Day</string>
     <string name="cancel">Cancel</string>
+    <string name="enable">Enable</string>
     <string name="yes">Yes</string>
     <string name="Ok" translatable="false">OK</string>
     <string name="create">Create</string>
@@ -68,6 +69,7 @@
     <string name="max_year">You have exceeded the limited of year</string>
     <string name="min_year">You have reached the minimum amount year</string>
     <string name="delete">Delete</string>
+    <string name="location">Location</string>
     <string name="no_gps">Please enable your location services</string>
     <string name="select_address"><b>Please select your address</b></string>
     <string name="select_img_src"><b>Please select your image source</b></string>
