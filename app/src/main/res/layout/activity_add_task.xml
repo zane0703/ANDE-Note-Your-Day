@@ -79,6 +79,7 @@ class DIT/FT/2A/21
                     android:textSize="25sp" />
 
                 <EditText
+                    android:maxLines="1"
                     android:id="@+id/add_title"
                     style="@style/edit_text" />
 
@@ -91,6 +92,7 @@ class DIT/FT/2A/21
                     android:textSize="25sp" />
 
                 <EditText
+                    android:maxLines="1"
                     android:id="@+id/add_description"
                     style="@style/edit_text" />
 

@@ -1,7 +1,6 @@
 package sg.LIZ.assignment1.model.net;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -14,8 +13,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
+
 import java.util.regex.Pattern;
 
 import sg.LIZ.assignment1.Key;

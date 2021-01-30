@@ -82,7 +82,8 @@
     <string name="drawer_close" translatable="false">Close</string>
     <string name="wrong_url">Looks like you enter an invalid URL</string>
     <string name="not_image">The link you have enter is not an image</string>
-    <string name="not_conn">Looks like there are something wrong with the internet connection </string>
+    <string name="conn_off">Your device is not connected to the internet</string>
+    <string name="not_conn">Looks like there are something wrong with the internet connection</string>
     <string name="err_500">Looks like something went wrong with the server</string>
     <string name="view_by"><b>View by: </b></string>
 </resources>

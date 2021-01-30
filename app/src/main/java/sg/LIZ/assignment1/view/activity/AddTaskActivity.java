@@ -6,11 +6,13 @@
  */
 package sg.LIZ.assignment1.view.activity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
 
 import sg.LIZ.assignment1.Key;
 import sg.LIZ.assignment1.R;
@@ -19,20 +21,26 @@ import sg.LIZ.assignment1.model.utilityBean.TaskDb;
 import sg.LIZ.assignment1.model.valueBean.Task;
 import sg.LIZ.assignment1.model.LocationTracker;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,6 +52,7 @@ import android.widget.GridLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -71,8 +80,8 @@ public class AddTaskActivity extends AppCompatActivity {
     private int endHours;
     private int endMinutes;
     private static Bitmap bitmap;
-
-    private TaskDb taskDb = new TaskDb(this);
+    private TextWatcher textWatcher = null;
+    private final TaskDb taskDb = new TaskDb(this);
 
     @SuppressLint({"SetTextI18n", "DefaultLocale", "UseCompatLoadingForDrawables"})
     @Override
@@ -120,45 +129,14 @@ public class AddTaskActivity extends AppCompatActivity {
         }
         ((TextView) findViewById(R.id.task_date)).setText(new StringBuilder().append(selectedDay).append(' ').append(getResources().getStringArray(R.array.month)[selectedMonth]));
         buttonGPS.setOnClickListener(v -> {
-            if (gps == null) {
-                gps = new LocationTracker(this);
-            }
-            if (gps.canGetLocation()) {
-                new Thread(() -> {
-                    gps.getLocation();
-                    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                    try {
-                        final List<Address> addresses = geocoder.getFromLocation(gps.getLatitude(), gps.getLongitude(), 4);
-                        final int size = addresses.size();
-                        runOnUiThread(() -> {
-                            switch (size) {
-                                case 1:
-                                    editTextVenueInput.setText(addresses.get(0).getAddressLine(0));
-                                    break;
-                                case 0:
-                                    editTextVenueInput.setText(new StringBuilder(Double.toString(gps.getLatitude())).append(',').append(gps.getLongitude()));
-                                    break;
-                                default:
-                                    String[] addressLines = new String[size];
-                                    for (int j = 0; j < size; ++j) {
-                                        Address address = addresses.get(j);
-                                        final int addressLineSize = address.getMaxAddressLineIndex();
-                                        StringBuilder addressLine = new StringBuilder(address.getAddressLine(0));
-                                        for (int k = 3; k < addressLineSize; ++k) {
-                                            addressLine.append(',').append(address.getAddressLine(k));
-                                        }
-                                        addressLines[j] = addressLine.toString();
-                                    }
-                                    new AlertDialog.Builder(this)
-                                            .setIcon(android.R.drawable.ic_menu_mylocation)
-                                            .setTitle(R.string.select_address)
-                                            .setItems(addressLines, (dialog, which) -> {
-                                                editTextVenueInput.setText(addressLines[which]);
-                                            }).show();
-
-                            }
-                            buttonGPS.setImageDrawable(getDrawable(R.drawable.ic_baseline_gps_fixed_24));
-                            editTextVenueInput.addTextChangedListener(new TextWatcher() {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                if (gps == null) {
+                    gps = new LocationTracker(this);
+                }
+                if (gps.canGetLocation()) {
+                    new Thread(() -> {
+                        if (textWatcher == null) {
+                            textWatcher = new TextWatcher() {
 
                                 @Override
                                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -174,28 +152,86 @@ public class AddTaskActivity extends AppCompatActivity {
                                     buttonGPS.setImageDrawable(getDrawable(R.drawable.ic_baseline_gps_not_fixed_24));
                                     editTextVenueInput.removeTextChangedListener(this);
                                 }
+                            };
+                        }
+                        gps.getLocation();
+                        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                        try {
+                            final List<Address> addresses = geocoder.getFromLocation(gps.getLatitude(), gps.getLongitude(), 4);
+                            final int size = addresses.size();
+                            runOnUiThread(() -> {
+                                switch (size) {
+                                    case 1:
+                                        editTextVenueInput.setText(addresses.get(0).getAddressLine(0));
+                                        break;
+                                    case 0:
+                                        editTextVenueInput.setText(new StringBuilder(Double.toString(gps.getLatitude())).append(',').append(gps.getLongitude()));
+                                        break;
+                                    default:
+                                        final String[] addressLines = new String[size];
+                                        for (int j = 0; j < size; ++j) {
+                                            Address address = addresses.get(j);
+                                            final int addressLineSize = address.getMaxAddressLineIndex();
+                                            StringBuilder addressLine = new StringBuilder(address.getAddressLine(0));
+                                            for (int k = 3; k < addressLineSize; ++k) {
+                                                addressLine.append(',').append(address.getAddressLine(k));
+                                            }
+                                            addressLines[j] = addressLine.toString();
+                                        }
+                                        Log.i("addressLines", Arrays.toString(addressLines));
+                                        new AlertDialog.Builder(this)
+                                                .setIcon(android.R.drawable.ic_menu_mylocation)
+                                                .setTitle(R.string.select_address)
+                                                .setItems(addressLines, (dialog, which) -> {
+                                                    editTextVenueInput.setText(addressLines[which]);
+                                                    buttonGPS.setImageDrawable(getDrawable(R.drawable.ic_baseline_gps_fixed_24));
+                                                    editTextVenueInput.addTextChangedListener(textWatcher);
+                                                }).show();
+                                        return;
+                                }
+                                buttonGPS.setImageDrawable(getDrawable(R.drawable.ic_baseline_gps_fixed_24));
+                                editTextVenueInput.addTextChangedListener(textWatcher);
                             });
-                        });
-                    } catch (Exception e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }).start();
+                        } catch (Exception e) {
+                            // TODO Auto-generated catch block
+                            Log.e("Error", e.getMessage(), e);
+                            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }).start();
 
+                } else {
+                    new AlertDialog.Builder(this)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle(R.string.location)
+                            .setMessage(R.string.no_gps)
+                            .setPositiveButton(R.string.enable, (dialog, which) -> {
+                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivityForResult(intent, 2);
+                            })
+                            .setNegativeButton(R.string.cancel, null)
+                            .show();
+                }
             } else {
-                new AlertDialog.Builder(this)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle(R.string.location)
-                        .setMessage(R.string.no_gps)
-                        .setPositiveButton(R.string.enable, (dialog, which) -> {
-                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                            startActivityForResult(intent, 2);
-                        })
-                        .setNegativeButton(R.string.cancel, null)
-                        .show();
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 0:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    buttonGPS.callOnClick();
+                }
+                break;
+            case 1:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getImageFromLink();
+                }
+                break;
+        }
     }
 
     @Override
@@ -219,6 +255,36 @@ public class AddTaskActivity extends AppCompatActivity {
 
     public void onAllDayToggled(View v) {
         timeSelect.setVisibility((allDay = ((SwitchCompat) v).isChecked()) ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            switch (requestCode) {
+                case 0:
+                    bitmap = (Bitmap) data.getExtras().get("data");
+                    imageView.setImageBitmap(bitmap);
+                    break;
+                case 1:
+                    try {
+                        bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));
+                        imageView.setImageBitmap(bitmap);
+                    } catch (FileNotFoundException e) {
+                        Log.e("image error", e.getMessage(), e);
+                    }
+            }
+        } else {
+            if (requestCode == 2) {
+                gps = new LocationTracker(this);
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bitmap = null;
     }
 
     @SuppressLint("DefaultLocale")
@@ -310,55 +376,49 @@ public class AddTaskActivity extends AppCompatActivity {
                             startActivityForResult(i, 1);
                             break;
                         case 2:
-                            final EditText txtUrl = new EditText(this);
-                            txtUrl.setHint(R.string.url_hint);
-                            new AlertDialog.Builder(this)
-                                    .setIcon(android.R.drawable.ic_menu_upload)
-                                    .setTitle(R.string.enter_img_url)
-                                    .setView(txtUrl)
-                                    .setPositiveButton(R.string.Ok, (dialog2, whichButton) -> {
-                                        new Thread(() -> {
-                                            bitmap = ImageDownload.getImage(this, txtUrl.getText());
-                                            if (bitmap != null) {
-                                                runOnUiThread(() -> imageView.setImageBitmap(bitmap));
-
-                                            }
-                                        }).start();
-                                    })
-                                    .setNegativeButton(R.string.cancel, (dialog2, whichButton) -> {
-                                    }).show();
+                            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
+                                ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                                if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()) {
+                                    getImageFromLink();
+                                } else {
+                                    Toast.makeText(this, R.string.conn_off, Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 1);
+                            }
                             break;
                     }
                 }).show();
     }
 
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null) {
-            switch (requestCode) {
-                case 0:
-                    bitmap = (Bitmap) data.getExtras().get("data");
-                    imageView.setImageBitmap(bitmap);
-                    break;
-                case 1:
-                    try {
-                        bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));
-                        imageView.setImageBitmap(bitmap);
-                    } catch (FileNotFoundException e) {
-                        Log.e("image error", e.getMessage(), e);
-                    }
+    private void getImageFromLink() {
+        final EditText txtUrl = new EditText(this);
+        txtUrl.setMaxLines(1);
+        txtUrl.setInputType(InputType.TYPE_CLASS_TEXT);
+        final Thread thread =new Thread(() -> {
+            bitmap = ImageDownload.getImage(this, txtUrl.getText());
+            if (bitmap != null) {
+                runOnUiThread(() -> imageView.setImageBitmap(bitmap));
+
             }
-        } else {
-            if (requestCode == 2) {
-                gps = new LocationTracker(this);
+        });
+        txtUrl.setHint(R.string.url_hint);
+        final AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_menu_upload)
+                .setTitle(R.string.enter_img_url)
+                .setView(txtUrl)
+                .setPositiveButton(R.string.Ok, (dialog2, whichButton) -> {
+                    thread.start();
+                }).setNegativeButton(R.string.cancel, null).show();
+        txtUrl.setOnKeyListener((v, keyCode, event) -> {
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                alertDialog.dismiss();
+                thread.start();
+                return true;
             }
-        }
+            return false;
+        });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        bitmap=null;
-    }
+
 }
