@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -56,12 +57,20 @@ public class ViewByYearFragment extends Fragment implements onSetMonth {
     }
     @Override
     public void toNext(int day){
+        if (selectedYear == MonthYearPickerDialog.MAX_YEAR) {
+            Toast.makeText(activity, R.string.max_year, Toast.LENGTH_SHORT).show();
+            return;
+        }
         activity.setYear(++selectedYear);
         gregorianCalendar.set(GregorianCalendar.YEAR, selectedYear);
         fedText.setText(Integer.toString(gregorianCalendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH)));
     }
     @Override
     public void toLast(int day){
+        if (selectedYear == 0) {
+            Toast.makeText(activity, R.string.min_year, Toast.LENGTH_SHORT).show();
+            return;
+        }
         activity.setYear(--selectedYear);
         gregorianCalendar.set(Calendar.YEAR, selectedYear);
         fedText.setText(Integer.toString(gregorianCalendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH)));

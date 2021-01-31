@@ -71,8 +71,8 @@
     <string name="delete">Delete</string>
     <string name="location">Location</string>
     <string name="no_gps">Please enable your location services</string>
-    <string name="select_address"><b>Please select your address</b></string>
-    <string name="select_img_src"><b>Please select your image source</b></string>
+    <string name="select_address"><u><b>Please select your address</b></u></string>
+    <string name="select_img_src"><u><b>Please select your image source</b></u></string>
     <string name="enter_img_url">Please enter image URL</string>
     <string name="url_hint" translatable="false">http://example.com/imgae.jpg</string>
     <string name="backend_urL" translatable="false">http://localhost:8080</string>
