@@ -12,7 +12,7 @@ import android.os.Bundle;
 
 import sg.LIZ.assignment1.R;
 
-public class splashScreenActivity extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
