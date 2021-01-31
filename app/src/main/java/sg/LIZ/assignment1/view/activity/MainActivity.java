@@ -6,6 +6,13 @@
  */
 package sg.LIZ.assignment1.view.activity;
 
+import sg.LIZ.assignment1.Key;
+import sg.LIZ.assignment1.R;
+import sg.LIZ.assignment1.view.adapter.SlidingMenuAdapter;
+import sg.LIZ.assignment1.view.fragment.ViewByMonthFragment;
+import sg.LIZ.assignment1.view.fragment.ViewByYearFragment;
+import sg.LIZ.assignment1.view.layout.onSetMonth;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,12 +23,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.Fragment;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import sg.LIZ.assignment1.Key;
-import sg.LIZ.assignment1.R;
-import sg.LIZ.assignment1.view.adapter.SlidingMenuAdapter;
-import sg.LIZ.assignment1.view.fragment.ViewByMonthFragment;
-import sg.LIZ.assignment1.view.fragment.ViewByYearFragment;
-import sg.LIZ.assignment1.view.layout.onSetMonth;
 
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
@@ -32,7 +33,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Objects;

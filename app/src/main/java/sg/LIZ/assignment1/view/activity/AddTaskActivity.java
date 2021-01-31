@@ -5,15 +5,6 @@
  * class DIT/FT/2A/21
  */
 package sg.LIZ.assignment1.view.activity;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.app.ActivityCompat;
-
 import sg.LIZ.assignment1.Key;
 import sg.LIZ.assignment1.R;
 import sg.LIZ.assignment1.model.net.ImageDownload;
@@ -21,8 +12,16 @@ import sg.LIZ.assignment1.model.utilityBean.TaskDb;
 import sg.LIZ.assignment1.model.valueBean.Task;
 import sg.LIZ.assignment1.model.LocationTracker;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
+
+
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -49,6 +48,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.GridLayout;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -362,6 +362,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
     public void onSetImageClick(View v) {
         new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_menu_gallery)
                 .setTitle(R.string.select_img_src)
                 .setItems(R.array.img_src_opt, (dialog, which) -> {
                     Intent i = null;

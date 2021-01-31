@@ -6,11 +6,9 @@
  */
 package sg.LIZ.assignment1.view.activity;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import sg.LIZ.assignment1.R;
 
