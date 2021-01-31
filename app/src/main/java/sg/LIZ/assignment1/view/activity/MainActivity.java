@@ -56,10 +56,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        try {
-            Objects.requireNonNull(this.getSupportActionBar()).hide();
-        } catch (NullPointerException ignored) {
-        }
         listViewSliding = findViewById(R.id.sliding_menu);
         drawerLayout = findViewById(R.id.drawer_layout);
         constraintLayout = findViewById(R.id.sliding_menu2);
@@ -181,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     public MainActivity setYear(int year) {
         selectYear = year;
         textViewYearView.setText(Integer.toString(year));

@@ -87,10 +87,6 @@ public class AddTaskActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            this.getSupportActionBar().hide();
-        } catch (NullPointerException ignored) {
-        }
         setContentView(R.layout.activity_add_task);
         Intent i = getIntent();
         selectedDay = i.getIntExtra(Key.KEY_DAY, -1);

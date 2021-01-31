@@ -33,10 +33,6 @@ public class TaskDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            this.getSupportActionBar().hide();
-        } catch (NullPointerException e) {
-        }
         setContentView(R.layout.activity_task_detail);
         Intent i = getIntent();
         id = i.getExtras().getInt(Key.KEY_ID);
@@ -71,7 +67,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.detail_task_date)).setText(new StringBuilder().append(mTask.DAY).append(' ').append(getResources().getStringArray(R.array.month)[mTask.MONTH]));
     }
 
-    public void onDelete(View v) {
+    public void onDelete(final View v) {
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(R.string.delete_task)
@@ -85,12 +81,12 @@ public class TaskDetailActivity extends AppCompatActivity {
                 .show();
     }
 
-    public void onClickVenue(View v) {
+    public void onClickVenue(final View v) {
         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + Uri.encode(((TextView) v).getText().toString())));
         startActivity(i);
     }
 
-    public void onBackPressed(View v) {
+    public void onBackPressed(final View v) {
         setResult(Activity.RESULT_CANCELED);
         finish();
     }
