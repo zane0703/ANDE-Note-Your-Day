@@ -4,6 +4,6 @@ import androidx.fragment.app.Fragment;
 
 import sg.LIZ.assignment1.view.layout.onSetMonth;
 
-public class ViewBySettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment {
 
 }
