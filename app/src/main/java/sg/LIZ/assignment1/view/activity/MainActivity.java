@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         CharSequence[] listSliding = new CharSequence[]{
                 resources.getText(R.string.month),
                 resources.getText(R.string.year),
-                "Settings"
+                resources.getString(R.string.settings)
         };
         textViewYearView.setText(Integer.toString(selectYear));
         SlidingMenuAdapter adapter = new SlidingMenuAdapter(this, listSliding);
@@ -212,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
             case 2:
                 fragment = new SettingsFragment();
                 textViewMonthView.setText(new char[0], 0, 0);
+                textViewMonthView.setText(R.string.settings);
                 break;
             default:
                 return;
