@@ -55,6 +55,7 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
     private int selectedYear = 0;
     private int selectedDayIndex = 0;
     private boolean isSelectedDayHasTask=false;
+    private boolean isCurrentMonth=false;
     private MainActivity activity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -156,7 +157,7 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
 
             }
         }
-        final boolean isCurrentMonth = selectedYear == Key.currentYear && selectedMonth == Key.currentMonth;
+        isCurrentMonth = selectedYear == Key.currentYear && selectedMonth == Key.currentMonth;
         for (int j = 1; j <= daysInMonth; ++i, ++j) {
             final TextView dayBtn = daysBtn[i];
             dayBtn.setText(Integer.toString(j));
@@ -307,13 +308,13 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
         public void onClick(View v) {
             TextView oldSelectedBtn = daysBtn[selectedDayIndex];
             if (isSelectedDayHasTask) {
-                oldSelectedBtn.setBackground(selectedDay==Key.currentDay?resources.getDrawable(R.drawable.layout_day_with_task_current,null):dayWithTaskStyle);
+                oldSelectedBtn.setBackground(selectedDay==Key.currentDay&&isCurrentMonth?resources.getDrawable(R.drawable.layout_day_with_task_current,null):dayWithTaskStyle);
             } else {
                 oldSelectedBtn.setBackgroundResource(0);
             }
             selectedDay = DAY_NUM;
             isSelectedDayHasTask =HAS_TASK;
-            final boolean isCurrentDay =DAY_NUM==Key.currentDay;
+            final boolean isCurrentDay =DAY_NUM==Key.currentDay&&isCurrentMonth;
             if (HAS_TASK) {
                 v.setBackground(isCurrentDay?resources.getDrawable(R.drawable.layout_selected_with_task_current, null):selectedWithTaskStyle);
                 showTask();
