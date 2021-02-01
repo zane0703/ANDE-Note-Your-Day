@@ -9,6 +9,7 @@ package sg.LIZ.assignment1.view.activity;
 import sg.LIZ.assignment1.Key;
 import sg.LIZ.assignment1.R;
 import sg.LIZ.assignment1.view.adapter.SlidingMenuAdapter;
+import sg.LIZ.assignment1.view.fragment.SettingsFragment;
 import sg.LIZ.assignment1.view.fragment.ViewByMonthFragment;
 import sg.LIZ.assignment1.view.fragment.ViewByYearFragment;
 import sg.LIZ.assignment1.view.layout.onSetMonth;
@@ -66,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         months = resources.getTextArray(R.array.month);
         CharSequence[] listSliding = new CharSequence[]{
                 resources.getText(R.string.month),
-                resources.getText(R.string.year)
+                resources.getText(R.string.year),
+                "Settings"
         };
         textViewYearView.setText(Integer.toString(selectYear));
         SlidingMenuAdapter adapter = new SlidingMenuAdapter(this, listSliding);
@@ -201,6 +203,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 1:
                 fragment = new ViewByYearFragment();
+                textViewMonthView.setText(new char[0], 0, 0);
+                break;
+            case 2:
+                fragment = new SettingsFragment();
                 textViewMonthView.setText(new char[0], 0, 0);
                 break;
             default:
