@@ -169,7 +169,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSetYear(View view) {
-        ((onSetMonth) getSupportFragmentManager().findFragmentById(R.id.main_content)).onSetYear(months);
+        Fragment fragment= getSupportFragmentManager().findFragmentById(R.id.main_content);
+        if(fragment instanceof onSetMonth){
+            ((onSetMonth) fragment).onSetYear(months);
+        }
+
     }
 
     public MainActivity setMonth(int month) {
