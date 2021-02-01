@@ -59,6 +59,7 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         activity = (MainActivity) getActivity();
+        new MainActivity();
         taskDb = new TaskDb(activity);
         View view = inflater.inflate(R.layout.fragment_view_by_month, container, false);
         daysBtn = new TextView[]{
@@ -258,12 +259,6 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
             listTaskItem.setVisibility(View.VISIBLE);
             TaskArrayAdapter taskArrayAdapter = new TaskArrayAdapter(activity, this, task);
             listTaskItem.setAdapter(taskArrayAdapter);
-            int taskSize = task.length;
-
-            String[] taskTitle = new String[taskSize];
-            for (int i = 0; i < taskSize; ++i) {
-                taskTitle[i] = task[i].TITLE;
-            }
         } else {
             textViewNoTaskMassage.setVisibility(View.VISIBLE);
             listTaskItem.setVisibility(View.INVISIBLE);
