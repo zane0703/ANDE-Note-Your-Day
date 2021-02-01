@@ -42,7 +42,7 @@
     <string name="dec">12 月</string>
     <string name="no_task">没有任务</string>
     <string name="welcome">欢迎光临!</string>
-    <string name="menu">Menu</string>
+    <string name="menu">手册</string>
     <string name="add_event_on">添加活动在:</string>
     <string name="Event_on">活动在:</string>
     <string name="enter_task_title">请输入任务题目</string>
@@ -82,5 +82,6 @@
     <string name="not_conn">网路连线有问题</string>
     <string name="month">月</string>
     <string name="year">年</string>
-    <string name="view_by">View by</string>
+    <string name="view_by">查看者</string>
+    <string name="settings">设定</string>
 </resources>

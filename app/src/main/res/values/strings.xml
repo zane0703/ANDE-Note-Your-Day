@@ -86,4 +86,5 @@
     <string name="not_conn">Looks like there are something wrong with the internet connection</string>
     <string name="err_500">Looks like something went wrong with the server</string>
     <string name="view_by"><b>View by: </b></string>
+    <string name="settings">Settings</string>
 </resources>
