@@ -53,13 +53,14 @@ public class MonthYearPickerDialog extends DialogFragment {
         View dialog = inflater.inflate(R.layout.dialog_date_picker, null);
         final NumberPicker monthPicker = (NumberPicker) dialog.findViewById(R.id.picker_month);
         final NumberPicker yearPicker = (NumberPicker) dialog.findViewById(R.id.picker_year);
-
+        /*check if there array of month*/
        if(MONTHS==null){
+           /*if not the there will be not option for the user to set month*/
            monthPicker.setVisibility(View.GONE);
        }else{
-           int len = MONTHS.length;
-           String[] months= new String[len];
-           for(int i =0;i<len;++i){
+           /*convent  CharSequence to  String*/
+           String[] months= new String[12];
+           for(int i =0;i<12;++i){
                months[i]=MONTHS[i].toString();
            }
            monthPicker.setDisplayedValues(months);

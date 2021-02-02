@@ -26,7 +26,7 @@ class DIT/FT/2A/21
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toTopOf="parent">
 
         <GridLayout
             android:clickable="false"
@@ -523,7 +523,7 @@ class DIT/FT/2A/21
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.900"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.96"
         android:contentDescription="go to add task" />
 </androidx.constraintlayout.widget.ConstraintLayout>
