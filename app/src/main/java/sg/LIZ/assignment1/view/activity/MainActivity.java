@@ -211,13 +211,13 @@ public class MainActivity extends AppCompatActivity {
         switch (pos) {
             case 0:
                 fragment = new ViewByMonthFragment();
+                if(currentFragment==2){textViewYearView.setText(Integer.toString(selectYear));}
                 textViewMonthView.setText(months[selectMonth]);
-                textViewYearView.setText(Integer.toString(selectYear));
                 break;
             case 1:
                 fragment = new ViewByYearFragment();
                 textViewMonthView.setText(new char[0], 0, 0);
-                textViewYearView.setText(Integer.toString(selectYear));
+                if(currentFragment==2){textViewYearView.setText(Integer.toString(selectYear));}
                 break;
             case 2:
                 fragment = new SettingsFragment();
@@ -244,5 +244,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        finish();
+        System.exit(0);
+    }
 }

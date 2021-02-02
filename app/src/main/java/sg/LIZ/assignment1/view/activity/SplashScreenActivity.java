@@ -5,6 +5,7 @@
  * class DIT/FT/2A/21
  */
 package sg.LIZ.assignment1.view.activity;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -22,39 +23,48 @@ import sg.LIZ.assignment1.Key;
 import sg.LIZ.assignment1.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
-    private boolean isDone =false;
+    private static boolean isDone = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        final SharedPreferences appSettingPrefs = getSharedPreferences(Key.DATABASE_NAME, 0);
+        if (isDone) {
+            isDone = false;
+            AppCompatDelegate.setDefaultNightMode(appSettingPrefs.getInt("theme", AppCompatDelegate.MODE_NIGHT_UNSPECIFIED));
+            return;
+        }
         /*navigate to main activity after 1 sec*/
-        new android.os.Handler().postDelayed(() ->{
-            if(isDone){
+        new android.os.Handler().postDelayed(() -> {
+            if (isDone) {
+                isDone = false;
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
-            }else{
-                isDone=true;
+            } else {
+                isDone = true;
             }
         }, 1000);
-        final SharedPreferences appSettingPrefs = getSharedPreferences(Key.DATABASE_NAME, 0);
-        AppCompatDelegate.setDefaultNightMode(appSettingPrefs.getInt("theme", AppCompatDelegate.MODE_NIGHT_UNSPECIFIED));
-        Locale locale=null;
-       setLanguage(appSettingPrefs.getInt("language", 0));
-        if(isDone){
+
+        Locale locale = null;
+        setLanguage(appSettingPrefs.getInt("language", 0));
+        if (isDone) {
+            isDone = false;
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        }else{
-            isDone=true;
+        } else {
+            isDone = true;
         }
     }
-    private void setLanguage(final int languageId){
+
+    private void setLanguage(final int languageId) {
         Locale locale;
-        switch (languageId){
+        switch (languageId) {
             case 1:
                 locale = Locale.ENGLISH;
                 break;
             case 2:
-                locale= Locale.CHINESE;
+                locale = Locale.CHINESE;
                 break;
             default:
                 return;
