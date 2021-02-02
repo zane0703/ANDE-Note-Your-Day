@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /*pre define view object */
         listViewSliding = findViewById(R.id.sliding_menu);
         drawerLayout = findViewById(R.id.drawer_layout);
         constraintLayout = findViewById(R.id.sliding_menu2);
@@ -65,16 +66,20 @@ public class MainActivity extends AppCompatActivity {
         hamburgerMenu = findViewById(R.id.hamburger_menu);
         Resources resources = getResources();
         months = resources.getTextArray(R.array.month);
+        /*set the list of item in the sliding bar*/
         CharSequence[] listSliding = new CharSequence[]{
                 resources.getText(R.string.month),
                 resources.getText(R.string.year),
                 resources.getString(R.string.settings)
         };
+        /*set the the year that will show up in the top bar */
         textViewYearView.setText(Integer.toString(selectYear));
+        /*create adapter for the sliding bar */
         SlidingMenuAdapter adapter = new SlidingMenuAdapter(this, listSliding);
         listViewSliding.setAdapter(adapter);
         listViewSliding.setItemChecked(0, true);
         drawerLayout.closeDrawer(constraintLayout);
+        /* on item click in the sliding bar move to another fragment page*/
         listViewSliding.setOnItemClickListener((parent, view, position, id) -> {
             listViewSliding.setItemChecked(position, true);
             replaceFragment(position);
@@ -122,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState, persistentState);
         actionBarDrawerToggle.syncState();
     }
-
+/*run this to change month*/
     @SuppressLint("NonConstantResourceId")
     public void onClick(@NonNull View view) {
         switch (view.getId()) {
@@ -167,37 +172,39 @@ public class MainActivity extends AppCompatActivity {
 
         replaceFragment(0);
     }
-
+    /*show the dialog for the user to jump to a set year or month */
     public void onSetYear(View view) {
+        /*get the fragment*/
         Fragment fragment= getSupportFragmentManager().findFragmentById(R.id.main_content);
+        /*check if is a view by year/month to prevent ClassCastException*/
         if(fragment instanceof onSetMonth){
             ((onSetMonth) fragment).onSetYear(months);
         }
 
     }
-
+/*for the fragment to set the month*/
     public MainActivity setMonth(int month) {
         selectMonth = month;
         textViewMonthView.setText(months[month]);
         return this;
 
     }
-
+    /*for the fragment to set the year*/
     @SuppressLint("SetTextI18n")
     public MainActivity setYear(int year) {
         selectYear = year;
         textViewYearView.setText(Integer.toString(year));
         return this;
     }
-
+    /* for the fragment to get the year from main activity*/
     public int getYear() {
         return selectYear;
     }
-
+    /* for the fragment to get the month from main activity*/
     public int getMonth() {
         return selectMonth;
     }
-
+    /*navigate to anther fragment */
     private void replaceFragment(int pos) {
         Fragment fragment = null;
         switch (pos) {
@@ -222,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.main_content, fragment);
         transaction.commit();
     }
-
+    /*when the hamburger menu click open or closer  sliding bar */
     public void onOpenDrawer(View v) {
         if (isDrawerOpened) {
             hamburgerMenu.setSelected(false);

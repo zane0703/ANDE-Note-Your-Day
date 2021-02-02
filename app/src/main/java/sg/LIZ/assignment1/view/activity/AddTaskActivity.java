@@ -79,6 +79,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private int startMinutes;
     private int endHours;
     private int endMinutes;
+    /*the bitmap is static so as to make sure that the image will be there after changing orientation*/
     private static Bitmap bitmap;
     private TextWatcher textWatcher = null;
     private final TaskDb taskDb = new TaskDb(this);
@@ -89,9 +90,11 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
         Intent i = getIntent();
+        /*get date from the previous page*/
         selectedDay = i.getIntExtra(Key.KEY_DAY, -1);
         selectedMonth = i.getIntExtra(Key.KEY_MONTH, -1);
         selectedYear = i.getIntExtra(Key.KEY_YEAR, -1);
+        /*pre define view object */
         timeSelect = findViewById(R.id.add_task_time);
         buttonStartTime = findViewById(R.id.add_start_time);
         buttonEndTimeBtn = findViewById(R.id.add_end_time);
@@ -101,6 +104,7 @@ public class AddTaskActivity extends AppCompatActivity {
         editTextVenueInput = findViewById(R.id.add_value);
         buttonGPS = findViewById(R.id.gps_btn);
         GregorianCalendar currentDate = new GregorianCalendar();
+        /*get the current time*/
         startHours = currentDate.get(Calendar.HOUR_OF_DAY);
         startMinutes = currentDate.get(Calendar.MINUTE);
         final String FORMAT = "%02d";
@@ -120,17 +124,26 @@ public class AddTaskActivity extends AppCompatActivity {
                 .append(' ')
                 .append(currentDate.get(Calendar.AM_PM) == Calendar.PM ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
         //selectedDay + " " + getResources().getStringArray(R.array.month)[selectedMonth]
+        /*check the bitmap is not null output the image*/
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         }
+        /*output the month*/
         ((TextView) findViewById(R.id.task_date)).setText(new StringBuilder().append(selectedDay).append(' ').append(getResources().getStringArray(R.array.month)[selectedMonth]));
+        /*run this when the user click to get location*/
         buttonGPS.setOnClickListener(v -> {
+            /*check if the app is allow to get location*/
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+               /*check if the gps object is already define*/
                 if (gps == null) {
+                    /*if not create the gps object*/
                     gps = new LocationTracker(this);
                 }
+                /*check if the location service is enabled*/
                 if (gps.canGetLocation()) {
+                    /*run the provess in new thread so as not to slow down the UI thread*/
                     new Thread(() -> {
+                        /*check if the watch is enabled*/
                         if (textWatcher == null) {
                             textWatcher = new TextWatcher() {
 
@@ -150,21 +163,30 @@ public class AddTaskActivity extends AppCompatActivity {
                                 }
                             };
                         }
+                        /*run the to get ask the gps object to get location*/
                         gps.getLocation();
+                        /*put the location to geocoder to get the address of the location*/
                         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
                         try {
+                            /*getting the list of address for the location*/
                             final List<Address> addresses = geocoder.getFromLocation(gps.getLatitude(), gps.getLongitude(), 4);
                             final int size = addresses.size();
+                            /*you have run on UI thread in order to change the view*/
                             runOnUiThread(() -> {
+                                /*check the among of address*/
                                 switch (size) {
                                     case 1:
+                                        /*if there is only one address found output that address*/
                                         editTextVenueInput.setText(addresses.get(0).getAddressLine(0));
                                         break;
                                     case 0:
+                                        /*if there is not address found just output the lat and long*/
                                         editTextVenueInput.setText(new StringBuilder(Double.toString(gps.getLatitude())).append(',').append(gps.getLongitude()));
                                         break;
                                     default:
+                                        /*if there is more then one ask the user to select the address they want*/
                                         final String[] addressLines = new String[size];
+                                        /*loop to get the list of address to string array*/
                                         for (int j = 0; j < size; ++j) {
                                             Address address = addresses.get(j);
                                             final int addressLineSize = address.getMaxAddressLineIndex();
@@ -185,22 +207,24 @@ public class AddTaskActivity extends AppCompatActivity {
                                                 }).show();
                                         return;
                                 }
+                                /*change the button icon to indicate that the venue coming the location service*/
                                 buttonGPS.setImageDrawable(getDrawable(R.drawable.ic_baseline_gps_fixed_24));
                                 editTextVenueInput.addTextChangedListener(textWatcher);
                             });
                         } catch (Exception e) {
-                            // TODO Auto-generated catch block
                             Log.e("Error", e.getMessage(), e);
                             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }).start();
 
                 } else {
+                    /*if location service disabled ask the user to enable it */
                     new AlertDialog.Builder(this)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setTitle(R.string.location)
                             .setMessage(R.string.no_gps)
                             .setPositiveButton(R.string.enable, (dialog, which) -> {
+                                /*navigate to the location setting page of the device to enable it*/
                                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                                 startActivityForResult(intent, 2);
                             })
@@ -208,6 +232,7 @@ public class AddTaskActivity extends AppCompatActivity {
                             .show();
                 }
             } else {
+                /*if the app not allow to get location ask the user to get permissions*/
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
             }
         });
@@ -218,20 +243,25 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 0:
+                /*run this after the user allow the app to use the location service*/
+                /*check if the the user had allow the use if location*/
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED || grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    /*call the method again to get the location*/
                     buttonGPS.callOnClick();
                 }
                 break;
             case 1:
+                /*run the after the user have allow internet*/
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getImageFromLink();
                 }
                 break;
         }
     }
-
+    /*run this when the user press on the back button on he/she device*/
     @Override
     public void onBackPressed() {
+        /*ask the user if they reilly want to discard the task*/
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(R.string.discard_task)
@@ -244,12 +274,12 @@ public class AddTaskActivity extends AppCompatActivity {
                 .setNegativeButton(R.string.cancel, null)
                 .show();
     }
-
     public void onBackPressed(View v) {
         onBackPressed();
     }
-
+    /*run this when the user click on the all day*/
     public void onAllDayToggled(View v) {
+        /*check if the user on or off the toggle and set the visibility of the start and end time accordingly*/
         timeSelect.setVisibility((allDay = ((SwitchCompat) v).isChecked()) ? View.GONE : View.VISIBLE);
     }
 
@@ -259,12 +289,17 @@ public class AddTaskActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             switch (requestCode) {
                 case 0:
+                    /*run this after the user have already taken the photo from the device camera */
                     bitmap = (Bitmap) data.getExtras().get("data");
+                    /*output the image*/
                     imageView.setImageBitmap(bitmap);
                     break;
                 case 1:
                     try {
+                        /*run this after the user have choose the image from the device gallery
+                        get the image from the device file system and convent to bitmap*/
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));
+                        /*output the image*/
                         imageView.setImageBitmap(bitmap);
                     } catch (FileNotFoundException e) {
                         Log.e("image error", e.getMessage(), e);
@@ -272,6 +307,7 @@ public class AddTaskActivity extends AppCompatActivity {
             }
         } else {
             if (requestCode == 2) {
+                /*run this after the user have enabled the location service*/
                 gps = new LocationTracker(this);
             }
         }
@@ -280,6 +316,7 @@ public class AddTaskActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        /*remove the bitmap as the it is a static var it will not auto remove when the user exit out of this page*/
         bitmap = null;
     }
 
@@ -327,12 +364,15 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     public void onSubmit(View v) {
+        /*get the title, description and venue from edit text*/
         String title = editTextTitleInput.getText().toString().trim();
         String description = editTextDescriptionInput.getText().toString().trim();
         String venue = editTextVenueInput.getText().toString().trim();
+        /*check if the user have left out any fill*/
         if (title.isEmpty() || description.isEmpty() || venue.isEmpty()) {
             Toast.makeText(this, R.string.no_input_error, Toast.LENGTH_LONG).show();
         } else {
+            /*check if is all day*/
             if (allDay) {
                 startMinutes = -1;
                 startHours = -1;
@@ -340,23 +380,30 @@ public class AddTaskActivity extends AppCompatActivity {
                 endHours = -1;
             }
             byte[] imageByte = null;
+            /*check if the user have upload an image*/
             if (bitmap != null) {
+                /*convent the bitmap to webp image format as byte array*/
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.WEBP, 0, outputStream);
                 imageByte = outputStream.toByteArray();
                 bitmap = null;
             }
+            /*create the task object*/
             Task mTask = new Task((byte) selectedDay, (byte) selectedMonth, selectedYear, (byte) startHours, (byte) startMinutes, (byte) endHours, (byte) endMinutes, allDay, title, description, venue, imageByte);
+            /*add the task to SQLite database */
             taskDb.addTask(mTask);
+            /*set the result ok so as tell the view by month that an task have been aded*/
             setResult(Activity.RESULT_OK);
+            /*inform the user the the task have successfully added*/
             Toast.makeText(this, R.string.add_successfully, Toast.LENGTH_LONG).show();
             finish();
 
 
         }
     }
-
+/*run this when the user want to upload an image to the task*/
     public void onSetImageClick(View v) {
+        /*ask the user where he/she want to get the image from*/
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_menu_gallery)
                 .setTitle(R.string.select_img_src)
@@ -364,20 +411,27 @@ public class AddTaskActivity extends AppCompatActivity {
                     Intent i = null;
                     switch (which) {
                         case 0:
+                            /*run this if the user want take a photo*/
                             i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(i, 0);
                             break;
-                        case 1:
+                        case 1 :
+                            /*run this if the user want to get it from the device gallery*/
                             i = new Intent(Intent.ACTION_PICK);
                             i.setType("image/*");
                             startActivityForResult(i, 1);
                             break;
                         case 2:
+                            /*run this if the user want to download the image from the internet
+                            check if the app is allow to use the internet*/
                             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
+                                /*check if the internet is on*/
                                 ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                                 if (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected()) {
+                                    /*if is on tell the method to ask the user for the link*/
                                     getImageFromLink();
                                 } else {
+                                    /*else inform the user that he/she device is not connected to the internet*/
                                     Toast.makeText(this, R.string.conn_off, Toast.LENGTH_LONG).show();
                                 }
                             } else {
@@ -389,12 +443,16 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     private void getImageFromLink() {
+        /*ask the user for the image download link*/
         final EditText txtUrl = new EditText(this);
         txtUrl.setMaxLines(1);
         txtUrl.setInputType(InputType.TYPE_CLASS_TEXT);
+        /*create a new a new thread to download the image so as not to slow down the UI thread */
         final Thread thread =new Thread(() -> {
             bitmap = ImageDownload.getImage(this, txtUrl.getText());
+            /*check if they manage to download the image*/
             if (bitmap != null) {
+                /*run on UI thread as only this thread can change the view*/
                 runOnUiThread(() -> imageView.setImageBitmap(bitmap));
 
             }

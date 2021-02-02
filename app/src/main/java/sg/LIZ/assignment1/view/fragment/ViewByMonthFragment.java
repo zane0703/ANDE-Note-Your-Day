@@ -136,8 +136,11 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
 
 
     private void onSetMonth() {
+        /*get max amount of days in the given month and year*/
         int daysInMonth = gregorianCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        /*get the day that have task from the sqlite database*/
         int[] daysWithTask = taskDb.getTaskByMonthYear(selectedMonth, selectedYear);
+        /*get the first week of the month*/
         int firstWeekOfMonth = gregorianCalendar.get(Calendar.DAY_OF_WEEK);
         /*Check if is the first week is sunday if yes set it to 7 else minus 1*/
         if (firstWeekOfMonth == 1) {
@@ -147,9 +150,11 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
         }
         int i = 0;
         if (firstWeekOfMonth != 0) {
+            /*get last faw day of the last month depend on which week this month start at and then loop to display the last faw day*/
             for (int start = new GregorianCalendar(selectedYear, selectedMonth - 1, 1).getActualMaximum(Calendar.DAY_OF_MONTH) - firstWeekOfMonth; i < firstWeekOfMonth; ++i) {
                 TextView dayBtn = daysBtn[i];
                 dayBtn.setBackgroundColor(0x00000000);
+                /*set the colour the gay out*/
                 dayBtn.setTextColor(0xff999797);
                 dayBtn.setText(Integer.toString(++start));
                 final int day = start;
@@ -157,7 +162,9 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
 
             }
         }
+        /*check if the user is at the currnet month*/
         isCurrentMonth = selectedYear == Key.currentYear && selectedMonth == Key.currentMonth;
+        /*loop around to display of the month*/
         for (int j = 1; j <= daysInMonth; ++i, ++j) {
             final TextView dayBtn = daysBtn[i];
             dayBtn.setText(Integer.toString(j));
@@ -184,6 +191,7 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
             }
             dayBtn.setOnClickListener(new OnDayClickListener(j, i, isDayWithTask));
         }
+        /*loop to display the next month */
         for (int j = 1; i < 42; ++j, ++i) {
             TextView dayBtn = daysBtn[i];
             dayBtn.setBackgroundColor(0x00000000);
@@ -193,11 +201,12 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
             dayBtn.setOnClickListener(v -> toNext(day));
         }
     }
-
+    /*show the dialog for the user to jump to a month or year*/
     @Override
     public void onSetYear(final CharSequence[] months) {
         if (mDatePickerDialog == null) {
-            mDatePickerDialog = new MonthYearPickerDialog(getFragmentManager(), months, ((view, year, month, dayOfMonth) -> {
+            /*create the dialog object if is not already created*/
+            mDatePickerDialog = new MonthYearPickerDialog(getParentFragmentManager(), months, ((view, year, month, dayOfMonth) -> {
                 if (selectedYear != year || selectedMonth != month) {
                     selectedYear = year;
                     selectedMonth = month;
@@ -209,14 +218,18 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
                 }
             }));
         }
+        /*show the dialog*/
         mDatePickerDialog.show(selectedYear, selectedMonth);
 
     }
-
+    /*go to the next month*/
     @Override
     public void toNext(int day) {
+        /*the month is in Dec move to next year*/
         if (selectedMonth == 11) { //December
+            /*check if the the user already at the max year the device can show */
             if (selectedYear == MonthYearPickerDialog.MAX_YEAR) {
+                /*if is at max year show a message to tell the user that he/she is already at the max*/
                 Toast.makeText(activity, R.string.max_year, Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -229,14 +242,18 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
         daysBtn[selectedDayIndex].setBackgroundResource(0);
         activity.setMonth(selectedMonth);
         gregorianCalendar.set(selectedYear, selectedMonth, 1);
+        /*regenerate the day of month*/
         onSetMonth();
 
     } //end of toNext()
-
+/*go to the last mont*/
     @Override
     public void toLast(int day) {
+        /*if the month is at Jan move to last year*/
         if (selectedMonth == 0) { //January
-            if (selectedYear == 0) {
+            /*check if is already at year 0*/
+                if (selectedYear == 0) {
+                    /*show the message to tell the user that he/she is at the min year*/
                 Toast.makeText(activity, R.string.min_year, Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -249,22 +266,32 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
         daysBtn[selectedDayIndex].setBackgroundResource(0);
         activity.setMonth(selectedMonth);
         gregorianCalendar.set(selectedYear, selectedMonth, 1);
+        /*regenerate the day of month*/
         onSetMonth();
     }
-
+    /*when the user select the day with task display the list of task for the given date using RecyclerView*/
     private void showTask() {
 
         final Task[] task = taskDb.getTaskByDate(selectedDay, selectedMonth, selectedYear);
+        /*check if the day have task*/
         if (task.length > 0) {
+            /*if true make the "no task" text INVISIBLE*/
             textViewNoTaskMassage.setVisibility(View.INVISIBLE);
+            /*make the RecyclerView VISIBLE*/
             listTaskItem.setVisibility(View.VISIBLE);
+            /*create the adapter for the list of task*/
             TaskArrayAdapter taskArrayAdapter = new TaskArrayAdapter(activity, this, task);
+            /*set the adapter to the RecyclerView */
             listTaskItem.setAdapter(taskArrayAdapter);
         } else {
+            /*else show the "no task" text*/
             textViewNoTaskMassage.setVisibility(View.VISIBLE);
+            /*make the RecyclerView  invisible*/
             listTaskItem.setVisibility(View.INVISIBLE);
+            /*remove the adapter*/
             listTaskItem.setAdapter(null);
-            daysBtn[selectedDayIndex].setBackground(selectedDay==Key.currentDay?resources.getDrawable(R.drawable.layout_selected_day_current, null):selectedStyle);
+            /*remove the mark to show that day have task*/
+            daysBtn[selectedDayIndex].setBackground(selectedDay==Key.currentDay&&isCurrentMonth?resources.getDrawable(R.drawable.layout_selected_day_current, null):selectedStyle);
             daysBtn[selectedDayIndex].setOnClickListener(new OnDayClickListener(selectedDay, selectedDayIndex, false));
             isSelectedDayHasTask=false;
         }
@@ -278,21 +305,25 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case 1:
-                    TextView dayBtn = daysBtn[selectedDayIndex];
+                    /*run the after the user added task
+                    check if there already a task for that day*/
                     if (!isSelectedDayHasTask) {
-                        dayBtn.setBackground(selectedDay==Key.currentDay? resources.getDrawable(R.drawable.layout_selected_with_task_current,null):selectedWithTaskStyle);
+                        /*if not add the mark to show that day have task*/
+                        TextView dayBtn = daysBtn[selectedDayIndex];
+                        dayBtn.setBackground(selectedDay==Key.currentDay&&isCurrentMonth? resources.getDrawable(R.drawable.layout_selected_with_task_current,null):selectedWithTaskStyle);
                         dayBtn.setOnClickListener(new OnDayClickListener(selectedDay, selectedDayIndex, true));
                         isSelectedDayHasTask=true;
                     }
                     showTask();
                     break;
                 case 2:
+                    /*run this when the user delete a task*/
                     showTask();
                     break;
             }
         }
     }
-
+    /*this for when the user click on the day*/
     private final class OnDayClickListener implements View.OnClickListener {
         private final int DAY_NUM;
         private final int INDEX;

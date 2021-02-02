@@ -41,23 +41,31 @@ public class ViewByYearFragment extends Fragment implements onSetMonth {
         fedText.setText(Integer.toString(gregorianCalendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH)));
         return view;
     }
+    /*show the dialog to allow the user to jump the a set year*/
     @Override
     public void onSetYear(final CharSequence[] months){
+        /*check if the dialog created*/
         if(mDatePickerDialog==null){
+            /*if not crate the dialog*/
             mDatePickerDialog = new MonthYearPickerDialog(getFragmentManager(),null,((view2, year, month, dayOfMonth) -> {
+                /*check if the user had selected the same year*/
                 if(selectedYear!=year){
                     selectedYear = year;
                     activity.setYear(year);
                     gregorianCalendar.set(GregorianCalendar.YEAR, year);
+                    /*get the last day of fad*/
                     fedText.setText(Integer.toString(gregorianCalendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH)));
                 }
             }));
         }
         mDatePickerDialog.show(selectedYear,0);
     }
+    /*go to next year*/
     @Override
     public void toNext(int day){
+        /*check if the the user already at the max year the device can show */
         if (selectedYear == MonthYearPickerDialog.MAX_YEAR) {
+            /*if is at max year show a message to tell the user that he/she is already at the max*/
             Toast.makeText(activity, R.string.max_year, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -65,9 +73,12 @@ public class ViewByYearFragment extends Fragment implements onSetMonth {
         gregorianCalendar.set(GregorianCalendar.YEAR, selectedYear);
         fedText.setText(Integer.toString(gregorianCalendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH)));
     }
+    /*go to last year*/
     @Override
     public void toLast(int day){
+        /*check if is already at year 0*/
         if (selectedYear == 0) {
+            /*tell the user that he/she have already at the min*/
             Toast.makeText(activity, R.string.min_year, Toast.LENGTH_SHORT).show();
             return;
         }

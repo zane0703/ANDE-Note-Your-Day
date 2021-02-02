@@ -40,15 +40,19 @@ public class TaskDetailActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.detail_title)).setText(mTask.TITLE);
         ((TextView) findViewById(R.id.detail_description)).setText(mTask.DESCRIPTION);
         ((TextView) findViewById(R.id.detail_venue)).setText(mTask.VENUE);
+        /*check if task have image*/
         if (mTask.image != null) {
-            Log.i("hello","hello");
+            /*if have show the image to image view */
             ImageView imageView = findViewById(R.id.detail_show_task_img);
             imageView.setImageBitmap(BitmapFactory.decodeByteArray(mTask.image, 0, mTask.image.length));
             imageView.setVisibility(View.VISIBLE);
         }
+        /*check if is all day */
         if (mTask.ALL_DAY) {
+            /*if true show the "all day" text*/
             findViewById(R.id.detail_show_task_time).setVisibility(View.INVISIBLE);
         } else {
+            /*else show the start and end time */
             findViewById(R.id.detail_is_all_day).setVisibility(View.INVISIBLE);
             final int startHours = mTask.START_HOURS;
             final int endHours = mTask.END_HOURS;
@@ -66,8 +70,9 @@ public class TaskDetailActivity extends AppCompatActivity {
         }//mTask.DAY + " " + getResources().getStringArray(R.array.month)[mTask.MONTH]
         ((TextView) findViewById(R.id.detail_task_date)).setText(new StringBuilder().append(mTask.DAY).append(' ').append(getResources().getStringArray(R.array.month)[mTask.MONTH]));
     }
-
+    /*run this to delete task*/
     public void onDelete(final View v) {
+        /*confirm with the user if there relay want to delete task*/
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(R.string.delete_task)
@@ -80,12 +85,12 @@ public class TaskDetailActivity extends AppCompatActivity {
                 .setNegativeButton(R.string.cancel, null)
                 .show();
     }
-
+    /*navigate to google map to show the venue*/
     public void onClickVenue(final View v) {
         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + Uri.encode(((TextView) v).getText().toString())));
         startActivity(i);
     }
-
+    /*set result to canceled when the user go back*/
     public void onBackPressed(final View v) {
         setResult(Activity.RESULT_CANCELED);
         finish();

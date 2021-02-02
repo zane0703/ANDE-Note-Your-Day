@@ -18,6 +18,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        /*navigate to main activity after 1 sec*/
         new android.os.Handler().postDelayed(() ->{
             startActivity(new Intent(this, MainActivity.class));
             finish();
