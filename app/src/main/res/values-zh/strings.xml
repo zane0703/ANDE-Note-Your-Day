@@ -85,6 +85,8 @@
     <string name="Setting">设置</string>
     <string name="view_by">查看者</string>
     <string name="settings">设定</string>
-    <string name="changeStyle">变模式</string>
-    <string name="followSystem">Follow System</string>
+    <string name="theme">主题</string>
+    <string name="system_default">系统预设</string>
+    <string name="Light">光</string>
+    <string name="Dark">暗</string>
 </resources>

@@ -6,10 +6,12 @@
  */
 package sg.LIZ.assignment1.view.activity;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import sg.LIZ.assignment1.Key;
 import sg.LIZ.assignment1.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -23,5 +25,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }, 1000);
+        AppCompatDelegate.setDefaultNightMode(getSharedPreferences(Key.DATABASE_NAME, 0).getInt("theme", AppCompatDelegate.MODE_NIGHT_UNSPECIFIED));
     }
 }

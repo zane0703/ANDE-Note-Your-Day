@@ -26,14 +26,12 @@ public final class ImageDownload {
     @Nullable
     public static Bitmap getImage(@NonNull Activity context, @NonNull CharSequence url){
         String urlString;
-        Log.i("hello", Boolean.toString(HTTP_PATTERN.matcher(url).matches()));
         if(!HTTP_PATTERN.matcher(url).matches()){
             urlString = "http://"+url.toString();
         }else{
             urlString=url.toString();
         }
         try{
-            Log.i("helo", urlString);
             HttpURLConnection conn = (HttpURLConnection)new URL(urlString).openConnection();
             conn.setRequestMethod(Key.HTTP_METHOD_GET);
             conn.setRequestProperty("Accept", "image/jpeg, image/png, image/webp");

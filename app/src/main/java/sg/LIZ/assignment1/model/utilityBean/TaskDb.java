@@ -18,7 +18,7 @@ public class TaskDb extends SQLiteOpenHelper {
     private final static String TABLE = "task";
 
     public TaskDb(@NonNull Context context) {
-        super(context, "assignment1", null, 2);
+        super(context, Key.DATABASE_NAME, null, 2);
         //3rd argument to be passed is CursorFactory instance
     }
     /*

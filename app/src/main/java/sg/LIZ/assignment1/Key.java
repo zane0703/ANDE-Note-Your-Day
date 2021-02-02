@@ -30,6 +30,7 @@ public  class Key {
     public final static String KEY_DESCRIPTION = "description";
     public final static String KEY_VENUE="venue";
     public final static String KEY_IMAGE="image";
+    public final static String DATABASE_NAME="assignment";
     static {
         GregorianCalendar gregorianCalendar =new GregorianCalendar();
         currentYear =  gregorianCalendar.get(GregorianCalendar.YEAR);
