@@ -87,6 +87,7 @@
     <string name="settings">设定</string>
     <string name="theme">主题</string>
     <string name="system_default">系统预设</string>
+    <string name="language">语言</string>
     <string name="Light">光</string>
     <string name="Dark">暗</string>
 </resources>

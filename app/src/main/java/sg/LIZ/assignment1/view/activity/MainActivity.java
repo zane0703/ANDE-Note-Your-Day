@@ -41,8 +41,8 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listViewSliding;
-    private int selectYear = Key.currentYear;
-    private int selectMonth = Key.currentMonth;
+    private static int selectYear = Key.currentYear;
+    private static int selectMonth = Key.currentMonth;
     private ImageButton hamburgerMenu;
     private TextView textViewMonthView;
     private TextView textViewYearView;
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout constraintLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private CharSequence[] months;
+    private static int currentFragment =0;
     private boolean isDrawerOpened = false;
 
     @SuppressLint("SetTextI18n")
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
         };
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        replaceFragment(0);
+        replaceFragment(currentFragment);
 
     }
 
@@ -169,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return;
         }
-
+        currentFragment = 0;
         replaceFragment(0);
     }
     /*show the dialog for the user to jump to a set year or month */
@@ -211,19 +212,22 @@ public class MainActivity extends AppCompatActivity {
             case 0:
                 fragment = new ViewByMonthFragment();
                 textViewMonthView.setText(months[selectMonth]);
+                textViewYearView.setText(Integer.toString(selectYear));
                 break;
             case 1:
                 fragment = new ViewByYearFragment();
                 textViewMonthView.setText(new char[0], 0, 0);
+                textViewYearView.setText(Integer.toString(selectYear));
                 break;
             case 2:
                 fragment = new SettingsFragment();
                 textViewMonthView.setText(new char[0], 0, 0);
-                textViewMonthView.setText(R.string.settings);
+                textViewYearView.setText(R.string.settings);
                 break;
             default:
                 return;
         }
+        currentFragment = pos;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_content, fragment);

@@ -46,7 +46,7 @@
                 android:clickable="false"
                 android:fontFamily="@font/playball_regular"
                 android:textAlignment="center"
-                android:textColor="@color/textColour"
+                android:textColor="@color/white"
                 android:textSize="30sp" />
 
             <TextView
@@ -56,7 +56,7 @@
                 android:clickable="false"
                 android:fontFamily="@font/playball_regular"
                 android:paddingStart="5dp"
-                android:textColor="@color/textColour"
+                android:textColor="@color/white"
                 android:textSize="30sp" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
