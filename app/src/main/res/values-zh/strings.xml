@@ -85,4 +85,6 @@
     <string name="Setting">设置</string>
     <string name="view_by">查看者</string>
     <string name="settings">设定</string>
+    <string name="changeStyle">变模式</string>
+    <string name="followSystem">Follow System</string>
 </resources>

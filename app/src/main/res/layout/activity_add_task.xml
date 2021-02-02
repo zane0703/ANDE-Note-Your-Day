@@ -10,14 +10,14 @@ class DIT/FT/2A/21
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backGround"
+    android:background="@color/eventBackground"
     tools:context=".view.activity.AddTaskActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/gray"
+        android:background="@color/topNavbar"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +75,7 @@ class DIT/FT/2A/21
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/enter_task_title"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:textSize="25sp" />
 
                 <EditText
@@ -88,7 +88,7 @@ class DIT/FT/2A/21
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/Enter_Task_description"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:textSize="25sp" />
 
                 <EditText
@@ -101,7 +101,7 @@ class DIT/FT/2A/21
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/Enter_venue"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:textSize="25sp" />
 
                 <LinearLayout
@@ -120,7 +120,7 @@ class DIT/FT/2A/21
                         android:paddingRight="5dp"
                         android:paddingLeft="5dp"
                         android:layout_marginLeft="5dp"
-                        android:background="@color/gray"
+                        android:background="@color/topNavbar"
                     />
                 </LinearLayout>
             </LinearLayout>
@@ -143,7 +143,7 @@ class DIT/FT/2A/21
                 <TextView
                     android:layout_gravity="fill_horizontal"
                     android:text="@string/all_day"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:textSize="25sp" />
 
                 <androidx.appcompat.widget.SwitchCompat
@@ -171,27 +171,27 @@ class DIT/FT/2A/21
                 <TextView
                     android:layout_gravity="fill_horizontal"
                     android:text="@string/start_time"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:textSize="25sp" />
 
                 <Button
                     android:id="@+id/add_start_time"
                     android:background="@color/transparent"
                     android:onClick="onSetStartTime"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:textSize="25sp" />
 
                 <TextView
                     android:layout_gravity="fill_horizontal"
                     android:text="@string/end_time"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:textSize="25sp" />
 
                 <Button
                     android:id="@+id/add_end_time"
                     android:background="@color/transparent"
                     android:onClick="onSetEndTime"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:textSize="25sp" />
 
                 <Space android:layout_gravity="fill_horizontal" />
@@ -225,7 +225,7 @@ class DIT/FT/2A/21
         android:id="@+id/gridLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray"
+        android:background="@color/topNavbar"
         android:columnCount="2"
         android:gravity="center"
         android:orientation="horizontal"
@@ -239,12 +239,12 @@ class DIT/FT/2A/21
             android:layout_height="match_parent"
             android:layout_columnWeight="1"
             android:layout_margin="1dp"
-            android:background="@color/dark"
+            android:background="@color/cellColour"
             android:onClick="onBackPressed"
             android:padding="5dp"
             android:text="@string/cancel"
             android:textAlignment="center"
-            android:textColor="@color/liteBlue"
+            android:textColor="@color/lightBlue"
             android:textSize="25sp"
             tools:ignore="RtlCompat" />
 
@@ -252,12 +252,12 @@ class DIT/FT/2A/21
             android:layout_height="match_parent"
             android:layout_columnWeight="1"
             android:layout_margin="1dp"
-            android:background="@color/dark"
+            android:background="@color/cellColour"
             android:onClick="onSubmit"
             android:padding="5dp"
             android:text="@string/create"
             android:textAlignment="center"
-            android:textColor="@color/liteBlue"
+            android:textColor="@color/lightBlue"
             android:textSize="25sp"
             tools:ignore="RtlCompat" />
     </GridLayout>

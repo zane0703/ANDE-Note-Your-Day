@@ -11,7 +11,7 @@ class DIT/FT/2A/21
     android:background="@color/transparent"
     android:paddingBottom="5dp">
     <TextView
-        android:textColor="@color/white"
+        android:textColor="@color/textColour"
         android:id="@+id/recycler_task_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,12 +20,12 @@ class DIT/FT/2A/21
         android:textSize="20sp"/>
 
     <TextView
-        android:textColor="@color/white"
+        android:textColor="@color/textColour"
         android:id="@+id/recycler_task_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:textColor="@color/white"
+        android:textColor="@color/textColour"
         android:id="@+id/recycler_all_day"
         android:text="@string/all_day"
         android:layout_width="wrap_content"

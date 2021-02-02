@@ -24,6 +24,6 @@ class DIT/FT/2A/21
         android:id="@+id/sliding_item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        android:textColor="@color/textColour"
         android:textSize="20sp" />
 </LinearLayout>

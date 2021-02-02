@@ -10,7 +10,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@color/gray">
+        android:background="@color/topNavbar">
 
         <!-- Menu Button !-->
         <ImageButton
@@ -82,14 +82,14 @@
             android:layout_width="200dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@color/dark">
+            android:background="@color/cellColour">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
                 android:text="@string/view_by"
-                android:textColor="@color/white"
+                android:textColor="@color/textColour"
                 android:textSize="25sp"
                 app:layout_constraintBottom_toTopOf="@+id/sliding_menu"
                 app:layout_constraintEnd_toEndOf="parent"

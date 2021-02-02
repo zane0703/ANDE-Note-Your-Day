@@ -5,17 +5,34 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-
+    <color name="white">#FFFFFFFF</color>
     <color name="red">#ff0000</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
     <color name="green">#07685f</color>
-    <color name="liteBlue">#76a5e3</color>
+    <color name="lightBlue">#76a5e3</color>
     <color name="transparent">#00000000</color>
-    <color name="gray">#9e9e9e</color>
+    <color name="topNavbar">#9e9e9e</color>
+    <!-- This is the colour of the text field in creating events !-->
+    <color name="textFieldEvent">#FFFFFF</color>
+
+    <!-- This is the colour of the status bar !-->
+    <color name="statusBar">#000000</color>
+
+    <!-- This is the colour of the background !-->
     <color name="backGround">#343434</color>
-    <color name="dark">#565251</color>
-    <color name="monthsButtons">#565252</color>
+
+    <!-- This is the colour of the background in events page !-->
+    <color name="eventBackground">#343434</color>
+
+    <!-- This is the colour of the cells within the calendar !-->
+    <color name="cellColour">#565251</color>
+
+    <!-- This is the colour of the cell borders in ViewByYear layout !-->
     <color name="monthButtonBorder">#707070</color>
+
+    <!-- This is the colour used for text !-->
+    <color name="textColour">#EEEEEE</color>
+
+    <!-- This is the blue accent used within the app !-->
     <color name="blueDetails">#76A5E3</color>
 </resources>

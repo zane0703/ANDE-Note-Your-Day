@@ -51,7 +51,7 @@ class DIT/FT/2A/21
                     android:layout_height="wrap_content"
                     android:text="@string/jan"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:clickable="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +67,7 @@ class DIT/FT/2A/21
                     android:layout_marginTop="29dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/liteBlue"
+                    android:textColor="@color/lightBlue"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -93,7 +93,7 @@ class DIT/FT/2A/21
                     android:layout_height="wrap_content"
                     android:text="@string/feb"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:clickable="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +107,7 @@ class DIT/FT/2A/21
                     android:layout_marginTop="29dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/liteBlue"
+                    android:textColor="@color/lightBlue"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -138,7 +138,7 @@ class DIT/FT/2A/21
                     android:layout_height="wrap_content"
                     android:clickable="false"
                     android:text="@string/mar"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -154,7 +154,7 @@ class DIT/FT/2A/21
                     android:layout_marginTop="29dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/liteBlue"
+                    android:textColor="@color/lightBlue"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -180,7 +180,7 @@ class DIT/FT/2A/21
                     android:text="@string/apr"
                     android:textSize="20sp"
                     android:clickable="false"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -195,7 +195,7 @@ class DIT/FT/2A/21
                     android:layout_marginTop="29dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/liteBlue"
+                    android:textColor="@color/lightBlue"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -220,7 +220,7 @@ class DIT/FT/2A/21
                     android:layout_height="wrap_content"
                     android:text="@string/may"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:clickable="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -235,7 +235,7 @@ class DIT/FT/2A/21
                     android:layout_marginTop="29dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/liteBlue"
+                    android:textColor="@color/lightBlue"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -253,7 +253,7 @@ class DIT/FT/2A/21
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:background="@drawable/layout_month_button"
-                android:textColor="@color/white"
+                android:textColor="@color/textColour"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" >
                 <TextView
@@ -261,7 +261,7 @@ class DIT/FT/2A/21
                     android:layout_height="wrap_content"
                     android:text="@string/jun"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:clickable="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -276,7 +276,7 @@ class DIT/FT/2A/21
                     android:layout_marginTop="29dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/liteBlue"
+                    android:textColor="@color/lightBlue"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -293,7 +293,7 @@ class DIT/FT/2A/21
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:background="@drawable/layout_month_button"
-                android:textColor="@color/white"
+                android:textColor="@color/textColour"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" >
                 <TextView
@@ -301,7 +301,7 @@ class DIT/FT/2A/21
                     android:layout_height="wrap_content"
                     android:text="@string/jul"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:clickable="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -316,7 +316,7 @@ class DIT/FT/2A/21
                     android:layout_marginTop="29dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/liteBlue"
+                    android:textColor="@color/lightBlue"
                     android:id="@+id/view_by_year_day_Jul"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -335,7 +335,7 @@ class DIT/FT/2A/21
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:background="@drawable/layout_month_button"
-                android:textColor="@color/white"
+                android:textColor="@color/textColour"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" >
                 <TextView
@@ -343,7 +343,7 @@ class DIT/FT/2A/21
                     android:layout_height="wrap_content"
                     android:text="@string/aug"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:clickable="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -359,7 +359,7 @@ class DIT/FT/2A/21
                     android:layout_marginTop="29dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/liteBlue"
+                    android:textColor="@color/lightBlue"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -377,7 +377,7 @@ class DIT/FT/2A/21
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:background="@drawable/layout_month_button"
-                android:textColor="@color/white"
+                android:textColor="@color/textColour"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" >
                 <TextView
@@ -385,7 +385,7 @@ class DIT/FT/2A/21
                     android:layout_height="wrap_content"
                     android:text="@string/sep"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:clickable="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -401,7 +401,7 @@ class DIT/FT/2A/21
                     android:layout_marginTop="29dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/liteBlue"
+                    android:textColor="@color/lightBlue"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -418,7 +418,7 @@ class DIT/FT/2A/21
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:background="@drawable/layout_month_button"
-                android:textColor="@color/white"
+                android:textColor="@color/textColour"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" >
                 <TextView
@@ -426,7 +426,7 @@ class DIT/FT/2A/21
                     android:layout_height="wrap_content"
                     android:text="@string/oct"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:clickable="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -442,7 +442,7 @@ class DIT/FT/2A/21
                     android:layout_marginTop="29dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/liteBlue"
+                    android:textColor="@color/lightBlue"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -460,7 +460,7 @@ class DIT/FT/2A/21
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:background="@drawable/layout_month_button"
-                android:textColor="@color/white"
+                android:textColor="@color/textColour"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" >
                 <TextView
@@ -468,7 +468,7 @@ class DIT/FT/2A/21
                     android:layout_height="wrap_content"
                     android:text="@string/nov"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:clickable="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -484,7 +484,7 @@ class DIT/FT/2A/21
                     android:layout_marginTop="29dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/liteBlue"
+                    android:textColor="@color/lightBlue"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -502,7 +502,7 @@ class DIT/FT/2A/21
                 android:gravity="center"
                 android:horizontalSpacing="20dp"
                 android:background="@drawable/layout_month_button"
-                android:textColor="@color/white"
+                android:textColor="@color/textColour"
                 tools:layout_editor_absoluteX="46dp"
                 tools:layout_editor_absoluteY="125dp" >
                 <TextView
@@ -510,7 +510,7 @@ class DIT/FT/2A/21
                     android:layout_height="wrap_content"
                     android:text="@string/dec"
                     android:textSize="20sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/textColour"
                     android:clickable="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -526,7 +526,7 @@ class DIT/FT/2A/21
                     android:layout_marginTop="29dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/liteBlue"
+                    android:textColor="@color/lightBlue"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
