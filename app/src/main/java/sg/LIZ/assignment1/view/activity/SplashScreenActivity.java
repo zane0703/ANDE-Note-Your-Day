@@ -33,6 +33,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (isDone) {
             isDone = false;
             AppCompatDelegate.setDefaultNightMode(appSettingPrefs.getInt("theme", AppCompatDelegate.MODE_NIGHT_UNSPECIFIED));
+            recreate();
             return;
         }
         /*navigate to main activity after 1 sec*/
