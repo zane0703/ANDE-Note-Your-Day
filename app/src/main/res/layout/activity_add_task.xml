@@ -30,7 +30,7 @@ class DIT/FT/2A/21
             android:paddingEnd="5dp"
             android:text="@string/add_event_on"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/title"
             android:textSize="25sp" />
 
         <TextView
@@ -38,7 +38,7 @@ class DIT/FT/2A/21
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAlignment="center"
-            android:textColor="@color/white"
+            android:textColor="@color/title"
             android:textSize="25sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -225,7 +225,6 @@ class DIT/FT/2A/21
         android:id="@+id/gridLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/topNavbar"
         android:columnCount="2"
         android:gravity="center"
         android:orientation="horizontal"
@@ -239,7 +238,7 @@ class DIT/FT/2A/21
             android:layout_height="match_parent"
             android:layout_columnWeight="1"
             android:layout_margin="1dp"
-            android:background="@color/cellColour"
+            android:background="@color/eventBtn"
             android:onClick="onBackPressed"
             android:padding="5dp"
             android:text="@string/cancel"
@@ -252,7 +251,7 @@ class DIT/FT/2A/21
             android:layout_height="match_parent"
             android:layout_columnWeight="1"
             android:layout_margin="1dp"
-            android:background="@color/cellColour"
+            android:background="@color/eventBtn"
             android:onClick="onSubmit"
             android:padding="5dp"
             android:text="@string/create"

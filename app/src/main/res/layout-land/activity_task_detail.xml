@@ -11,7 +11,7 @@ class DIT/FT/2A/21
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.activity.TaskDetailActivity"
-    android:background="@color/backGround">
+    android:background="@color/eventBackground">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -30,7 +30,7 @@ class DIT/FT/2A/21
             android:paddingEnd="5dp"
             android:text="@string/Event_on"
             android:textAlignment="center"
-            android:textColor="@color/textColour"
+            android:textColor="@color/title"
             android:textSize="25sp" />
 
         <TextView
@@ -38,7 +38,7 @@ class DIT/FT/2A/21
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAlignment="center"
-            android:textColor="@color/textColour"
+            android:textColor="@color/title"
             android:textSize="25sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -127,6 +127,7 @@ class DIT/FT/2A/21
         android:layout_marginStart="14dp"
         android:columnCount="2"
         android:paddingLeft="20dp"
+        android:background="@color/eventBackground"
         android:paddingRight="20dp"
         android:rowCount="3"
         app:layout_constraintBottom_toTopOf="@+id/gridLayout2"
@@ -192,7 +193,7 @@ class DIT/FT/2A/21
             android:layout_height="match_parent"
             android:layout_columnWeight="1"
             android:layout_margin="1dp"
-            android:background="@color/cellColour"
+            android:background="@color/eventBtn"
             android:onClick="onBackPressed"
             android:padding="5dp"
             android:text="@string/cancel"
@@ -205,7 +206,7 @@ class DIT/FT/2A/21
             android:layout_height="match_parent"
             android:layout_columnWeight="1"
             android:layout_margin="1dp"
-            android:background="@color/cellColour"
+            android:background="@color/eventBtn"
             android:onClick="onDelete"
             android:padding="5dp"
             android:text="@string/delete"

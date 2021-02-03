@@ -11,7 +11,7 @@ class DIT/FT/2A/21
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.activity.TaskDetailActivity"
-    android:background="@color/backGround">
+    android:background="@color/eventBackground">
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@ class DIT/FT/2A/21
             android:paddingEnd="5dp"
             android:text="@string/Event_on"
             android:textAlignment="center"
-            android:textColor="@color/textColour"
+            android:textColor="@color/title"
             android:textSize="25sp" />
 
         <TextView
@@ -37,7 +37,7 @@ class DIT/FT/2A/21
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textAlignment="center"
-            android:textColor="@color/textColour"
+            android:textColor="@color/title"
             android:textSize="25sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -120,6 +120,7 @@ class DIT/FT/2A/21
                 android:text="@string/all_day"
                 android:textColor="@color/textColour"
                 android:textSize="25sp"
+                android:layout_marginTop="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
@@ -133,6 +134,7 @@ class DIT/FT/2A/21
                 android:columnCount="2"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
+                android:layout_marginTop="30dp"
                 android:rowCount="3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -145,7 +147,8 @@ class DIT/FT/2A/21
                     android:layout_gravity="fill_horizontal"
                     android:text="@string/start_time"
                     android:textColor="@color/textColour"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:layout_marginBottom="15dp"/>
 
                 <TextView
                     android:id="@+id/detail_show_start_time"
@@ -186,7 +189,6 @@ class DIT/FT/2A/21
         android:id="@+id/gridLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/topNavbar"
         android:columnCount="2"
         android:gravity="center"
         android:orientation="horizontal"
@@ -196,11 +198,10 @@ class DIT/FT/2A/21
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-
             android:layout_height="match_parent"
             android:layout_columnWeight="1"
-            android:layout_margin="1dp"
-            android:background="@color/cellColour"
+            android:layout_marginTop="1dp"
+            android:background="@color/eventBtn"
             android:onClick="onBackPressed"
             android:padding="5dp"
             android:text="@string/cancel"
@@ -213,7 +214,7 @@ class DIT/FT/2A/21
             android:layout_height="match_parent"
             android:layout_columnWeight="1"
             android:layout_margin="1dp"
-            android:background="@color/cellColour"
+            android:background="@color/eventBtn"
             android:onClick="onDelete"
             android:padding="5dp"
             android:text="@string/delete"
