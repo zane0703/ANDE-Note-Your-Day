@@ -15,6 +15,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.widget.RadioButton;
 
 import java.util.Locale;
@@ -28,34 +29,20 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
         final SharedPreferences appSettingPrefs = getSharedPreferences(Key.DATABASE_NAME, 0);
-        if (isDone) {
-            isDone = false;
+        if(isDone){
+            isDone=false;
             AppCompatDelegate.setDefaultNightMode(appSettingPrefs.getInt("theme", AppCompatDelegate.MODE_NIGHT_UNSPECIFIED));
             recreate();
             return;
         }
+        setLanguage(appSettingPrefs.getInt("language", 0));
+        setContentView(R.layout.activity_splash_screen);
         /*navigate to main activity after 1 sec*/
         new android.os.Handler().postDelayed(() -> {
-            if (isDone) {
-                isDone = false;
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
-            } else {
-                isDone = true;
-            }
         }, 1000);
-
-        Locale locale = null;
-        setLanguage(appSettingPrefs.getInt("language", 0));
-        if (isDone) {
-            isDone = false;
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        } else {
-            isDone = true;
-        }
     }
 
     private void setLanguage(final int languageId) {
