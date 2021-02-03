@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,9 @@ public class SettingsFragment extends Fragment {
             case 2:
                 ((RadioButton)view.findViewById(R.id.setting_language_chinese)).setChecked(true);
                 break;
+            case 3:
+                ((RadioButton)view.findViewById(R.id.setting_language_traditional_chinese)).setChecked(true);
+                break;
             default:
                 ((RadioButton)view.findViewById(R.id.setting_language_default)).setChecked(true);
                 break;
@@ -94,8 +98,12 @@ public class SettingsFragment extends Fragment {
                     languageId=1;
                     break;
                 case R.id.setting_language_chinese:
-                    mLocale=Locale.CHINESE;
+                    mLocale=Locale.SIMPLIFIED_CHINESE;
                     languageId=2;
+                    break;
+                case R.id.setting_language_traditional_chinese:
+                    mLocale = Locale.TRADITIONAL_CHINESE;
+                    languageId=3;
                     break;
                 default:
                     return;

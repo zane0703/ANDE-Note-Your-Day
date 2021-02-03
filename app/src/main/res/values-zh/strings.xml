@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <resources>
     <string-array name="month">
         <item>一月</item>
@@ -72,7 +71,7 @@
     <string name="set">设置</string>
     <string name="location">导航</string>
     <string name="no_gps">请启用您的导航服务</string>
-    <string name="conn_off">您的手机未连接到互联网</string>
+    <string name="conn_off">您的手机未连接到网路</string>
     <string name="select_address"><u><b>请选择您的地址</b></u></string>
     <string name="select_img_src"><u><b>请选择您的图片来源</b></u></string>
     <string name="enter_img_url">请输入图片网址</string>
@@ -82,7 +81,6 @@
     <string name="not_conn">网路连线有问题</string>
     <string name="month">月</string>
     <string name="year">年</string>
-    <string name="Setting">设置</string>
     <string name="view_by">查看者</string>
     <string name="settings">设定</string>
     <string name="theme">主题</string>

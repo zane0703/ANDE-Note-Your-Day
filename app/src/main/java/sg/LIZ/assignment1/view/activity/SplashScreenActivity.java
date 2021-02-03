@@ -56,7 +56,10 @@ public class SplashScreenActivity extends AppCompatActivity {
                 locale = Locale.ENGLISH;
                 break;
             case 2:
-                locale = Locale.CHINESE;
+                locale = Locale.SIMPLIFIED_CHINESE;
+                break;
+            case 3:
+                locale = Locale.TRADITIONAL_CHINESE;
                 break;
             default:
                 return;

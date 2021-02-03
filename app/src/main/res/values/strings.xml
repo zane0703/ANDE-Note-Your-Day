@@ -78,7 +78,6 @@
     <string name="backend_urL" translatable="false">http://localhost:8080</string>
     <string name="month">Month</string>
     <string name="year">Year</string>
-    <string name="Setting">Setting</string>
     <string name="drawer_open" translatable="false">Open</string>
     <string name="drawer_close" translatable="false">Close</string>
     <string name="wrong_url">Looks like you enter an invalid URL</string>
