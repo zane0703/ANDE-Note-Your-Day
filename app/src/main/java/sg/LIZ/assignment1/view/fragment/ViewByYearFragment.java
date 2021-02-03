@@ -47,7 +47,7 @@ public class ViewByYearFragment extends Fragment implements onSetMonth {
         /*check if the dialog created*/
         if(mDatePickerDialog==null){
             /*if not crate the dialog*/
-            mDatePickerDialog = new MonthYearPickerDialog(getFragmentManager(),null,((view2, year, month, dayOfMonth) -> {
+            mDatePickerDialog = new MonthYearPickerDialog(getParentFragmentManager(),null,((view2, year, month, dayOfMonth) -> {
                 /*check if the user had selected the same year*/
                 if(selectedYear!=year){
                     selectedYear = year;
