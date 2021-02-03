@@ -206,7 +206,7 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
     public void onSetYear(final CharSequence[] months) {
         if (mDatePickerDialog == null) {
             /*create the dialog object if is not already created*/
-            mDatePickerDialog = new MonthYearPickerDialog(getFragmentManager(), months, ((view, year, month, dayOfMonth) -> {
+            mDatePickerDialog = new MonthYearPickerDialog(getParentFragmentManager(), months, ((view, year, month, dayOfMonth) -> {
                 if (selectedYear != year || selectedMonth != month) {
                     selectedYear = year;
                     selectedMonth = month;
