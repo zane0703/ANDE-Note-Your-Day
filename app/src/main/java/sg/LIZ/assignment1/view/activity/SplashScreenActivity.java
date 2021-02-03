@@ -32,9 +32,13 @@ public class SplashScreenActivity extends AppCompatActivity {
         final SharedPreferences appSettingPrefs = getSharedPreferences(Key.DATABASE_NAME, 0);
         if(isDone){
             isDone=false;
-            AppCompatDelegate.setDefaultNightMode(appSettingPrefs.getInt("theme", AppCompatDelegate.MODE_NIGHT_UNSPECIFIED));
-            recreate();
-            return;
+            int seTheme = appSettingPrefs.getInt("theme", AppCompatDelegate.MODE_NIGHT_UNSPECIFIED);
+            if(seTheme==AppCompatDelegate.MODE_NIGHT_NO||seTheme==AppCompatDelegate.MODE_NIGHT_YES){
+                AppCompatDelegate.setDefaultNightMode(seTheme);
+                recreate();
+                return;
+            }
+
         }
         setLanguage(appSettingPrefs.getInt("language", 0));
         setContentView(R.layout.activity_splash_screen);
