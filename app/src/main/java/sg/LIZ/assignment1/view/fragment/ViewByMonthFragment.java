@@ -209,7 +209,7 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
             daysBtn[currentDayOfMonthIndex[day]].setTextColor(dayTextColour);
         }
         if(newDay !=-1){
-            daysBtn[currentDayOfMonthIndex[day]].setTextColor(0xff76a5e3);
+            daysBtn[currentDayOfMonthIndex[newDay]].setTextColor(0xff76a5e3);
         }
     }
     /*show the dialog for the user to jump to a month or year*/
