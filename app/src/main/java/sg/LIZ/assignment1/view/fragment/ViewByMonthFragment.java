@@ -135,7 +135,7 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
     }
 
 
-    private void onSetMonth() {
+    public void onSetMonth() {
         /*get max amount of days in the given month and year*/
         int daysInMonth = gregorianCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         /*get the day that have task from the sqlite database*/

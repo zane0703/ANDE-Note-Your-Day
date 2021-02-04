@@ -26,6 +26,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -36,7 +41,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.Objects;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -50,9 +56,11 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout constraintLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private CharSequence[] months;
+    private PendingIntent pendingIntent;
+    private AlarmManager mAlarmManager;
     private int currentFragment ;
+    private Fragment fragment;
     private boolean isDrawerOpened = false;
-
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +125,13 @@ public class MainActivity extends AppCompatActivity {
 
         };
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        /*set up to update the Date*/
+        mAlarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        pendingIntent = PendingIntent.getBroadcast(this, 123,new Intent(this, ChangeDate.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        mAlarmManager.setInexactRepeating(AlarmManager.RTC,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY, pendingIntent);
 
         replaceFragment(currentFragment);
 
@@ -188,8 +203,6 @@ public class MainActivity extends AppCompatActivity {
     }
     /*show the dialog for the user to jump to a set year or month */
     public void onSetYear(View view) {
-        /*get the fragment*/
-        Fragment fragment= getSupportFragmentManager().findFragmentById(R.id.main_content);
         /*check if is a view by year/month to prevent ClassCastException*/
         if(fragment instanceof onSetMonth){
             ((onSetMonth) fragment).onSetYear(months);
@@ -220,7 +233,6 @@ public class MainActivity extends AppCompatActivity {
     }
     /*navigate to anther fragment */
     private void replaceFragment(int pos) {
-        Fragment fragment = null;
         switch (pos) {
             case 0:
                 fragment = new ViewByMonthFragment();
@@ -265,5 +277,25 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.openDrawer(constraintLayout);
         }
     }
-    
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAlarmManager.cancel(pendingIntent);
+    }
+    private class ChangeDate extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            GregorianCalendar gregorianCalendar =new GregorianCalendar();
+            Key.currentYear =  gregorianCalendar.get(GregorianCalendar.YEAR);
+            Key.currentMonth = (byte) gregorianCalendar.get(GregorianCalendar.MONTH);
+            Key.currentDay = (byte) gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH);
+            if(MainActivity.this.fragment instanceof ViewByMonthFragment){
+                if(Key.currentMonth==selectMonth&&Key.currentYear==selectMonth){
+                    ((ViewByMonthFragment)fragment).onSetMonth();
+                }
+            }
+        }
+    }
 }
