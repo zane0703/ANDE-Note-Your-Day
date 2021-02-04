@@ -41,8 +41,8 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listViewSliding;
-    private static int selectYear = Key.currentYear;
-    private static int selectMonth = Key.currentMonth;
+    private int selectYear ;
+    private int selectMonth ;
     private ImageButton hamburgerMenu;
     private TextView textViewMonthView;
     private TextView textViewYearView;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout constraintLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private CharSequence[] months;
-    private static int currentFragment =0;
+    private int currentFragment ;
     private boolean isDrawerOpened = false;
 
     @SuppressLint("SetTextI18n")
@@ -73,8 +73,20 @@ public class MainActivity extends AppCompatActivity {
                 resources.getText(R.string.year),
                 resources.getString(R.string.settings)
         };
-        /*set the the year that will show up in the top bar */
-        textViewYearView.setText(Integer.toString(selectYear));
+        /*check if activity is recreated*/
+        if(savedInstanceState==null){
+            /*if not set default*/
+            selectYear = Key.currentYear;
+            selectMonth = Key.currentMonth;
+            currentFragment=0;
+            textViewYearView.setText(Integer.toString(selectYear));
+        }else{
+            /*else get the previous data*/
+            currentFragment =savedInstanceState.getInt(Key.KEY_ID);
+            selectMonth=savedInstanceState.getInt(Key.KEY_MONTH);
+            selectYear = savedInstanceState.getInt(Key.KEY_YEAR);
+            if(currentFragment!=2){textViewYearView.setText(Integer.toString(selectYear));}
+        }
         /*create adapter for the sliding bar */
         SlidingMenuAdapter adapter = new SlidingMenuAdapter(this, listSliding);
         listViewSliding.setAdapter(adapter);
@@ -105,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
         };
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
         replaceFragment(currentFragment);
 
     }
@@ -234,6 +247,15 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
     /*when the hamburger menu click open or closer  sliding bar */
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(Key.KEY_MONTH, selectMonth);
+        outState.putInt(Key.KEY_YEAR, selectYear);
+        outState.putInt(Key.KEY_ID, currentFragment);
+    }
+
     public void onOpenDrawer(View v) {
         if (isDrawerOpened) {
             hamburgerMenu.setSelected(false);
@@ -243,10 +265,5 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.openDrawer(constraintLayout);
         }
     }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-        System.exit(0);
-    }
+    
 }

@@ -79,8 +79,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private int startMinutes;
     private int endHours;
     private int endMinutes;
-    /*the bitmap is static so as to make sure that the image will be there after changing orientation*/
-    private static Bitmap bitmap;
+    private Bitmap bitmap;
     private TextWatcher textWatcher = null;
     private final TaskDb taskDb = new TaskDb(this);
 
@@ -125,8 +124,11 @@ public class AddTaskActivity extends AppCompatActivity {
                 .append(currentDate.get(Calendar.AM_PM) == Calendar.PM ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
         //selectedDay + " " + getResources().getStringArray(R.array.month)[selectedMonth]
         /*check the bitmap is not null output the image*/
-        if (bitmap != null) {
-            imageView.setImageBitmap(bitmap);
+        if (savedInstanceState != null) {
+            bitmap=  savedInstanceState.getParcelable(Key.KEY_IMAGE);
+            if(bitmap!= null){
+                imageView.setImageBitmap(bitmap);
+            }
         }
         /*output the month*/
         ((TextView) findViewById(R.id.task_date)).setText(new StringBuilder().append(selectedDay).append(' ').append(getResources().getStringArray(R.array.month)[selectedMonth]));
@@ -146,7 +148,6 @@ public class AddTaskActivity extends AppCompatActivity {
                         /*check if the watch is enabled*/
                         if (textWatcher == null) {
                             textWatcher = new TextWatcher() {
-
                                 @Override
                                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                                 }
@@ -267,7 +268,6 @@ public class AddTaskActivity extends AppCompatActivity {
                 .setTitle(R.string.discard_task)
                 .setMessage(R.string.discard_task2)
                 .setPositiveButton(R.string.yes, (dialog, which) -> {
-                    bitmap = null;
                     setResult(Activity.RESULT_CANCELED);
                     finish();
                 })
@@ -313,13 +313,6 @@ public class AddTaskActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        /*remove the bitmap as the it is a static var it will not auto remove when the user exit out of this page*/
-        bitmap = null;
-    }
-
     @SuppressLint("DefaultLocale")
     public void onSetStartTime(View v) {
         /*only create the TimePickerDialog when needed*/
@@ -340,6 +333,12 @@ public class AddTaskActivity extends AppCompatActivity {
         }
         startTimePicker.show();
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(Key.KEY_IMAGE, bitmap);
     }
 
     @SuppressLint("DefaultLocale")
