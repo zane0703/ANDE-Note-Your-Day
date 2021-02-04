@@ -288,14 +288,26 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             GregorianCalendar gregorianCalendar =new GregorianCalendar();
-            Key.currentYear =  gregorianCalendar.get(GregorianCalendar.YEAR);
-            Key.currentMonth = (byte) gregorianCalendar.get(GregorianCalendar.MONTH);
-            Key.currentDay = (byte) gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH);
+            int newCurrentYear =  gregorianCalendar.get(GregorianCalendar.YEAR);
+            int newCurrentMonth = (byte) gregorianCalendar.get(GregorianCalendar.MONTH);
+            int newCurrentDay =  gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH);
             if(MainActivity.this.fragment instanceof ViewByMonthFragment){
-                if(Key.currentMonth==selectMonth&&Key.currentYear==selectMonth){
-                    ((ViewByMonthFragment)fragment).onSetMonth();
+                ViewByMonthFragment viewByMonthFragment =(ViewByMonthFragment)fragment;
+                if(Key.currentMonth!=newCurrentMonth){
+                    if(Key.currentMonth==selectMonth&&Key.currentYear==selectYear){
+                        viewByMonthFragment.toChangeCurrentDay(Key.currentDay, -1);
+                    }else if(newCurrentMonth==selectMonth&&newCurrentYear==selectYear){
+                        viewByMonthFragment.toChangeCurrentDay(-1, newCurrentDay);
+                    }
+                }else{
+                    if(Key.currentMonth==selectMonth&&Key.currentYear==selectYear){
+                        viewByMonthFragment.toChangeCurrentDay(Key.currentDay, newCurrentDay);
+                    }
                 }
             }
+            Key.currentDay= (byte)newCurrentDay;
+            Key.currentYear= newCurrentYear;
+            Key.currentMonth=(byte) newCurrentMonth;
         }
     }
 }

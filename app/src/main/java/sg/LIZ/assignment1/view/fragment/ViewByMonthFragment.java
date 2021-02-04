@@ -54,6 +54,7 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
     private int selectedMonth = 0;
     private int selectedYear = 0;
     private int selectedDayIndex = 0;
+    private int[] currentDayOfMonthIndex;
     private boolean isSelectedDayHasTask=false;
     private boolean isCurrentMonth=false;
     private MainActivity activity;
@@ -135,7 +136,7 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
     }
 
 
-    public void onSetMonth() {
+    private void onSetMonth() {
         /*get max amount of days in the given month and year*/
         int daysInMonth = gregorianCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         /*get the day that have task from the sqlite database*/
@@ -165,8 +166,10 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
         /*check if the user is at the currnet month*/
         isCurrentMonth = selectedYear == Key.currentYear && selectedMonth == Key.currentMonth;
         /*loop around to display of the month*/
+        currentDayOfMonthIndex =new int[daysInMonth+1];
         for (int j = 1; j <= daysInMonth; ++i, ++j) {
             final TextView dayBtn = daysBtn[i];
+            currentDayOfMonthIndex[j]=i;
             dayBtn.setText(Integer.toString(j));
             final boolean isSelectedDay = j == selectedDay;
             final boolean isDayWithTask = Arrays.binarySearch(daysWithTask, j) > -1;
@@ -199,6 +202,14 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
             dayBtn.setText(Integer.toString(j));
             final int day = j;
             dayBtn.setOnClickListener(v -> toNext(day));
+        }
+    }
+    public void toChangeCurrentDay(int day,int newDay){
+        if(day!=-1){
+            daysBtn[currentDayOfMonthIndex[day]].setTextColor(dayTextColour);
+        }
+        if(newDay !=-1){
+            daysBtn[currentDayOfMonthIndex[day]].setTextColor(0xff76a5e3);
         }
     }
     /*show the dialog for the user to jump to a month or year*/
