@@ -44,7 +44,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-
+@SuppressLint("SetTextI18n")
 public class MainActivity extends AppCompatActivity {
     private ListView listViewSliding;
     private int selectYear ;
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private int currentFragment ;
     private Fragment fragment;
     private boolean isDrawerOpened = false;
-    @SuppressLint("SetTextI18n")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         };
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         /*set up to update the Date*/
-        mAlarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        mAlarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     /*for the fragment to set the year*/
-    @SuppressLint("SetTextI18n")
+
     public MainActivity setYear(int year) {
         selectYear = year;
         textViewYearView.setText(Integer.toString(year));
@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             GregorianCalendar gregorianCalendar =new GregorianCalendar();
             int newCurrentYear =  gregorianCalendar.get(GregorianCalendar.YEAR);
-            int newCurrentMonth = (byte) gregorianCalendar.get(GregorianCalendar.MONTH);
+            int newCurrentMonth = gregorianCalendar.get(GregorianCalendar.MONTH);
             int newCurrentDay =  gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH);
             if(MainActivity.this.fragment instanceof ViewByMonthFragment){
                 ViewByMonthFragment viewByMonthFragment =(ViewByMonthFragment)fragment;
