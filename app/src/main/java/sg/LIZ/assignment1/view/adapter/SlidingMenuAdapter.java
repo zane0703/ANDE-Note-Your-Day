@@ -14,10 +14,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.ListMenuItemView;
 
 import sg.LIZ.assignment1.R;
-import sg.LIZ.assignment1.model.valueBean.ItemSliderMenu;
 
 public class SlidingMenuAdapter extends BaseAdapter {
     private Context context;

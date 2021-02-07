@@ -91,13 +91,13 @@ class DIT/FT/2A/21
             <RadioButton
                 android:id="@+id/setting_language_chinese"
                 android:textColor="@color/textColour"
-                android:text="中文 (简体)"
+                android:text="华语 (简体)"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <RadioButton
                 android:id="@+id/setting_language_traditional_chinese"
                 android:textColor="@color/textColour"
-                android:text="中文 (繁體)"
+                android:text="華語 (繁體)"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RadioGroup>

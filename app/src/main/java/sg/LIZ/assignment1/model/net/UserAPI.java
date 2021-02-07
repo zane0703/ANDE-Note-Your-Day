@@ -35,8 +35,8 @@ class UserAPI {
     public boolean loginUser(CharSequence userName, CharSequence password) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new URL(new StringBuilder(userUrl).append(new char[]{'/', 'l', 'o', 'g', 'i', 'n', '/', 'u', 's', 'e', 'r'}, 0, 11).toString()).openConnection();
         conn.setDoOutput(true);
-        conn.setRequestMethod(Key.HTTP_METHOD_POST);
-        conn.setRequestProperty(Key.HTTP_CONTENT_TYPE, Key.FORM_URL_ENCODED);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         Writer out = new OutputStreamWriter(conn.getOutputStream());
         out.write(new char[]{'u', 's', 'e', 'r', 'n', 'a', 'm', 'e', '='}, 0, 9);
         out.append(URLEncoder.encode(userName.toString(), StandardCharsets.UTF_8.toString()));
@@ -53,7 +53,7 @@ class UserAPI {
             }
             in.close();
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(Key.KEY_TOKEN, stringBuilder.toString());
+            editor.putString("token", stringBuilder.toString());
             editor.apply();
             return true;
         } else {
@@ -67,7 +67,7 @@ class UserAPI {
         conn.setDoOutput(true);
         conn.setDoInput(false);
         String charset = StandardCharsets.UTF_8.toString();
-        conn.setRequestMethod(Key.HTTP_METHOD_POST);
+        conn.setRequestMethod("POST");
         Writer out = new OutputStreamWriter(conn.getOutputStream());
         out.write(new char[]{'u', 's', 'e', 'r', 'n', 'a', 'm', 'e', '='}, 0, 9);
         out.append(URLEncoder.encode(userName.toString(), charset));

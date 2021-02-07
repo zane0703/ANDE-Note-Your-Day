@@ -54,6 +54,7 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
     private int selectedMonth = 0;
     private int selectedYear = 0;
     private int selectedDayIndex = 0;
+    private int[] currentDayOfMonthIndex;
     private boolean isSelectedDayHasTask=false;
     private boolean isCurrentMonth=false;
     private MainActivity activity;
@@ -132,7 +133,7 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
         listTaskItem.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
         onSetMonth();
         return view;
-    }
+    }/*End of onCreate*/
 
 
     private void onSetMonth() {
@@ -149,6 +150,7 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
             firstWeekOfMonth -= 2;
         }
         int i = 0;
+        /*check if first day of the month is not on Monday*/
         if (firstWeekOfMonth != 0) {
             /*get last faw day of the last month depend on which week this month start at and then loop to display the last faw day*/
             for (int start = new GregorianCalendar(selectedYear, selectedMonth - 1, 1).getActualMaximum(Calendar.DAY_OF_MONTH) - firstWeekOfMonth; i < firstWeekOfMonth; ++i) {
@@ -165,8 +167,10 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
         /*check if the user is at the currnet month*/
         isCurrentMonth = selectedYear == Key.currentYear && selectedMonth == Key.currentMonth;
         /*loop around to display of the month*/
+        currentDayOfMonthIndex =new int[daysInMonth+1];
         for (int j = 1; j <= daysInMonth; ++i, ++j) {
             final TextView dayBtn = daysBtn[i];
+            currentDayOfMonthIndex[j]=i;
             dayBtn.setText(Integer.toString(j));
             final boolean isSelectedDay = j == selectedDay;
             final boolean isDayWithTask = Arrays.binarySearch(daysWithTask, j) > -1;
@@ -190,7 +194,7 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
                 dayBtn.setBackgroundColor(0x00000000);
             }
             dayBtn.setOnClickListener(new OnDayClickListener(j, i, isDayWithTask));
-        }
+        }/*End of for loop*/
         /*loop to display the next month */
         for (int j = 1; i < 42; ++j, ++i) {
             TextView dayBtn = daysBtn[i];
@@ -199,6 +203,16 @@ public class ViewByMonthFragment extends Fragment implements onSetMonth {
             dayBtn.setText(Integer.toString(j));
             final int day = j;
             dayBtn.setOnClickListener(v -> toNext(day));
+        }
+    }/*End of onSetMonth*/
+
+    /*Change the current day of month every 12 midnight*/
+    public void toChangeCurrentDay(int day,int newDay){
+        if(day!=-1){
+            daysBtn[currentDayOfMonthIndex[day]].setTextColor(dayTextColour);
+        }
+        if(newDay !=-1){
+            daysBtn[currentDayOfMonthIndex[newDay]].setTextColor(0xff76a5e3);
         }
     }
     /*show the dialog for the user to jump to a month or year*/

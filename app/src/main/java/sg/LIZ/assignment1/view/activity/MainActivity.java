@@ -26,6 +26,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -36,13 +41,14 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.Objects;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-
+@SuppressLint("SetTextI18n")
 public class MainActivity extends AppCompatActivity {
     private ListView listViewSliding;
-    private int selectYear ;
-    private int selectMonth ;
+    private int selectYear;
+    private int selectMonth;
     private ImageButton hamburgerMenu;
     private TextView textViewMonthView;
     private TextView textViewYearView;
@@ -50,10 +56,12 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout constraintLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private CharSequence[] months;
-    private int currentFragment ;
+    private PendingIntent pendingIntent;
+    private AlarmManager mAlarmManager;
+    private int currentFragment;
+    private Fragment fragment;
     private boolean isDrawerOpened = false;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,18 +82,20 @@ public class MainActivity extends AppCompatActivity {
                 resources.getString(R.string.settings)
         };
         /*check if activity is recreated*/
-        if(savedInstanceState==null){
+        if (savedInstanceState == null) {
             /*if not set default*/
             selectYear = Key.currentYear;
             selectMonth = Key.currentMonth;
-            currentFragment=0;
+            currentFragment = 0;
             textViewYearView.setText(Integer.toString(selectYear));
-        }else{
+        } else {
             /*else get the previous data*/
-            currentFragment =savedInstanceState.getInt(Key.KEY_ID);
-            selectMonth=savedInstanceState.getInt(Key.KEY_MONTH);
+            currentFragment = savedInstanceState.getInt(Key.KEY_ID);
+            selectMonth = savedInstanceState.getInt(Key.KEY_MONTH);
             selectYear = savedInstanceState.getInt(Key.KEY_YEAR);
-            if(currentFragment!=2){textViewYearView.setText(Integer.toString(selectYear));}
+            if (currentFragment != 2) {
+                textViewYearView.setText(Integer.toString(selectYear));
+            }
         }
         /*create adapter for the sliding bar */
         SlidingMenuAdapter adapter = new SlidingMenuAdapter(this, listSliding);
@@ -117,6 +127,13 @@ public class MainActivity extends AppCompatActivity {
 
         };
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        /*set up to update the Date*/
+        mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        pendingIntent = PendingIntent.getBroadcast(this, 123, new Intent(this, ChangeDate.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        mAlarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
         replaceFragment(currentFragment);
 
@@ -141,7 +158,8 @@ public class MainActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState, persistentState);
         actionBarDrawerToggle.syncState();
     }
-/*run this to change month*/
+
+    /*run this to change month*/
     @SuppressLint("NonConstantResourceId")
     public void onClick(@NonNull View view) {
         switch (view.getId()) {
@@ -186,17 +204,17 @@ public class MainActivity extends AppCompatActivity {
         currentFragment = 0;
         replaceFragment(0);
     }
+
     /*show the dialog for the user to jump to a set year or month */
     public void onSetYear(View view) {
-        /*get the fragment*/
-        Fragment fragment= getSupportFragmentManager().findFragmentById(R.id.main_content);
         /*check if is a view by year/month to prevent ClassCastException*/
-        if(fragment instanceof onSetMonth){
+        if (fragment instanceof onSetMonth) {
             ((onSetMonth) fragment).onSetYear(months);
         }
 
     }
-/*for the fragment to set the month*/
+
+    /*for the fragment to set the month*/
     public MainActivity setMonth(int month) {
         selectMonth = month;
         textViewMonthView.setText(months[month]);
@@ -204,33 +222,39 @@ public class MainActivity extends AppCompatActivity {
 
     }
     /*for the fragment to set the year*/
-    @SuppressLint("SetTextI18n")
+
     public MainActivity setYear(int year) {
         selectYear = year;
         textViewYearView.setText(Integer.toString(year));
         return this;
     }
+
     /* for the fragment to get the year from main activity*/
     public int getYear() {
         return selectYear;
     }
+
     /* for the fragment to get the month from main activity*/
     public int getMonth() {
         return selectMonth;
     }
+
     /*navigate to anther fragment */
     private void replaceFragment(int pos) {
-        Fragment fragment = null;
         switch (pos) {
             case 0:
                 fragment = new ViewByMonthFragment();
-                if(currentFragment==2){textViewYearView.setText(Integer.toString(selectYear));}
+                if (currentFragment == 2) {
+                    textViewYearView.setText(Integer.toString(selectYear));
+                }
                 textViewMonthView.setText(months[selectMonth]);
                 break;
             case 1:
                 fragment = new ViewByYearFragment();
                 textViewMonthView.setText(new char[0], 0, 0);
-                if(currentFragment==2){textViewYearView.setText(Integer.toString(selectYear));}
+                if (currentFragment == 2) {
+                    textViewYearView.setText(Integer.toString(selectYear));
+                }
                 break;
             case 2:
                 fragment = new SettingsFragment();
@@ -265,5 +289,38 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.openDrawer(constraintLayout);
         }
     }
-    
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAlarmManager.cancel(pendingIntent);
+    }
+
+    private class ChangeDate extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            GregorianCalendar gregorianCalendar = new GregorianCalendar();
+            int newCurrentYear = gregorianCalendar.get(GregorianCalendar.YEAR);
+            int newCurrentMonth = gregorianCalendar.get(GregorianCalendar.MONTH);
+            int newCurrentDay = gregorianCalendar.get(GregorianCalendar.DAY_OF_MONTH);
+            if (MainActivity.this.fragment instanceof ViewByMonthFragment) {
+                ViewByMonthFragment viewByMonthFragment = (ViewByMonthFragment) fragment;
+                if (Key.currentMonth != newCurrentMonth) {
+                    if (Key.currentMonth == selectMonth && Key.currentYear == selectYear) {
+                        viewByMonthFragment.toChangeCurrentDay(Key.currentDay, -1);
+                    } else if (newCurrentMonth == selectMonth && newCurrentYear == selectYear) {
+                        viewByMonthFragment.toChangeCurrentDay(-1, newCurrentDay);
+                    }
+                } else {
+                    if (Key.currentMonth == selectMonth && Key.currentYear == selectYear) {
+                        viewByMonthFragment.toChangeCurrentDay(Key.currentDay, newCurrentDay);
+                    }
+                }
+            }
+            Key.currentDay = (byte) newCurrentDay;
+            Key.currentYear = newCurrentYear;
+            Key.currentMonth = (byte) newCurrentMonth;
+        }
+    }
 }

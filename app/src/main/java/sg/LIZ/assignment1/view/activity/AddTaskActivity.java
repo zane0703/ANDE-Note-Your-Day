@@ -5,6 +5,7 @@
  * class DIT/FT/2A/21
  */
 package sg.LIZ.assignment1.view.activity;
+
 import sg.LIZ.assignment1.Key;
 import sg.LIZ.assignment1.R;
 import sg.LIZ.assignment1.model.net.ImageDownload;
@@ -125,8 +126,8 @@ public class AddTaskActivity extends AppCompatActivity {
         //selectedDay + " " + getResources().getStringArray(R.array.month)[selectedMonth]
         /*check the bitmap is not null output the image*/
         if (savedInstanceState != null) {
-            bitmap=  savedInstanceState.getParcelable(Key.KEY_IMAGE);
-            if(bitmap!= null){
+            bitmap = savedInstanceState.getParcelable(Key.KEY_IMAGE);
+            if (bitmap != null) {
                 imageView.setImageBitmap(bitmap);
             }
         }
@@ -136,7 +137,7 @@ public class AddTaskActivity extends AppCompatActivity {
         buttonGPS.setOnClickListener(v -> {
             /*check if the app is allow to get location*/
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-               /*check if the gps object is already define*/
+                /*check if the gps object is already define*/
                 if (gps == null) {
                     /*if not create the gps object*/
                     gps = new LocationTracker(this);
@@ -259,6 +260,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 break;
         }
     }
+
     /*run this when the user press on the back button on he/she device*/
     @Override
     public void onBackPressed() {
@@ -274,9 +276,11 @@ public class AddTaskActivity extends AppCompatActivity {
                 .setNegativeButton(R.string.cancel, null)
                 .show();
     }
+
     public void onBackPressed(View v) {
         onBackPressed();
     }
+
     /*run this when the user click on the all day*/
     public void onAllDayToggled(View v) {
         /*check if the user on or off the toggle and set the visibility of the start and end time accordingly*/
@@ -400,21 +404,22 @@ public class AddTaskActivity extends AppCompatActivity {
 
         }
     }
-/*run this when the user want to upload an image to the task*/
+
+    /*run this when the user want to upload an image to the task*/
     public void onSetImageClick(View v) {
         /*ask the user where he/she want to get the image from*/
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_menu_gallery)
                 .setTitle(R.string.select_img_src)
                 .setItems(R.array.img_src_opt, (dialog, which) -> {
-                    Intent i = null;
+                    Intent i;
                     switch (which) {
                         case 0:
                             /*run this if the user want take a photo*/
                             i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             startActivityForResult(i, 0);
                             break;
-                        case 1 :
+                        case 1:
                             /*run this if the user want to get it from the device gallery*/
                             i = new Intent(Intent.ACTION_PICK);
                             i.setType("image/*");
@@ -447,13 +452,12 @@ public class AddTaskActivity extends AppCompatActivity {
         txtUrl.setMaxLines(1);
         txtUrl.setInputType(InputType.TYPE_CLASS_TEXT);
         /*create a new a new thread to download the image so as not to slow down the UI thread */
-        final Thread thread =new Thread(() -> {
+        final Thread thread = new Thread(() -> {
             bitmap = ImageDownload.getImage(this, txtUrl.getText());
             /*check if they manage to download the image*/
             if (bitmap != null) {
                 /*run on UI thread as only this thread can change the view*/
                 runOnUiThread(() -> imageView.setImageBitmap(bitmap));
-
             }
         });
         txtUrl.setHint(R.string.url_hint);
@@ -461,9 +465,8 @@ public class AddTaskActivity extends AppCompatActivity {
                 .setIcon(android.R.drawable.ic_menu_upload)
                 .setTitle(R.string.enter_img_url)
                 .setView(txtUrl)
-                .setPositiveButton(R.string.Ok, (dialog2, whichButton) -> {
-                    thread.start();
-                }).setNegativeButton(R.string.cancel, null).show();
+                .setPositiveButton(R.string.Ok, (dialog2, whichButton) -> thread.start())
+                .setNegativeButton(R.string.cancel, null).show();
         txtUrl.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
                 alertDialog.dismiss();

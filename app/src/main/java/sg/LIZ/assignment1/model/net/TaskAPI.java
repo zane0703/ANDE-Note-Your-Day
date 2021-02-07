@@ -39,7 +39,7 @@ class TaskAPI {
     public Task getTask(final int id) throws IOException, JSONException, SessionTimeoutException {
         HttpURLConnection conn = (HttpURLConnection) new URL(new StringBuilder(taskUrl).append('/').append(id).toString()).openConnection();
         conn.setRequestMethod(Key.HTTP_METHOD_GET);
-        conn.setRequestProperty(Key.HTTP_AUTHORIZATION, "Bearer "+sharedPreferences.getString(Key.KEY_TOKEN, ""));
+        conn.setRequestProperty("Authorization", "Bearer "+sharedPreferences.getString("token", ""));
         Reader in = new InputStreamReader(conn.getInputStream());
         switch (conn.getResponseCode()){
             case 200:
@@ -52,16 +52,16 @@ class TaskAPI {
                 in.close();
                 JSONObject jsonObject = new JSONObject(stringBuilder.toString());
                 GregorianCalendar start = new GregorianCalendar();
-                start.setTimeInMillis(jsonObject.getLong(Key.KEY_START));
+                start.setTimeInMillis(jsonObject.getLong("start"));
                 GregorianCalendar end = new GregorianCalendar();
-                end.setTimeInMillis(jsonObject.getLong(Key.KEY_END));
+                end.setTimeInMillis(jsonObject.getLong("END"));
                 return new Task(jsonObject.getInt(Key.KEY_ID),(byte)start.get(GregorianCalendar.DAY_OF_MONTH) ,(byte) start.get(GregorianCalendar.MONTH), start.get(GregorianCalendar.YEAR), (byte)start.get(GregorianCalendar.HOUR), (byte)start.get(GregorianCalendar.MINUTE),(byte) end.get(GregorianCalendar.HOUR), (byte) end.get(GregorianCalendar.MINUTE), jsonObject.getBoolean(Key.KEY_ALL_DAY),jsonObject.getString(Key.KEY_TITLE),jsonObject.getString(Key.KEY_DESCRIPTION),jsonObject.getString(Key.KEY_VENUE),null);
             case 401:
                 in.close();
                 throw new SessionTimeoutException();
             default:
                 in.close();
-                Toast.makeText(this.context, R.string.err_500, Toast.LENGTH_SHORT);
+                Toast.makeText(this.context, R.string.err_500, Toast.LENGTH_SHORT).show();
                 return null;
         }
 
@@ -69,7 +69,7 @@ class TaskAPI {
     public Task[] getTask() throws IOException, JSONException, SessionTimeoutException {
         HttpURLConnection conn = (HttpURLConnection) new URL(taskUrl).openConnection();
         conn.setRequestMethod(Key.HTTP_METHOD_GET);
-        conn.setRequestProperty(Key.HTTP_AUTHORIZATION, "Bearer "+sharedPreferences.getString(Key.KEY_TOKEN, ""));
+        conn.setRequestProperty("Authorization", "Bearer "+sharedPreferences.getString("token", ""));
         Reader in = new InputStreamReader(conn.getInputStream());
         switch (conn.getResponseCode()) {
             case 200:
@@ -87,8 +87,8 @@ class TaskAPI {
                 GregorianCalendar end = new GregorianCalendar();
                 for (int i = 0; i < len; ++i) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    start.setTimeInMillis(jsonObject.getLong(Key.KEY_START));
-                    end.setTimeInMillis(jsonObject.getLong(Key.KEY_END));
+                    start.setTimeInMillis(jsonObject.getLong("start"));
+                    end.setTimeInMillis(jsonObject.getLong("END"));
                     tasks[i] = new Task(jsonObject.getInt(Key.KEY_ID), (byte) start.get(GregorianCalendar.DAY_OF_MONTH), (byte) start.get(GregorianCalendar.MONTH), start.get(GregorianCalendar.YEAR), (byte) start.get(GregorianCalendar.HOUR), (byte) start.get(GregorianCalendar.MINUTE), (byte) end.get(GregorianCalendar.HOUR), (byte) end.get(GregorianCalendar.MINUTE), jsonObject.getBoolean(Key.KEY_ALL_DAY), jsonObject.getString(Key.KEY_TITLE), jsonObject.getString(Key.KEY_DESCRIPTION), jsonObject.getString(Key.KEY_VENUE),null);
                 }
                 return tasks;
@@ -103,9 +103,9 @@ class TaskAPI {
         HttpURLConnection conn = (HttpURLConnection) new URL(taskUrl).openConnection();
         conn.setDoOutput(true);
         conn.setDoInput(false);
-        conn.setRequestMethod(Key.HTTP_METHOD_POST);
-        conn.setRequestProperty(Key.HTTP_AUTHORIZATION, "Bearer "+sharedPreferences.getString(Key.KEY_TOKEN, ""));
-        conn.setRequestProperty(Key.HTTP_CONTENT_TYPE, Key.FORM_URL_ENCODED);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Authorization", "Bearer "+sharedPreferences.getString("token", ""));
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         Writer out = new OutputStreamWriter(conn.getOutputStream());
         out.write(new char[]{'t', 'i', 't', 'l', 'e','='},0,6);
         String enc = StandardCharsets.UTF_8.toString();
@@ -138,9 +138,9 @@ class TaskAPI {
         HttpURLConnection conn = (HttpURLConnection) new URL(new StringBuilder(taskUrl).append('/').append(id).toString()).openConnection();
         conn.setDoOutput(true);
         conn.setDoInput(false);
-        conn.setRequestMethod(Key.HTTP_METHOD_PUT);
-        conn.setRequestProperty(Key.HTTP_AUTHORIZATION, "Bearer "+sharedPreferences.getString(Key.KEY_TOKEN, ""));
-        conn.setRequestProperty(Key.HTTP_CONTENT_TYPE, Key.FORM_URL_ENCODED);
+        conn.setRequestMethod("PUT");
+        conn.setRequestProperty("Authorization", "Bearer "+sharedPreferences.getString("token", ""));
+        conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
         Writer out = new OutputStreamWriter(conn.getOutputStream());
         out.write(new char[]{'t', 'i', 't', 'l', 'e','='},0,6);
         String enc = StandardCharsets.UTF_8.toString();
@@ -171,8 +171,8 @@ class TaskAPI {
     public boolean deleteTask(int id) throws IOException, SessionTimeoutException {
         HttpURLConnection conn = (HttpURLConnection) new URL(new StringBuilder(taskUrl).append('/').append(id).toString()).openConnection();
         conn.setDoInput(false);
-        conn.setRequestMethod(Key.HTTP_METHOD_DELETE);
-        conn.setRequestProperty(Key.HTTP_AUTHORIZATION, "Bearer "+sharedPreferences.getString(Key.KEY_TOKEN, ""));
+        conn.setRequestMethod("DELETE");
+        conn.setRequestProperty("Authorization", "Bearer "+sharedPreferences.getString("token", ""));
         switch (conn.getResponseCode()){
             case 204:
                 return true;
@@ -190,7 +190,7 @@ class TaskAPI {
                 .append(month)
                 .toString()).openConnection();
         conn.setRequestMethod(Key.HTTP_METHOD_GET);
-        conn.setRequestProperty(Key.HTTP_AUTHORIZATION, "Bearer "+sharedPreferences.getString(Key.KEY_TOKEN, ""));
+        conn.setRequestProperty("Authorization", "Bearer "+sharedPreferences.getString("token", ""));
         Reader in = new InputStreamReader(conn.getInputStream());
       switch (conn.getResponseCode()){
           case 200 :

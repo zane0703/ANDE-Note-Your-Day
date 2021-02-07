@@ -45,7 +45,6 @@ public final class ImageDownload {
             }else{
                 final String resMessage=conn.getResponseMessage();
                 context.runOnUiThread(()->Toast.makeText(context,resMessage , Toast.LENGTH_SHORT).show());
-
                 return null;
             }
         }catch (MalformedURLException e){
