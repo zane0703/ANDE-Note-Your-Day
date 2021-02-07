@@ -1,23 +1,19 @@
 package sg.LIZ.assignment1.view.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
+import android.os.LocaleList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import android.content.SharedPreferences;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import java.util.Locale;
@@ -112,10 +108,13 @@ public class SettingsFragment extends Fragment {
             editor.putInt("language", languageId);
             editor.apply();
             Resources res = getResources();
-            DisplayMetrics dm = res.getDisplayMetrics();
             Configuration conf = res.getConfiguration();
-            conf.locale = mLocale;
-            res.updateConfiguration(conf, dm);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                conf.setLocales(  new LocaleList(mLocale));
+            } else{
+                conf.locale = mLocale;
+            }
+            res.updateConfiguration(conf, res.getDisplayMetrics());
             getActivity().recreate();
         });
         return view;

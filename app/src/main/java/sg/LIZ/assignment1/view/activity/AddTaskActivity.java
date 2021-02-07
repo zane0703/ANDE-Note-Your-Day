@@ -33,6 +33,7 @@ import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -112,8 +113,7 @@ public class AddTaskActivity extends AppCompatActivity {
         buttonStartTime.setText(new StringBuilder(8)
                 .append(currentDate.get(Calendar.HOUR))
                 .append(':').append(String.format(FORMAT, startMinutes))
-                .append(' ')
-                .append(currentDate.get(Calendar.AM_PM) == Calendar.PM ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
+                .append(currentDate.get(Calendar.AM_PM) == Calendar.PM ? new char[]{' ','P', 'M'} : new char[]{' ','A', 'M'}));
         currentDate.set(Calendar.HOUR_OF_DAY, currentDate.get(Calendar.HOUR_OF_DAY) + 1);
         endHours = currentDate.get(Calendar.HOUR_OF_DAY);
         endMinutes = currentDate.get(Calendar.MINUTE);
@@ -121,9 +121,8 @@ public class AddTaskActivity extends AppCompatActivity {
                 .append(currentDate.get(Calendar.HOUR))
                 .append(':')
                 .append(String.format(FORMAT, endMinutes))
-                .append(' ')
-                .append(currentDate.get(Calendar.AM_PM) == Calendar.PM ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
-        //selectedDay + " " + getResources().getStringArray(R.array.month)[selectedMonth]
+                .append(String.format(FORMAT, endMinutes))
+                .append(currentDate.get(Calendar.AM_PM) == Calendar.PM ? new char[]{' ','P', 'M'} : new char[]{' ','A', 'M'}));
         /*check the bitmap is not null output the image*/
         if (savedInstanceState != null) {
             bitmap = savedInstanceState.getParcelable(Key.KEY_IMAGE);
@@ -167,8 +166,14 @@ public class AddTaskActivity extends AppCompatActivity {
                         }
                         /*run the to get ask the gps object to get location*/
                         gps.getLocation();
+                        Locale mLocale;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                            mLocale = getResources().getConfiguration().getLocales().get(0);
+                        } else{
+                            mLocale = getResources().getConfiguration().locale;
+                        }
                         /*put the location to geocoder to get the address of the location*/
-                        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                        Geocoder geocoder = new Geocoder(this, mLocale);
                         try {
                             /*getting the list of address for the location*/
                             final List<Address> addresses = geocoder.getFromLocation(gps.getLatitude(), gps.getLongitude(), 4);
@@ -179,11 +184,17 @@ public class AddTaskActivity extends AppCompatActivity {
                                 switch (size) {
                                     case 1:
                                         /*if there is only one address found output that address*/
-                                        editTextVenueInput.setText(addresses.get(0).getAddressLine(0));
+                                        Address address0 = addresses.get(0);
+                                        final int addressLineSize = address0.getMaxAddressLineIndex();
+                                        StringBuilder  addressLines1 = new StringBuilder(address0.getAddressLine(0));
+                                        for(int j =1;j<addressLineSize;++j){
+                                                addressLines1.append(',').append(address0.getAddressLine(j));
+                                        }
+                                        editTextVenueInput.setText(addressLines1);
                                         break;
                                     case 0:
                                         /*if there is not address found just output the lat and long*/
-                                        editTextVenueInput.setText(new StringBuilder(Double.toString(gps.getLatitude())).append(',').append(gps.getLongitude()));
+                                        editTextVenueInput.setText(new StringBuilder().append(gps.getLatitude()).append(',').append(gps.getLongitude()));
                                         break;
                                     default:
                                         /*if there is more then one ask the user to select the address they want*/
@@ -191,14 +202,13 @@ public class AddTaskActivity extends AppCompatActivity {
                                         /*loop to get the list of address to string array*/
                                         for (int j = 0; j < size; ++j) {
                                             Address address = addresses.get(j);
-                                            final int addressLineSize = address.getMaxAddressLineIndex();
+                                            final int addressLineSize2 = address.getMaxAddressLineIndex();
                                             StringBuilder addressLine = new StringBuilder(address.getAddressLine(0));
-                                            for (int k = 3; k < addressLineSize; ++k) {
+                                            for (int k = 1; k < addressLineSize2; ++k) {
                                                 addressLine.append(',').append(address.getAddressLine(k));
                                             }
                                             addressLines[j] = addressLine.toString();
                                         }
-                                        Log.i("addressLines", Arrays.toString(addressLines));
                                         new AlertDialog.Builder(this)
                                                 .setIcon(android.R.drawable.ic_menu_mylocation)
                                                 .setTitle(R.string.select_address)
