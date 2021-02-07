@@ -33,6 +33,7 @@ import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -165,8 +166,14 @@ public class AddTaskActivity extends AppCompatActivity {
                         }
                         /*run the to get ask the gps object to get location*/
                         gps.getLocation();
+                        Locale mLocale;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                            mLocale = getResources().getConfiguration().getLocales().get(0);
+                        } else{
+                            mLocale = getResources().getConfiguration().locale;
+                        }
                         /*put the location to geocoder to get the address of the location*/
-                        Geocoder geocoder = new Geocoder(this, getResources().getConfiguration().locale);
+                        Geocoder geocoder = new Geocoder(this, mLocale);
                         try {
                             /*getting the list of address for the location*/
                             final List<Address> addresses = geocoder.getFromLocation(gps.getLatitude(), gps.getLongitude(), 4);
