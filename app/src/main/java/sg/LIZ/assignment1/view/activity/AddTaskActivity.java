@@ -112,8 +112,7 @@ public class AddTaskActivity extends AppCompatActivity {
         buttonStartTime.setText(new StringBuilder(8)
                 .append(currentDate.get(Calendar.HOUR))
                 .append(':').append(String.format(FORMAT, startMinutes))
-                .append(' ')
-                .append(currentDate.get(Calendar.AM_PM) == Calendar.PM ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
+                .append(currentDate.get(Calendar.AM_PM) == Calendar.PM ? new char[]{' ','P', 'M'} : new char[]{' ','A', 'M'}));
         currentDate.set(Calendar.HOUR_OF_DAY, currentDate.get(Calendar.HOUR_OF_DAY) + 1);
         endHours = currentDate.get(Calendar.HOUR_OF_DAY);
         endMinutes = currentDate.get(Calendar.MINUTE);
@@ -121,9 +120,8 @@ public class AddTaskActivity extends AppCompatActivity {
                 .append(currentDate.get(Calendar.HOUR))
                 .append(':')
                 .append(String.format(FORMAT, endMinutes))
-                .append(' ')
-                .append(currentDate.get(Calendar.AM_PM) == Calendar.PM ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
-        //selectedDay + " " + getResources().getStringArray(R.array.month)[selectedMonth]
+                .append(String.format(FORMAT, endMinutes))
+                .append(currentDate.get(Calendar.AM_PM) == Calendar.PM ? new char[]{' ','P', 'M'} : new char[]{' ','A', 'M'}));
         /*check the bitmap is not null output the image*/
         if (savedInstanceState != null) {
             bitmap = savedInstanceState.getParcelable(Key.KEY_IMAGE);
@@ -168,7 +166,7 @@ public class AddTaskActivity extends AppCompatActivity {
                         /*run the to get ask the gps object to get location*/
                         gps.getLocation();
                         /*put the location to geocoder to get the address of the location*/
-                        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                        Geocoder geocoder = new Geocoder(this, getResources().getConfiguration().locale);
                         try {
                             /*getting the list of address for the location*/
                             final List<Address> addresses = geocoder.getFromLocation(gps.getLatitude(), gps.getLongitude(), 4);

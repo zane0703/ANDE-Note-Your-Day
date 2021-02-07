@@ -112,10 +112,9 @@ public class SettingsFragment extends Fragment {
             editor.putInt("language", languageId);
             editor.apply();
             Resources res = getResources();
-            DisplayMetrics dm = res.getDisplayMetrics();
             Configuration conf = res.getConfiguration();
             conf.locale = mLocale;
-            res.updateConfiguration(conf, dm);
+            res.updateConfiguration(conf, res.getDisplayMetrics());
             getActivity().recreate();
         });
         return view;
