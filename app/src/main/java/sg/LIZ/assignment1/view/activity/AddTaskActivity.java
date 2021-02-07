@@ -179,11 +179,17 @@ public class AddTaskActivity extends AppCompatActivity {
                                 switch (size) {
                                     case 1:
                                         /*if there is only one address found output that address*/
-                                        editTextVenueInput.setText(addresses.get(0).getAddressLine(0));
+                                        Address address0 = addresses.get(0);
+                                        final int addressLineSize = address0.getMaxAddressLineIndex();
+                                        StringBuilder  addressLines1 = new StringBuilder(address0.getAddressLine(0));
+                                        for(int j =1;j<addressLineSize;++j){
+                                                addressLines1.append(',').append(address0.getAddressLine(j));
+                                        }
+                                        editTextVenueInput.setText(addressLines1);
                                         break;
                                     case 0:
                                         /*if there is not address found just output the lat and long*/
-                                        editTextVenueInput.setText(new StringBuilder(Double.toString(gps.getLatitude())).append(',').append(gps.getLongitude()));
+                                        editTextVenueInput.setText(new StringBuilder().append(gps.getLatitude()).append(',').append(gps.getLongitude()));
                                         break;
                                     default:
                                         /*if there is more then one ask the user to select the address they want*/
@@ -191,14 +197,13 @@ public class AddTaskActivity extends AppCompatActivity {
                                         /*loop to get the list of address to string array*/
                                         for (int j = 0; j < size; ++j) {
                                             Address address = addresses.get(j);
-                                            final int addressLineSize = address.getMaxAddressLineIndex();
+                                            final int addressLineSize2 = address.getMaxAddressLineIndex();
                                             StringBuilder addressLine = new StringBuilder(address.getAddressLine(0));
-                                            for (int k = 3; k < addressLineSize; ++k) {
+                                            for (int k = 1; k < addressLineSize2; ++k) {
                                                 addressLine.append(',').append(address.getAddressLine(k));
                                             }
                                             addressLines[j] = addressLine.toString();
                                         }
-                                        Log.i("addressLines", Arrays.toString(addressLines));
                                         new AlertDialog.Builder(this)
                                                 .setIcon(android.R.drawable.ic_menu_mylocation)
                                                 .setTitle(R.string.select_address)

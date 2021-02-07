@@ -78,8 +78,6 @@ LocationTracker extends Service implements LocationListener {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-                    Log.d("Network", "Network");
                     if (locationManager != null) {
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
