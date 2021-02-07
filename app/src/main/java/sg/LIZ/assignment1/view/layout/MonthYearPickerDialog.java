@@ -49,13 +49,12 @@ public class MonthYearPickerDialog extends DialogFragment {
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-
         View dialog = inflater.inflate(R.layout.dialog_date_picker, null);
         final NumberPicker monthPicker = (NumberPicker) dialog.findViewById(R.id.picker_month);
         final NumberPicker yearPicker = (NumberPicker) dialog.findViewById(R.id.picker_year);
         /*check if there array of month*/
        if(MONTHS==null){
-           /*if not the there will be not option for the user to set month*/
+           /*if not the there will be no option for the user to set month. this is in the fragment_view_by_year.xml where*/
            monthPicker.setVisibility(View.GONE);
        }else{
            /*convent  CharSequence to  String*/

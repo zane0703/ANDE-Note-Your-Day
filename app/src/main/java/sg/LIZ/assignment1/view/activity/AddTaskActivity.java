@@ -407,7 +407,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
     /*run this when the user want to upload an image to the task*/
     public void onSetImageClick(View v) {
-        /*ask the user where he/she want to get the image from*/
+        /*ask the user where he/she wants to get the image from*/
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_menu_gallery)
                 .setTitle(R.string.select_img_src)
