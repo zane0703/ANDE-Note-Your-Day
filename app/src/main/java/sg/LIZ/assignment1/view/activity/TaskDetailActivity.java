@@ -46,7 +46,7 @@ public class TaskDetailActivity extends AppCompatActivity {
             ImageView imageView = findViewById(R.id.detail_show_task_img);
             imageView.setImageBitmap(BitmapFactory.decodeByteArray(mTask.image, 0, mTask.image.length));
             imageView.setVisibility(View.VISIBLE);
-        }
+        }/*End of if statement*/
         /*check if is all day */
         if (mTask.ALL_DAY) {
             /*if true show the "all day" text*/
@@ -56,20 +56,18 @@ public class TaskDetailActivity extends AppCompatActivity {
             findViewById(R.id.detail_is_all_day).setVisibility(View.INVISIBLE);
             final int startHours = mTask.START_HOURS;
             final int endHours = mTask.END_HOURS;
-            final String FORMAT = "%02d";
+            final String FORMAT = "%02d";/*format to add zero in front if the minutes is less then 10 */
             ((TextView) findViewById(R.id.detail_show_start_time)).setText(new StringBuilder(8)
                     .append(startHours > 12 ? startHours - 12 : startHours)
                     .append(':').append(String.format(FORMAT, mTask.START_MINUTES))
-                    .append(' ')
-                    .append(startHours > 11 ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
+                    .append(startHours > 11 ? new char[]{' ','P', 'M'} : new char[]{' ','A', 'M'}));
             ((TextView) findViewById(R.id.detail_show_end_time)).setText(new StringBuilder(8)
                     .append(endHours > 12 ? endHours - 12 : endHours)
                     .append(':').append(String.format(FORMAT, mTask.END_MINUTES))
-                    .append(' ')
-                    .append(endHours > 11 ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
-        }//mTask.DAY + " " + getResources().getStringArray(R.array.month)[mTask.MONTH]
+                    .append(endHours > 11 ? new char[]{' ','P', 'M'} : new char[]{' ','A', 'M'}));
+        }/*End of if else*/
         ((TextView) findViewById(R.id.detail_task_date)).setText(new StringBuilder().append(mTask.DAY).append(' ').append(getResources().getStringArray(R.array.month)[mTask.MONTH]));
-    }
+    }/*End of onCreate*/
     /*run this to delete task*/
     public void onDelete(final View v) {
         /*confirm with the user if there relay want to delete task*/
@@ -84,15 +82,14 @@ public class TaskDetailActivity extends AppCompatActivity {
                 })
                 .setNegativeButton(R.string.cancel, null)
                 .show();
-    }
+    }/*End of onDelete*/
     /*navigate to google map to show the venue*/
     public void onClickVenue(final View v) {
-        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + Uri.encode(((TextView) v).getText().toString())));
-        startActivity(i);
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + Uri.encode(((TextView) v).getText().toString()))));
     }
     /*set result to canceled when the user go back*/
     public void onBackPressed(final View v) {
         setResult(Activity.RESULT_CANCELED);
         finish();
-    }
+    }/*End of onBackPressed*/
 }

@@ -75,8 +75,7 @@ public  class TaskArrayAdapter extends RecyclerView.Adapter<TaskArrayAdapter.MyV
                     .append(startHours >11 ? new char[]{'P', 'M',' ','-',' '} : new char[]{'A', 'M',' ','-',' '})
                     .append(endHours >12 ? endHours - 12 : endHours)
                     .append(':').append(String.format(FORMAT, mTask.END_MINUTES))
-                    .append(' ')
-                    .append(endHours >11 ? new char[]{'P', 'M'} : new char[]{'A', 'M'}));
+                    .append(endHours >11 ? new char[]{' ','P', 'M'} : new char[]{' ','A', 'M'},0,3));
         }
     }
 
@@ -85,7 +84,7 @@ public  class TaskArrayAdapter extends RecyclerView.Adapter<TaskArrayAdapter.MyV
         return mTasks.length;
     }
 
-    final class MyViewHolder extends RecyclerView.ViewHolder {
+    static final class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewTitle;
         private final TextView textViewTime;
         private final TextView textViewAllDay;
