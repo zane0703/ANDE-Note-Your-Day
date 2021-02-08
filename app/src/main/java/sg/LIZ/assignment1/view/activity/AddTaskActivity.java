@@ -121,7 +121,6 @@ public class AddTaskActivity extends AppCompatActivity {
                 .append(currentDate.get(Calendar.HOUR))
                 .append(':')
                 .append(String.format(FORMAT, endMinutes))
-                .append(String.format(FORMAT, endMinutes))
                 .append(currentDate.get(Calendar.AM_PM) == Calendar.PM ? new char[]{' ','P', 'M'} : new char[]{' ','A', 'M'}));
         /*check the bitmap is not null output the image*/
         if (savedInstanceState != null) {
