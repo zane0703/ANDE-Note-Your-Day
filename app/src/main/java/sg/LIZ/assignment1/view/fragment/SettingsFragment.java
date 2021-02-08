@@ -30,7 +30,7 @@ public class SettingsFragment extends Fragment {
         final SharedPreferences appSettingPrefs = getActivity().getSharedPreferences(Key.DATABASE_NAME, 0);
         //sharedPrefsEdit = SharedPreferences.Editor = appSettingPrefs.edit();
         int theme_id = appSettingPrefs.getInt("theme", AppCompatDelegate.MODE_NIGHT_UNSPECIFIED);
-        switch (theme_id){
+        switch (theme_id) {
             case AppCompatDelegate.MODE_NIGHT_NO:
                 theme_id = R.id.setting_theme_light;
                 break;
@@ -41,18 +41,18 @@ public class SettingsFragment extends Fragment {
                 theme_id = R.id.setting_theme_default;
                 break;
         }
-        switch (appSettingPrefs.getInt("language", 0)){
-            case 1 :
-                ((RadioButton)view.findViewById(R.id.setting_language_english)).setChecked(true);
+        switch (appSettingPrefs.getInt("language", 0)) {
+            case 1:
+                ((RadioButton) view.findViewById(R.id.setting_language_english)).setChecked(true);
                 break;
             case 2:
-                ((RadioButton)view.findViewById(R.id.setting_language_chinese)).setChecked(true);
+                ((RadioButton) view.findViewById(R.id.setting_language_chinese)).setChecked(true);
                 break;
             case 3:
-                ((RadioButton)view.findViewById(R.id.setting_language_traditional_chinese)).setChecked(true);
+                ((RadioButton) view.findViewById(R.id.setting_language_traditional_chinese)).setChecked(true);
                 break;
             default:
-                ((RadioButton)view.findViewById(R.id.setting_language_default)).setChecked(true);
+                ((RadioButton) view.findViewById(R.id.setting_language_default)).setChecked(true);
                 break;
         }
 
@@ -77,7 +77,7 @@ public class SettingsFragment extends Fragment {
                 editor.putInt("theme", mode);
                 editor.apply();
                 AppCompatDelegate.setDefaultNightMode(mode);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
@@ -87,19 +87,19 @@ public class SettingsFragment extends Fragment {
             switch (checkedId) {
                 case R.id.setting_language_default:
                     mLocale = Locale.getDefault();
-                    languageId=0;
+                    languageId = 0;
                     break;
                 case R.id.setting_language_english:
-                    mLocale=Locale.ENGLISH;
-                    languageId=1;
+                    mLocale = Locale.ENGLISH;
+                    languageId = 1;
                     break;
                 case R.id.setting_language_chinese:
-                    mLocale=Locale.SIMPLIFIED_CHINESE;
-                    languageId=2;
+                    mLocale = Locale.SIMPLIFIED_CHINESE;
+                    languageId = 2;
                     break;
                 case R.id.setting_language_traditional_chinese:
                     mLocale = Locale.TRADITIONAL_CHINESE;
-                    languageId=3;
+                    languageId = 3;
                     break;
                 default:
                     return;
@@ -109,9 +109,9 @@ public class SettingsFragment extends Fragment {
             editor.apply();
             Resources res = getResources();
             Configuration conf = res.getConfiguration();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-                conf.setLocales(  new LocaleList(mLocale));
-            } else{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                conf.setLocales(new LocaleList(mLocale));
+            } else {
                 conf.locale = mLocale;
             }
             res.updateConfiguration(conf, res.getDisplayMetrics());
