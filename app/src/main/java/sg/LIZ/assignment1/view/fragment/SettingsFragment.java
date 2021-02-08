@@ -56,6 +56,7 @@ public class SettingsFragment extends Fragment {
                 break;
         }
 
+        //Radio buttons for light and dark mode
         ((RadioButton) view.findViewById(theme_id)).setChecked(true);
         ((RadioGroup) view.findViewById(R.id.setting_theme)).setOnCheckedChangeListener((group, checkedId) -> {
             try {
@@ -81,6 +82,8 @@ public class SettingsFragment extends Fragment {
                 e.printStackTrace();
             }
         });
+
+        //Radio buttons for language
         ((RadioGroup) view.findViewById(R.id.setting_language)).setOnCheckedChangeListener((group, checkedId) -> {
             Locale mLocale;
             int languageId;
