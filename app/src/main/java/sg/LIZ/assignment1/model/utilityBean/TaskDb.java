@@ -75,7 +75,7 @@ public final class TaskDb extends SQLiteOpenHelper {
     }
 
     public int[] getTaskByMonthYear(@IntRange(from = 0, to = 11) int month, @IntRange(from = 0) int year) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(true, TABLE, new String[]{Key.KEY_DAY}, "month=? AND year=?", new String[]{Integer.toString(month), Integer.toString(year)}, null, null, Key.KEY_DAY, null);
         Log.d("sql select", cursor.toString());
         int[] days = new int[0];
@@ -83,6 +83,7 @@ public final class TaskDb extends SQLiteOpenHelper {
             System.arraycopy(days, 0, (days = new int[index + 1]), 0, index);
             days[index] = cursor.getInt(0);
         }
+        cursor.close();
         db.close();
         return days;
     }
