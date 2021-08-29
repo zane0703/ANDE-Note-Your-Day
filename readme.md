@@ -1,4 +1,4 @@
-# LIZ calendar
+# Note Your Day
 
 
 |Name          |Admin ID | 
